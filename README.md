@@ -2,20 +2,21 @@
 
 ## Cómo contribuir
 
-Please read CONTRIBUTING. If you're new to GitHub, welcome! Remember to abide by our adapted from Contributor Covenant 1.3 Code of Conduct too (translations also available).
-
-Por favor, lee el archivo CONTRIBUTING. Si eres nuevo en GitHub, ¡bienvenido! Recuerda respetar nuestro Código de Conducta adaptado del Contributor Covenant 1.3 (también disponible en otras lenguas).
+Por favor, lee el archivo CONTRIBUTING.
 
 ## Índice
 
-- [👨‍💻 Generales](#generales)
-- 🟨 JavaScript
-- 🟦 TypeScript
-- 🐍 Python
-- ⚙️ Rust
-- 🐘 PHP
-- 🐹 Golang
-- 🔀 Git
+- [Lista de libros de Programación en Español y gratuitos](#lista-de-libros-de-programación-en-español-y-gratuitos)
+  - [Cómo contribuir](#cómo-contribuir)
+  - [Índice](#índice)
+  - [👨‍💻 Generales](#-generales)
+  - [🟨 JavaScript](#-javascript)
+  - [🟦 TypeScript](#-typescript)
+  - [🐍 Python](#-python)
+  - [⚙️ Rust](#️-rust)
+  - [🐘 PHP](#-php)
+  - [🐹 Golang](#-golang)
+  - [🔀 Git](#-git)
 
 ## 👨‍💻 Generales
 
