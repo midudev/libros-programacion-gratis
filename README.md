@@ -30,7 +30,9 @@ Por favor, lee el archivo CONTRIBUTING.
 
 ## 🟦 TypeScript
 
-- [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/) - Basarat Ali Syed
+- [Introducción a TypeScript](https://tutorialesenpdf.com/typescript/previsualizacion/Introduccion%20a%20Typescript.pdf) - Adictos al trabajo
+- [TypeScript para Principantes](https://tutorialesenpdf.com/typescript/previsualizacion/TypeScript%20para%20Principiantes.pdf) - Envato Tuts+
+- [Manual de TypeScript](https://mega.nz/#!qwcFDZ7a!ggLXIZ4c-O1Do0OEuvK0Mz8k39LvYQwdaJ2LtKKxgsE) - Emmanuel Valverde y Pedro Hernández-Mora
 
 ## 🐍 Python
 
