@@ -17,7 +17,7 @@ Por favor, lee el archivo CONTRIBUTING. Si eres nuevo en GitHub, ¡bienvenido! R
 - 🐹 Golang
 - 🔀 Git
 
-## 👨‍💻 Generales
+## 👨‍💻 Generales
 
 - [97 cosas que todo programador debe saber](https://97cosas.com/programador/) - Kevlin Henney
 - [Los apuntes de Majo](https://losapuntesdemajo.vercel.app/) - Majo Ledesma
@@ -35,11 +35,11 @@ Por favor, lee el archivo CONTRIBUTING. Si eres nuevo en GitHub, ¡bienvenido! R
 
 - [Python para todos](https://launchpadlibrarian.net/18980633/Python%20para%20todos.pdf) - Raúl González Duque
 
-## ⚙️ Rust
+## ⚙️ Rust
 
 - [Aprendizaje Rust](https://riptutorial.com/Download/rust-es.pdf) - Riptutorial
 
-## 🐘 PHP
+## 🐘 PHP
 
 ## 🐹 Golang
 
