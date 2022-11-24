@@ -1,6 +1,6 @@
-# Lista de libros de Programación en Español y gratuitos
+# Lista de libros de Programación en Español y gratuitos
 
-## Cómo contribuir
+## Cómo contribuir
 
 Please read CONTRIBUTING. If you're new to GitHub, welcome! Remember to abide by our adapted from Contributor Covenant 1.3 Code of Conduct too (translations also available).
 
