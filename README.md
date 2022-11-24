@@ -50,4 +50,4 @@ Por favor, lee el archivo CONTRIBUTING.
 
 ## 🔀 Git
 
-- [Pro Git](-es/releases/download/2.1.23/progit.pdf) - Scott Chacon y Ben Straub
+- [Pro Git](https://github.com/progit/progit2-es/releases/download/2.1.23/progit.pdf) - Scott Chacon y Ben Straub
