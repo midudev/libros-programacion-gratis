@@ -1,14 +1,14 @@
-# Lista de libros de Programación en Español y gratuitos
+<div align="center">
 
-## Cómo contribuir
+# 📚 Libros de Programación en Español y gratuitos
 
-Por favor, lee el archivo CONTRIBUTING.
+</div>
 
-## Índice
+## 📖 Índice
 
-- [Lista de libros de Programación en Español y gratuitos](#lista-de-libros-de-programación-en-español-y-gratuitos)
-  - [Cómo contribuir](#cómo-contribuir)
-  - [Índice](#índice)
+- [Libros de Programación en Español y gratuitos](#lista-de-libros-de-programación-en-español-y-gratuitos)
+  - [📖 Índice](#-índice)
+  - [❓ Cómo contribuir](#-cómo-contribuir)
   - [👨‍💻 Generales](#-generales)
   - [🟨 JavaScript](#-javascript)
   - [🟦 TypeScript](#-typescript)
@@ -17,6 +17,10 @@ Por favor, lee el archivo CONTRIBUTING.
   - [🐘 PHP](#-php)
   - [🐹 Golang](#-golang)
   - [🔀 Git](#-git)
+
+## ❓ Cómo contribuir
+
+Por favor, lee el archivo CONTRIBUTING.
 
 ## 👨‍💻 Generales
 
