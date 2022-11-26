@@ -27,6 +27,7 @@ Por favor, lee el archivo CONTRIBUTING.
 
 - [Eloquent JavaScript](https://eloquentjs-es.thedojo.mx/Eloquent_JavaScript.pdf) - Marijn Haverbeke
 - [JavaScript, ¡Inspírate!](https://leanpub.com/javascript-inspirate) - Ulises Gascón
+- [JavaScript Info](https://es.javascript.info/) - Ilya Kantor
 
 ## 🟦 TypeScript
 
