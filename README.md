@@ -2,6 +2,9 @@
 
 # 📚 Libros de Programación en Español y gratuitos
 
+![Twitch Status](https://img.shields.io/twitch/status/midudev?style=social)
+![Twitter Follow](https://img.shields.io/twitter/follow/midudev?style=social)
+
 </div>
 
 ## 📖 Índice
