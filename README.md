@@ -4,6 +4,7 @@
 
 ![Twitch Status](https://img.shields.io/twitch/status/midudev?style=social)
 ![Twitter Follow](https://img.shields.io/twitter/follow/midudev?style=social)
+![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/UC8LeXCWOalN8SxlrPcG-PaQ?style=social)
 
 </div>
 
