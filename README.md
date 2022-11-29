@@ -54,6 +54,7 @@
 ### ⚙️ Rust
 
 - [Aprendizaje Rust](https://riptutorial.com/Download/rust-es.pdf) - Riptutorial
+- [El Lenguaje de Programación Rust](https://goyox86.github.io/elpr/README.html) - Jose Narvaez (HTML)
 
 ### 🐘 PHP
 
