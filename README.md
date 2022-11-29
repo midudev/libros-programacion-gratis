@@ -17,8 +17,10 @@
     - [🟨 JavaScript](#-javascript)
     - [🟦 TypeScript](#-typescript)
     - [🐍 Python](#-python)
+    - [♦️ Ruby](#️-ruby)
     - [⚙️ Rust](#️-rust)
     - [🐘 PHP](#-php)
+    - [🤔 Haskell](#-haskell)
     - [🐹 Golang](#-golang)
     - [🔀 Git](#-git)
   - [Bases de datos](#bases-de-datos)
@@ -51,6 +53,11 @@
 ### 🐍 Python
 
 - [Python para todos](https://launchpadlibrarian.net/18980633/Python%20para%20todos.pdf) - Raúl González Duque
+- [Aprenda a pensar como un programador con Python](https://argentinaenpython.com/quiero-aprender-python/aprenda-a-pensar-como-un-programador-con-python.pdf) - Allen Downey, Jeffrey Elkner, Chris Meyers. Traducción: Miguel Ángel Vilella, Ángel Arnal, Iván Juanes, Litza Amurrio, Efrain Andia, César Ballardini (PDF)
+
+### ♦️ Ruby
+
+- [Aprende a programar con Ruby](http://rubysur.org/aprende.a.programar) - RubySur (HTML)
 
 ### ⚙️ Rust
 
@@ -58,6 +65,13 @@
 - [El Lenguaje de Programación Rust](https://goyox86.github.io/elpr/README.html) - Jose Narvaez (HTML)
 
 ### 🐘 PHP
+
+- [PHP, la manera correcta](https://phpdevenezuela.github.io/php-the-right-way/) - Josh Lockhart, Phil Sturgeon (HTML)
+
+### 🤔 Haskell
+
+- [Piensa en Haskell](http://www.cs.us.es/~jalonso/publicaciones/Piensa_en_Haskell.pdf) - José A. Alonso Jiménez, Mª José Hidalgo Doblado (PDF)
+- [¡Aprende Haskell por el bien de todos!](http://aprendehaskell.es/main.html) (HTML)
 
 ### 🐹 Golang
 
