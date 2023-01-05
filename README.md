@@ -15,6 +15,7 @@
   - [👨‍💻 Generales](#-generales)
   - [Lenguajes de Programación](#lenguajes-de-programación)
     - [🟨 JavaScript](#-javascript)
+    - [⚛️ React](#️-react)
     - [🟦 TypeScript](#-typescript)
     - [🐍 Python](#-python)
     - [♦️ Ruby](#️-ruby)
@@ -40,6 +41,10 @@
 - [JavaScript Moderno](https://es.javascript.info/) - Ilya Kantor (HTML)
 - [MDN:Guía de JavaScript](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide) (HTML)
 
+### ⚛️ React
+
+- [React: De aprendiz a maestro](https://raulexposito.com/assets/pdf/survivejs-react-es.pdf) - Raúl Expósito (PDF)
+
 ### 🟦 TypeScript
 
 - [Introducción a TypeScript](https://khru.gitbooks.io/typescript/) - Emmanuel Valverde Ramos (HTML)
@@ -52,6 +57,7 @@
 
 ### 🐍 Python
 
+- [Aprende Python](https://aprendepython.es/_downloads/907b5202c1466977a8d6bd3a2641453f/aprendepython.pdf) - Sergio Delgado Quintero
 - [Python para todos](https://launchpadlibrarian.net/18980633/Python%20para%20todos.pdf) - Raúl González Duque
 - [Aprenda a pensar como un programador con Python](https://argentinaenpython.com/quiero-aprender-python/aprenda-a-pensar-como-un-programador-con-python.pdf) - Allen Downey, Jeffrey Elkner, Chris Meyers. Traducción: Miguel Ángel Vilella, Ángel Arnal, Iván Juanes, Litza Amurrio, Efrain Andia, César Ballardini (PDF)
 
