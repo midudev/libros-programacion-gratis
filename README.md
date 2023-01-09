@@ -23,6 +23,7 @@
     - [🐘 PHP](#-php)
     - [🤔 Haskell](#-haskell)
     - [🐹 Golang](#-golang)
+    - [🤖 Kotlin](#-kotlin)
     - [☕ Java](#-java)
     - [🔀 Git](#-git)
   - [Bases de datos](#bases-de-datos)
@@ -85,6 +86,10 @@
 - [El pequeño libro de Go](https://raulexposito.com/assets/pdf/go.pdf) - Karl Seguin (traducido por Raúl Exposito)
 - [Go en Español](https://nachopacheco.gitbooks.io/go-es/content/doc) - Nacho Pacheco
 
+### 🤖 Kotlin
+
+- [Curso programación Android en Kotlin](https://cursokotlin.com/curso-programacion-kotlin-android/) - AristiDevs (HTML)
+ 
 ### ☕ Java
 
 - [Fundamentos de programación en Java](https://www.tesuva.edu.co/phocadownloadpap/Fundamentos%20de%20programcion%20en%20Java.pdf) - Jorge Martínez Ladrón (PDF)
