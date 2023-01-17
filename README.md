@@ -27,7 +27,7 @@
     - [☕ Java](#-java)
     - [🔀 Git](#-git)
   - [Bases de datos](#bases-de-datos)
-    - [SQL](#sql)
+    - [🛗 SQL](#sql)
 
 ## 👨‍💻 Generales
 
@@ -101,7 +101,7 @@
 
 ## Bases de datos
 
-### SQL
+### 🛗 SQL
 
 - [Tutorial de SQL](http://www.desarrolloweb.com/manuales/9/) - Rubén Alvarez
 - [Manual de SQL](http://jorgesanchez.net/manuales/sql/intro-sql-sql2016.html) - Jorge Sanchez Asenjo
