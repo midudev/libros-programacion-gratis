@@ -45,7 +45,7 @@
 
 ### ⚛️ React
 
-- [React: De aprendiz a maestro](https://raulexposito.com/assets/pdf/survivejs-react-es.pdf) - Raúl Expósito (PDF)
+- [React: De aprendiz a maestro](https://raulexposito.com/estaticos/pdf/survivejs-react-es.pdf) - Raúl Expósito (PDF)
 
 ### 🟦 TypeScript
 
