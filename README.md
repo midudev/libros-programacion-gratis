@@ -27,7 +27,7 @@
     - [☕ Java](#-java)
     - [🔀 Git](#-git)
   - [Bases de datos](#bases-de-datos)
-    - [🛗 SQL](#sql)
+    - [🛗 SQL](#-sql)
 
 ## 👨‍💻 Generales
 
@@ -38,7 +38,7 @@
 
 ### 🟨 JavaScript
 
-- [Eloquent JavaScript](https://eloquentjs-es.thedojo.mx/Eloquent_JavaScript.pdf) - Marijn Haverbeke (PDF)
+- [Eloquent JavaScript](https://midu.link/eloquent) - Marijn Haverbeke (PDF, HTML, Epub, Mobi)
 - [JavaScript, ¡Inspírate!](https://leanpub.com/javascript-inspirate) - Ulises Gascón (eBook)
 - [JavaScript Moderno](https://es.javascript.info/) - Ilya Kantor (HTML)
 - [MDN:Guía de JavaScript](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide) (HTML)
