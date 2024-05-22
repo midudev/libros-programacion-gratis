@@ -24,7 +24,7 @@
     - [🐹 Golang](#-golang)
     - [🤖 Kotlin](#-kotlin)
     - [☕ Java](#-java)
-  - [Bibliotecas y Frameworks](#bibliotecas-y-frameworks)
+  - [Frameworks y Bibliotecas](#frameworks-y-bibiliotecas)
      - [⚛️ React](#️-react)
      - [⚡️ Qwik](#-qwik)
   - [Herramientas](#herramientas)
