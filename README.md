@@ -15,7 +15,6 @@
   - [👨‍💻 Generales](#-generales)
   - [Lenguajes de Programación](#lenguajes-de-programación)
     - [🟨 JavaScript](#-javascript)
-    - [⚛️ React](#️-react)
     - [🟦 TypeScript](#-typescript)
     - [🐍 Python](#-python)
     - [♦️ Ruby](#️-ruby)
@@ -25,7 +24,11 @@
     - [🐹 Golang](#-golang)
     - [🤖 Kotlin](#-kotlin)
     - [☕ Java](#-java)
-    - [🔀 Git](#-git)
+  - [Bibliotecas y Frameworks](#bibliotecas-y-frameworks)
+     - [⚛️ React](#️-react)
+     - [⚡️ Qwik](#-qwik)
+  - [Herramientas](#herramientas)
+     - [🔀 Git](#-git)
   - [Bases de datos](#bases-de-datos)
     - [🛗 SQL](#-sql)
 
@@ -42,10 +45,6 @@
 - [JavaScript, ¡Inspírate!](https://leanpub.com/javascript-inspirate) - Ulises Gascón (eBook)
 - [JavaScript Moderno](https://es.javascript.info/) - Ilya Kantor (HTML)
 - [MDN:Guía de JavaScript](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide) (HTML)
-
-### ⚛️ React
-
-- [React: De aprendiz a maestro](https://raulexposito.com/estaticos/pdf/survivejs-react-es.pdf) - Raúl Expósito (PDF)
 
 ### 🟦 TypeScript
 
@@ -94,6 +93,18 @@
 ### ☕ Java
 
 - [Fundamentos de programación en Java](https://www.tesuva.edu.co/phocadownloadpap/Fundamentos%20de%20programcion%20en%20Java.pdf) - Jorge Martínez Ladrón (PDF)
+
+## Frameworks y bibiliotecas
+
+### ⚛️ React
+
+- [React: De aprendiz a maestro](https://raulexposito.com/estaticos/pdf/survivejs-react-es.pdf) - Raúl Expósito (PDF)
+
+### ⚡️ Qwik
+
+- [Qwik: Desde cero a producción](https://anartz-mugika.com/qwik-book/es/) - Anartz Mugika (HTML)
+
+## Herramientas
 
 ### 🔀 Git
 
