@@ -69,7 +69,12 @@
 ### ⚙️ Rust
 
 - [Aprendizaje Rust](https://riptutorial.com/Download/rust-es.pdf) - Riptutorial
-- [El Lenguaje de Programación Rust](https://goyox86.github.io/elpr/README.html) - Jose Narvaez (HTML)
+- [El Lenguaje de Programación Rust - 2016](https://goyox86.github.io/elpr/README.html) - Jose Narvaez (HTML)
+- [El Lenguaje de Programación Rust - 2024](https://book.rustlang-es.org) - El libro Oficial traducido por [RustLang en Español](https://rustlang-es.org) ([PDF](https://book.rustlang-es.org/print))
+- [Comprehensive Rust](https://google.github.io/comprehensive-rust/es/) - Libro de Google en Español ([PDF](https://google.github.io/comprehensive-rust/es/print.html))  
+  - El libro esta escrito en forma de workshop, pensado para que haya un instructor explicando cosas.
+- [Rust para C#/.NET Developers](https://dotnet-book.rustlang-es.org) - Libro de Microsoft traducido por [RustLang en Español](https://rustlang-es.org) ([PDF](https://dotnet-book.rustlang-es.org/print))  
+  - Ofrece comparaciones sencillas para entender que cambia entre lenguajes.
 
 ### 🐘 PHP
 
