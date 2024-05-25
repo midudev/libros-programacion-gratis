@@ -83,7 +83,7 @@
 
 ### 🐹 Golang
 
-- [El pequeño libro de Go](https://raulexposito.com/assets/pdf/go.pdf) - Karl Seguin (traducido por Raúl Exposito)
+- [El pequeño libro de Go](https://raulexposito.com/estaticos/pdf/go.pdf) - Karl Seguin (traducido por Raúl Exposito)
 - [Go en Español](https://nachopacheco.gitbooks.io/go-es/content/doc) - Nacho Pacheco
 
 ### 🤖 Kotlin
