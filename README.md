@@ -74,7 +74,7 @@
 ### 🐘 PHP
 
 - [PHP, la manera correcta](https://phpdevenezuela.github.io/php-the-right-way/) - Josh Lockhart, Phil Sturgeon (HTML)
-- [Programación en PHP a través de ejemplos](https://openlibra.com/es/book/programacion-en-php-a-traves-de-ejemplos) - Manuel Palomo e Ildefonso Montero (PDF)
+- [Programación en PHP a través de ejemplos](https://mega.nz/file/AFIkhRpC#8muP4I2jZRiNirbQmXDMBDf8QPxw5HkbbaGk2xzDvNE) - Manuel Palomo e Ildefonso Montero (PDF)
 
 ### 🤔 Haskell
 
