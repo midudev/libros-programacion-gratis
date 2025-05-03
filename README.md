@@ -112,7 +112,7 @@
 
 ### ⚡️ Qwik
 
-- [Qwik: Desde cero a producción](https://anartz-mugika.com/qwik-book/es/) - Anartz Mugika (HTML)
+- [Qwik: Desde cero a producción]([https://anartz-mugika.com/qwik-book/es/](https://qwik-book-spanish.netlify.app/)) - Anartz Mugika (HTML)
 
 ## Herramientas
 
