@@ -98,7 +98,7 @@
 
 ### ☕ Java
 
-- [Fundamentos de programación en Java](https://www.tesuva.edu.co/phocadownloadpap/Fundamentos%20de%20programcion%20en%20Java.pdf) - Jorge Martínez Ladrón (PDF)
+- [Fundamentos de programación en Java](https://es.slideshare.net/slideshow/java-fundamentos/23333338) - Jorge Martínez Ladrón (PDF)
 
 ### 📊 R
 
