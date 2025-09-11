@@ -51,16 +51,16 @@
 
 - [Introducción a TypeScript](https://khru.gitbooks.io/typescript/) - Emmanuel Valverde Ramos (HTML)
 - [TypeScript en Profundidad](https://github.com/melissarofman/typescript-book) - Basarat Ali Syed, traducido por Melissa Rofman (HTML)
-- [Introducción a TypeScript](https://mega.nz/file/TldlTZID#1A90Wn8xYloDvekX8rQewI3Yh8HMJXlufRUEWEcOzNU) - Adictos al trabajo
-- [TypeScript para Principantes](https://mega.nz/file/7hdwEY6b#ESsixH9wCUFhUugkRq8BEa1uZlzFXCJX6QxHdL5Yz9Q) - Envato Tuts+
-- [Manual de TypeScript](https://mega.nz/#!qwcFDZ7a!ggLXIZ4c-O1Do0OEuvK0Mz8k39LvYQwdaJ2LtKKxgsE) - Emmanuel Valverde y Pedro Hernández-Mora
+- [Introducción a TypeScript](https://mega.nz/file/TldlTZID#1A90Wn8xYloDvekX8rQewI3Yh8HMJXlufRUEWEcOzNU) - Adictos al trabajo (PDF)
+- [TypeScript para Principantes](https://mega.nz/file/7hdwEY6b#ESsixH9wCUFhUugkRq8BEa1uZlzFXCJX6QxHdL5Yz9Q) - Envato Tuts+ (PDF)
+- [Manual de TypeScript](https://mega.nz/#!qwcFDZ7a!ggLXIZ4c-O1Do0OEuvK0Mz8k39LvYQwdaJ2LtKKxgsE) - Emmanuel Valverde y Pedro Hernández-Mora (PDF)
 - [Uso avanzado de TypeScript en un ejemplo real](https://neliosoftware.com/es/blog/uso-avanzado-de-typescript/) - Nelio Software (HTML)
 - [Aprendizaje TypeScript](https://riptutorial.com/Download/typescript-es.pdf) - RipTutorial (PDF)
 
 ### 🐍 Python
 
-- [Aprende Python](https://uneweb.edu.ve/tuto-docs/libro-python.pdf) - Sergio Delgado Quintero
-- [Python para todos](https://launchpadlibrarian.net/18980633/Python%20para%20todos.pdf) - Raúl González Duque
+- [Aprende Python](https://uneweb.edu.ve/tuto-docs/libro-python.pdf) - Sergio Delgado Quintero (PDF)
+- [Python para todos](https://launchpadlibrarian.net/18980633/Python%20para%20todos.pdf) - Raúl González Duque (PDF)
 - [Aprenda a pensar como un programador con Python](https://argentinaenpython.com/quiero-aprender-python/aprenda-a-pensar-como-un-programador-con-python.pdf) - Allen Downey, Jeffrey Elkner, Chris Meyers. Traducción: Miguel Ángel Vilella, Ángel Arnal, Iván Juanes, Litza Amurrio, Efrain Andia, César Ballardini (PDF)
 
 ### ♦️ Ruby
@@ -89,8 +89,8 @@
 
 ### 🐹 Golang
 
-- [El pequeño libro de Go](https://raulexposito.com/estaticos/pdf/go.pdf) - Karl Seguin (traducido por Raúl Exposito)
-- [Go en Español](https://nachopacheco.gitbooks.io/go-es/content/doc) - Nacho Pacheco
+- [El pequeño libro de Go](https://raulexposito.com/estaticos/pdf/go.pdf) - Karl Seguin (traducido por Raúl Exposito) (PDF)
+- [Go en Español](https://nachopacheco.gitbooks.io/go-es/content/doc) - Nacho Pacheco (HTML)
 
 ### 🤖 Kotlin
 
@@ -118,11 +118,11 @@
 
 ### 🔀 Git
 
-- [Pro Git](https://github.com/progit/progit2-es/releases/download/2.1.23/progit.pdf) - Scott Chacon y Ben Straub
+- [Pro Git](https://github.com/progit/progit2-es/releases/download/2.1.23/progit.pdf) - Scott Chacon y Ben Straub (PDF)
 
 ## Bases de datos
 
 ### 🛗 SQL
 
-- [Tutorial de SQL](http://www.desarrolloweb.com/manuales/9/) - Rubén Alvarez
-- [Manual de SQL](http://jorgesanchez.net/manuales/sql/intro-sql-sql2016.html) - Jorge Sanchez Asenjo
+- [Tutorial de SQL](http://www.desarrolloweb.com/manuales/9/) - Rubén Alvarez (HTML)
+- [Manual de SQL](http://jorgesanchez.net/manuales/sql/intro-sql-sql2016.html) - Jorge Sanchez Asenjo (HTML)
