@@ -25,7 +25,7 @@
     - [🤖 Kotlin](#-kotlin)
     - [☕ Java](#-java)
     - [📊 R](#-r)
-  - [Frameworks y bibiliotecas](#frameworks-y-bibiliotecas)
+  - [Frameworks y bibliotecas](#frameworks-y-bibliotecas)
     - [⚛️ React](#️-react)
     - [⚡️ Qwik](#️-qwik)
   - [Herramientas](#herramientas)
@@ -104,7 +104,7 @@
 
 - [R para Ciencia de Datos](https://es.r4ds.hadley.nz/) - Hadley Wickham y Garrett Grolemund (HTML)
 
-## Frameworks y bibiliotecas
+## Frameworks y bibliotecas
 
 ### ⚛️ React
 
