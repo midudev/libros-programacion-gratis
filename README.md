@@ -37,6 +37,7 @@
 
 - [97 cosas que todo programador debe saber](https://97cosas.com/programador/) - Kevlin Henney
 - [Los apuntes de Majo](https://losapuntesdemajo.vercel.app/) - Majo Ledesma
+- [El mínimo absoluto que todo desarrollador de software debe de saber sobre Unicode...](https://tonsky.me/blog/unicode/es/) - Niki Tonsky
 
 ## Lenguajes de Programación
 
