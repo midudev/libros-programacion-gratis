@@ -1,13 +1,10 @@
 {
-  "name": "librosgratis.dev",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "libros-programacion-gratis",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.33.0"
+    "dev": "pnpm -C web dev",
+    "build": "pnpm -C web build",
+    "deploy": "pnpm -C web deploy"
+  }
 }
