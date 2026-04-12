@@ -1,0 +1,307 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {
+	allBooks,
+	groupSummaries,
+	librarySections,
+	sourceRepository,
+	totalBooks,
+} from '../data/library';
+
+const title = 'Libros gratis de programación en español — librosgratis.dev';
+const description =
+	'Encuentra libros y guías gratuitas de programación en español. JavaScript, TypeScript, Python, Rust, React, Git, SQL y más.';
+const keywords = [
+	'libros de programación gratis',
+	'libros gratis programación español',
+	'ebooks programación español',
+	'javascript gratis',
+	'typescript gratis',
+	'python gratis',
+	'libros desarrollo web',
+];
+
+const tablerIcon = (paths: string, stroke = '%23777') =>
+	`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='${stroke}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E${paths}%3C/svg%3E`;
+
+const sectionLogos: Record<string, string> = {
+	generales: tablerIcon(
+		"%3Cpath d='M7 8l-4 4l4 4'/%3E%3Cpath d='M17 8l4 4l-4 4'/%3E%3Cpath d='M14 4l-4 16'/%3E",
+	),
+	javascript: '/logos/javascript.svg',
+	typescript: '/logos/typescript.svg',
+	python: '/logos/python.svg',
+	ruby: '/logos/ruby.svg',
+	rust: '/logos/rust.svg',
+	php: '/logos/php.svg',
+	haskell: '/logos/haskell.svg',
+	golang: '/logos/golang.svg',
+	kotlin: '/logos/kotlin.svg',
+	java: '/logos/java.svg',
+	r: '/logos/r.svg',
+	react: '/logos/react.svg',
+	qwik: '/logos/qwik.svg',
+	git: '/logos/git.svg',
+	sql: tablerIcon(
+		"%3Cpath d='M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0'/%3E%3Cpath d='M4 6v6a8 3 0 0 0 16 0v-6'/%3E%3Cpath d='M4 12v6a8 3 0 0 0 16 0v-6'/%3E",
+	),
+};
+
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'CollectionPage',
+	name: title,
+	description,
+	inLanguage: 'es',
+	url: 'https://librosgratis.dev/',
+	isPartOf: {
+		'@type': 'WebSite',
+		name: 'librosgratis.dev',
+		url: 'https://librosgratis.dev/',
+	},
+	mainEntity: {
+		'@type': 'ItemList',
+		name: 'Biblioteca de libros de programación gratis en español',
+		numberOfItems: totalBooks,
+		itemListElement: allBooks.map((book, index) => ({
+			'@type': 'ListItem',
+			position: index + 1,
+			name: book.title,
+			url: book.href,
+		})),
+	},
+};
+---
+
+<Layout title={title} description={description} keywords={keywords} structuredData={structuredData}>
+	<div class="page">
+		<header class="header">
+			<a class="logo" href="/" aria-label="Inicio">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
+					<path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
+					<path d="M5 8h4" /><path d="M9 16h4" />
+					<path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041" />
+					<path d="M14 9l4 -1" /><path d="M16 16l3.923 -.98" />
+				</svg>
+			</a>
+			<nav class="header-nav">
+				<a href={sourceRepository.href} target="_blank" rel="noreferrer">GitHub</a>
+				<a class="header-cta" href={`${sourceRepository.href}/issues/new?title=Nuevo+libro+gratuito&body=%23%23+Datos+del+libro%0A%0A-+**T%C3%ADtulo**%3A+%0A-+**Autor**%3A+%0A-+**Enlace**%3A+%0A-+**Idioma**%3A+Espa%C3%B1ol%0A-+**Categor%C3%ADa**%3A+%0A-+**Formato**%3A+%28PDF%2C+HTML%2C+ePub...%29%0A`} target="_blank" rel="noreferrer">+ Enviar libro</a>
+			</nav>
+		</header>
+
+		<main>
+			<section class="hero">
+				<h1>Libros <em>gratis</em> de programación en español</h1>
+				<p class="hero-sub">
+					{totalBooks} libros y guías de código abierto sobre JavaScript, TypeScript, Python,
+					Rust, React, Git, SQL y más.
+				</p>
+			</section>
+
+			<section class="library" id="biblioteca" aria-labelledby="library-title">
+				<h2 id="library-title" class="sr-only">Biblioteca</h2>
+
+				<div class="toolbar">
+					<input
+						id="library-search"
+						class="search-input"
+						type="search"
+						placeholder="Buscar por título, autor o tema..."
+						autocomplete="off"
+					/>
+
+					<div class="filters" aria-label="Filtrar por grupo">
+						<button class="filter-chip is-active" type="button" data-filter="all">
+							Todo
+						</button>
+						{
+							groupSummaries.map((group) => (
+								<button class="filter-chip" type="button" data-filter={group.group}>
+									{group.group} <small>{group.books}</small>
+								</button>
+							))
+						}
+					</div>
+
+					<div class="results-bar" aria-live="polite">
+						<span><strong data-results-count>{totalBooks}</strong> resultados</span>
+						<button class="reset-btn" type="button" data-reset-filters hidden>
+							Limpiar filtros
+						</button>
+					</div>
+				</div>
+
+				{
+					librarySections.map((section) => (
+						<section
+							class="topic"
+							id={section.slug}
+							data-group={section.group}
+							data-section={section.title}
+							aria-labelledby={`${section.slug}-title`}
+						>
+							<div class="topic-header">
+								<h2 id={`${section.slug}-title`}>
+									<img
+										class="topic-logo"
+										src={sectionLogos[section.slug]}
+										alt=""
+										width="22"
+										height="22"
+										loading="lazy"
+									/>
+									{section.title}
+								</h2>
+								<span class="topic-count">
+									{section.books.length} {section.books.length === 1 ? 'libro' : 'libros'}
+								</span>
+							</div>
+							<p class="topic-desc">{section.description}</p>
+
+							<div class="book-grid">
+								{section.books.map((book) => (
+									<article
+										class="book"
+										data-search={`${book.title} ${book.author ?? ''} ${section.title} ${section.group}`.toLowerCase()}
+									>
+										<h3>
+											<a href={book.href} target="_blank" rel="noreferrer">
+												{book.title}
+											</a>
+										</h3>
+										{book.author && <p class="book-author">{book.author}</p>}
+										{book.formats && book.formats.length > 0 && (
+											<div class="book-formats">
+												{book.formats.map((format) => (
+													<span>{format}</span>
+												))}
+											</div>
+										)}
+										{book.note && <p class="book-note">{book.note}</p>}
+									</article>
+								))}
+							</div>
+						</section>
+					))
+				}
+
+				<div class="empty-state" hidden data-empty-state>
+					<p>No hay coincidencias con esa búsqueda. Prueba con otro término.</p>
+				</div>
+			</section>
+		</main>
+
+		<footer class="footer">
+			<p>
+				Contenido del repositorio{' '}
+				<a href={sourceRepository.href} target="_blank" rel="noreferrer">
+					{sourceRepository.name}
+				</a>
+			</p>
+			<button class="footer-share" type="button" data-share-trigger>Compartir</button>
+		</footer>
+	</div>
+
+	<script is:inline>
+		const searchInput = document.querySelector('#library-search');
+		const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
+		const resetButton = document.querySelector('[data-reset-filters]');
+		const resultsCount = document.querySelector('[data-results-count]');
+		const emptyState = document.querySelector('[data-empty-state]');
+		const sectionBlocks = Array.from(document.querySelectorAll('.topic'));
+		const shareButtons = Array.from(document.querySelectorAll('[data-share-trigger]'));
+
+		let activeFilter = 'all';
+
+		const applyFilters = () => {
+			const query = (searchInput?.value ?? '').trim().toLowerCase();
+			let visibleBooks = 0;
+
+			sectionBlocks.forEach((section) => {
+				const groupMatches =
+					activeFilter === 'all' || section.getAttribute('data-group') === activeFilter;
+				let sectionVisibleBooks = 0;
+
+				section.querySelectorAll('.book').forEach((card) => {
+					const haystack = card.getAttribute('data-search') ?? '';
+					const matchesSearch = query === '' || haystack.includes(query);
+					const shouldShow = groupMatches && matchesSearch;
+
+					card.toggleAttribute('hidden', !shouldShow);
+					if (shouldShow) {
+						sectionVisibleBooks += 1;
+						visibleBooks += 1;
+					}
+				});
+
+				section.toggleAttribute('hidden', sectionVisibleBooks === 0);
+			});
+
+			if (resultsCount) {
+				resultsCount.textContent = String(visibleBooks);
+			}
+
+			if (emptyState) {
+				emptyState.toggleAttribute('hidden', visibleBooks !== 0);
+			}
+
+			if (resetButton) {
+				resetButton.toggleAttribute('hidden', query === '' && activeFilter === 'all');
+			}
+		};
+
+		searchInput?.addEventListener('input', applyFilters);
+
+		filterButtons.forEach((button) => {
+			button.addEventListener('click', () => {
+				activeFilter = button.getAttribute('data-filter') ?? 'all';
+				filterButtons.forEach((item) => {
+					item.classList.toggle('is-active', item === button);
+				});
+				applyFilters();
+			});
+		});
+
+		resetButton?.addEventListener('click', () => {
+			activeFilter = 'all';
+			if (searchInput) {
+				searchInput.value = '';
+			}
+			filterButtons.forEach((button) => {
+				button.classList.toggle('is-active', button.getAttribute('data-filter') === 'all');
+			});
+			applyFilters();
+		});
+
+		shareButtons.forEach((button) => {
+			button.dataset.label = button.textContent?.trim() ?? 'Compartir';
+
+			button.addEventListener('click', async () => {
+				const shareData = {
+					title: document.title,
+					text: 'Libros gratis de programación en español, organizados por tema.',
+					url: window.location.href,
+				};
+
+				try {
+					if (navigator.share) {
+						await navigator.share(shareData);
+						return;
+					}
+
+					await navigator.clipboard.writeText(shareData.url);
+					button.textContent = 'Enlace copiado';
+					window.setTimeout(() => {
+						button.textContent = button.dataset.label ?? 'Compartir';
+					}, 1800);
+				} catch (error) {
+					console.error(error);
+				}
+			});
+		});
+
+		applyFilters();
+	</script>
+</Layout>

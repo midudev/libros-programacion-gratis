@@ -1,0 +1,36 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#F4EFE4"/>
+  <rect width="1200" height="630" fill="url(#paint0_radial_1_2)"/>
+  <rect width="1200" height="630" fill="url(#paint1_radial_1_2)"/>
+  <g opacity="0.5">
+    <path d="M83 83H1117" stroke="#17202B" stroke-opacity="0.08"/>
+    <path d="M83 547H1117" stroke="#17202B" stroke-opacity="0.08"/>
+    <path d="M83 83V547" stroke="#17202B" stroke-opacity="0.08"/>
+    <path d="M1117 83V547" stroke="#17202B" stroke-opacity="0.08"/>
+  </g>
+  <rect x="92" y="92" width="1016" height="446" rx="36" fill="#FFF9F2" fill-opacity="0.82" stroke="#17202B" stroke-opacity="0.08"/>
+  <circle cx="205" cy="169" r="56" fill="#C55A3D" fill-opacity="0.14"/>
+  <circle cx="1007" cy="487" r="86" fill="#4A83C7" fill-opacity="0.14"/>
+  <rect x="147" y="141" width="92" height="92" rx="24" fill="#17202B"/>
+  <path d="M178.648 176.94H186.184V199H200V205H178.648V176.94ZM207.346 176.94H214.882V199H228.698V205H207.346V176.94Z" fill="#FFF9F2"/>
+  <text x="147" y="308" fill="#8F3D29" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="5">LIBROS GRATIS EN ESPAÑOL</text>
+  <text x="147" y="392" fill="#17202B" font-family="Georgia, serif" font-size="74" font-weight="400">
+    Libros de programación
+  </text>
+  <text x="147" y="463" fill="#17202B" font-family="Georgia, serif" font-size="74" font-weight="400">
+    bonitos, rápidos y compartibles
+  </text>
+  <text x="147" y="515" fill="#5D6776" font-family="Arial, sans-serif" font-size="30">
+    Diseño editorial + descubrimiento instantáneo + SEO sólido
+  </text>
+  <defs>
+    <radialGradient id="paint0_radial_1_2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(228 115) rotate(49.2525) scale(329.725 374.579)">
+      <stop stop-color="#F4BA60" stop-opacity="0.48"/>
+      <stop offset="1" stop-color="#F4BA60" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="paint1_radial_1_2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(924 489) rotate(-149.79) scale(402.188 330.398)">
+      <stop stop-color="#4A83C7" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#4A83C7" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

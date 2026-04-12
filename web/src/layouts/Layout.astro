@@ -1,0 +1,77 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+	canonical?: string;
+	keywords?: string[];
+	structuredData?: Record<string, unknown>;
+}
+
+const {
+	title = 'Libros de programación gratis en español',
+	description = 'Una biblioteca visual, rápida y curada para descubrir libros gratis de programación en español.',
+	image = '/og-preview.svg',
+	canonical,
+	keywords = [],
+	structuredData,
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL('https://librosgratis.dev');
+const pageUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).toString();
+const imageUrl = new URL(image, siteUrl).toString();
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="canonical" href={pageUrl} />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<meta name="description" content={description} />
+		<meta name="robots" content="index,follow" />
+		<meta name="theme-color" content="#faf7f2" />
+		{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="es_ES" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={pageUrl} />
+		<meta property="og:image" content={imageUrl} />
+		<meta property="og:site_name" content="librosgratis.dev" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={imageUrl} />
+		<title>{title}</title>
+		{structuredData && (
+			<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+		)}
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style>
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		margin: 0;
+		min-width: 320px;
+		min-height: 100vh;
+	}
+</style>
