@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "librosgratis-dev",
+  "name": "libros-programacion-gratis",
   "compatibility_date": "2025-04-01",
   "assets": {
     "directory": "dist"
