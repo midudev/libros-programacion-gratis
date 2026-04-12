@@ -9,24 +9,27 @@ importers:
   .:
     dependencies:
       '@astrojs/cloudflare':
-        specifier: ^13.1.8
+        specifier: 13.1.8
         version: 13.1.8(astro@6.1.5(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.1))(jiti@2.6.1)(lightningcss@1.32.0)(workerd@1.20260409.1)(wrangler@4.81.1)
       '@tailwindcss/vite':
-        specifier: ^4.2.2
+        specifier: 4.2.2
         version: 4.2.2(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0))
       astro:
-        specifier: ^6.1.5
+        specifier: 6.1.5
         version: 6.1.5(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.1)
       tailwind-animations:
-        specifier: ^1.0.1
+        specifier: 1.0.1
         version: 1.0.1(tailwindcss@4.2.2)
       tailwindcss:
-        specifier: ^4.2.2
+        specifier: 4.2.2
         version: 4.2.2
     devDependencies:
       '@tabler/icons':
-        specifier: ^3.41.1
+        specifier: 3.41.1
         version: 3.41.1
+      wrangler:
+        specifier: 4.81.1
+        version: 4.81.1
 
 packages:
 
