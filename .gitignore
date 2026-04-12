@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+.env
+.env.*
+.DS_Store
+npm-debug.log*
+pnpm-debug.log*
+
+# AI tooling
+.agents/
+.claude/
+CLAUDE.md
+skills-lock.json
