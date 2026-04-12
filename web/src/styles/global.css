@@ -374,6 +374,7 @@ img {
   flex-wrap: wrap;
   gap: 0.25rem;
   margin-top: 0.1rem;
+  justify-self: start;
 }
 
 .book-formats span {
