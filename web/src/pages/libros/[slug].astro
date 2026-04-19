@@ -1,0 +1,176 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { sourceRepository } from '../../data/library';
+import {
+	createSectionStructuredData,
+	getSectionCanonicalUrl,
+	getSectionMetaDescription,
+	getSectionMetaTitle,
+	getSectionPagePath,
+	getSectionPageTitle,
+	sectionPageEntries,
+	siteConfig,
+	type SectionPageEntry,
+} from '../../data/seo';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+	return sectionPageEntries.map((entry) => ({
+		params: { slug: entry.pathSlug },
+		props: { entry },
+	}));
+}
+
+const { entry } = Astro.props as { entry: SectionPageEntry };
+const { section } = entry;
+
+const title = getSectionMetaTitle(entry);
+const pageHeading = getSectionPageTitle(entry);
+const description = getSectionMetaDescription(entry);
+const structuredData = createSectionStructuredData(entry);
+const canonical = getSectionCanonicalUrl(entry);
+const formats = Array.from(new Set(section.books.flatMap((book) => book.formats ?? [])));
+const formatsLabel = formats.length > 0 ? formats.join(', ') : 'recursos web';
+const highlightedBooks = section.books.slice(0, 3).map((book) => book.title);
+const relatedEntries = sectionPageEntries
+	.filter((related) => related.section.group === section.group && related.section.slug !== section.slug)
+	.slice(0, 4);
+
+const externalLinkRel = 'nofollow noreferrer';
+const bookLinkRel = (href: string) =>
+	/^https?:\/\//.test(href) ? externalLinkRel : 'noreferrer';
+---
+
+<Layout
+	title={title}
+	description={description}
+	keywords={entry.focusKeywords}
+	structuredData={structuredData}
+	canonical={canonical}
+	image={siteConfig.defaultImage}
+	imageAlt={pageHeading}
+>
+	<div class="page">
+		<header class="header">
+			<a class="logo" href="/" aria-label="Inicio">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
+					<path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
+					<path d="M5 8h4" /><path d="M9 16h4" />
+					<path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041" />
+					<path d="M14 9l4 -1" /><path d="M16 16l3.923 -.98" />
+				</svg>
+			</a>
+			<nav class="header-nav">
+				<a href="/">Biblioteca</a>
+				<a href={sourceRepository.href} target="_blank" rel={externalLinkRel}>GitHub</a>
+			</nav>
+		</header>
+
+		<main>
+			<nav class="breadcrumbs" aria-label="Migas de pan">
+				<a href="/">Libros gratis de programación</a>
+				<span aria-hidden="true">/</span>
+				<span>{entry.displayName}</span>
+			</nav>
+
+			<section class="hero topic-page-hero">
+				<p class="eyebrow">{section.group}</p>
+				<h1>{pageHeading}</h1>
+				<p class="hero-sub text-wrap">{entry.intro}</p>
+				<div class="topic-page-stats" aria-label="Resumen de la colección">
+					<span><strong>{section.books.length}</strong> {section.books.length === 1 ? 'libro' : 'libros'}</span>
+					<span><strong>{formatsLabel}</strong></span>
+				</div>
+			</section>
+
+			<section class="seo-copy" aria-labelledby="about-topic-title">
+				<h2 id="about-topic-title">Aprender {entry.displayName} con recursos gratuitos</h2>
+				<p>
+					Esta página reúne libros y guías de {entry.displayName} en español para estudiar
+					{` ${section.description.toLowerCase()}.`} La colección combina recursos en formatos
+					{` ${formatsLabel}`} y se actualiza desde la biblioteca principal de librosgratis.dev.
+				</p>
+				{highlightedBooks.length > 0 && (
+					<p>
+						Para empezar, puedes revisar {highlightedBooks.join(', ')}
+						{section.books.length > highlightedBooks.length ? ' y el resto de recursos de la lista.' : '.'}
+					</p>
+				)}
+			</section>
+
+			<section class="topic topic-page-list" aria-labelledby="books-title">
+				<div class="topic-header">
+					<h2 id="books-title">Libros y guías de {entry.displayName}</h2>
+					<span class="topic-count">
+						{section.books.length} {section.books.length === 1 ? 'recurso' : 'recursos'}
+					</span>
+				</div>
+				<p class="topic-desc">{description}</p>
+
+				<div class="book-grid">
+					{section.books.map((book) => (
+						<article class="book">
+							<h3>
+								<a href={book.href} target="_blank" rel={bookLinkRel(book.href)}>
+									{book.title}
+								</a>
+							</h3>
+							{book.author && <p class="book-author">{book.author}</p>}
+							{book.formats && book.formats.length > 0 && (
+								<div class="book-formats">
+									{book.formats.map((format) => (
+										<span>{format}</span>
+									))}
+								</div>
+							)}
+							{book.note && <p class="book-note">{book.note}</p>}
+						</article>
+					))}
+				</div>
+			</section>
+
+			<section class="seo-faq" aria-labelledby="faq-title">
+				<h2 id="faq-title">Preguntas frecuentes sobre {entry.displayName}</h2>
+				<details>
+					<summary>¿Dónde encontrar libros gratis de {entry.displayName} en español?</summary>
+					<p>
+						En esta página tienes una selección curada de libros gratis de {entry.displayName},
+						con enlaces directos a recursos PDF, HTML o ebooks cuando están disponibles.
+					</p>
+				</details>
+				<details>
+					<summary>¿Estos libros de {entry.displayName} son realmente gratis?</summary>
+					<p>
+						Sí. La colección apunta a recursos gratuitos, abiertos o publicados por sus autores
+						para consulta libre.
+					</p>
+				</details>
+			</section>
+
+			{relatedEntries.length > 0 && (
+				<section class="related-topics" aria-labelledby="related-title">
+					<h2 id="related-title">Más libros de {section.group.toLowerCase()}</h2>
+					<div class="related-grid">
+						{relatedEntries.map((related) => (
+							<a href={getSectionPagePath(related)}>
+								<span>{related.displayName}</span>
+								<small>{related.section.books.length} {related.section.books.length === 1 ? 'libro' : 'libros'}</small>
+							</a>
+						))}
+					</div>
+				</section>
+			)}
+		</main>
+
+		<footer class="footer">
+			<p>
+				<a href="/">Volver a la biblioteca</a> · Contenido del repositorio{' '}
+				<a href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
+					{sourceRepository.name}
+				</a>
+			</p>
+		</footer>
+	</div>
+</Layout>

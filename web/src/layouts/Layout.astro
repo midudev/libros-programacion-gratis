@@ -1,27 +1,36 @@
 ---
 import '../styles/global.css';
 
+type StructuredData = Record<string, unknown> | Record<string, unknown>[];
+
 interface Props {
 	title?: string;
 	description?: string;
 	image?: string;
+	imageAlt?: string;
 	canonical?: string;
 	keywords?: string[];
-	structuredData?: Record<string, unknown>;
+	structuredData?: StructuredData;
+	ogType?: 'website' | 'article';
+	robots?: string;
 }
 
 const {
 	title = 'Libros de programación gratis en español',
 	description = 'Una biblioteca visual, rápida y curada para descubrir libros gratis de programación en español.',
 	image = '/og-preview.svg',
+	imageAlt = 'Libros gratis de programación en español',
 	canonical,
 	keywords = [],
 	structuredData,
+	ogType = 'website',
+	robots = 'index, follow, max-image-preview:large',
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL('https://librosgratis.dev');
-const pageUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).toString();
+const pageUrl = new URL(canonical ?? Astro.url.pathname, siteUrl).toString();
 const imageUrl = new URL(image, siteUrl).toString();
+const jsonLd = structuredData ? JSON.stringify(structuredData).replace(/</g, '\\u003c') : '';
 ---
 
 <!doctype html>
@@ -29,8 +38,14 @@ const imageUrl = new URL(image, siteUrl).toString();
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<meta name="application-name" content="librosgratis.dev" />
+		<meta name="apple-mobile-web-app-title" content="librosgratis.dev" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="referrer" content="strict-origin-when-cross-origin" />
+		<link rel="icon" href="/favicon.ico" sizes="32x32" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" media="(prefers-color-scheme: light)" />
+		<link rel="icon" type="image/svg+xml" href="/favicon-dark.svg" media="(prefers-color-scheme: dark)" />
+		<link rel="sitemap" href="/sitemap.xml" />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="canonical" href={pageUrl} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -40,24 +55,26 @@ const imageUrl = new URL(image, siteUrl).toString();
 			rel="stylesheet"
 		/>
 		<meta name="description" content={description} />
-		<meta name="robots" content="index,follow" />
+		<meta name="robots" content={robots} />
 		<meta name="theme-color" content="#faf7f2" />
 		{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content={ogType} />
 		<meta property="og:locale" content="es_ES" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={pageUrl} />
 		<meta property="og:image" content={imageUrl} />
+		<meta property="og:image:alt" content={imageAlt} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
 		<meta property="og:site_name" content="librosgratis.dev" />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={imageUrl} />
+		<meta name="twitter:image:alt" content={imageAlt} />
 		<title>{title}</title>
-		{structuredData && (
-			<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-		)}
+		{structuredData && <script type="application/ld+json" set:html={jsonLd} />}
 	</head>
 	<body>
 		<slot />
