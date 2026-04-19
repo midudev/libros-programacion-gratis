@@ -1,12 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import {
-	allBooks,
-	groupSummaries,
 	librarySections,
 	sourceRepository,
 	totalBooks,
 } from '../data/library';
+import {
+	createHomeStructuredData,
+	getSectionPageEntry,
+	getSectionPagePath,
+	siteConfig,
+} from '../data/seo';
 
 const title = 'Libros gratis de programación en español — librosgratis.dev';
 const description =
@@ -24,10 +28,14 @@ const keywords = [
 const tablerIcon = (paths: string, stroke = '%23777') =>
 	`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='${stroke}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E${paths}%3C/svg%3E`;
 
-const sectionLogos: Record<string, string> = {
+const sectionLogos: Record<string, string | string[]> = {
 	generales: tablerIcon(
 		"%3Cpath d='M7 8l-4 4l4 4'/%3E%3Cpath d='M17 8l4 4l-4 4'/%3E%3Cpath d='M14 4l-4 16'/%3E",
 	),
+	algoritmos: tablerIcon(
+		"%3Cpath d='M5 4h4v4h-4z'/%3E%3Cpath d='M15 4h4v4h-4z'/%3E%3Cpath d='M5 16h4v4h-4z'/%3E%3Cpath d='M15 16h4v4h-4z'/%3E%3Cpath d='M9 6h6'/%3E%3Cpath d='M7 8v8'/%3E%3Cpath d='M17 8v8'/%3E%3Cpath d='M9 18h6'/%3E",
+	),
+	'html-css': ['/logos/html.svg', '/logos/css.svg'],
 	javascript: '/logos/javascript.svg',
 	typescript: '/logos/typescript.svg',
 	python: '/logos/python.svg',
@@ -37,43 +45,53 @@ const sectionLogos: Record<string, string> = {
 	haskell: '/logos/haskell.svg',
 	golang: '/logos/golang.svg',
 	kotlin: '/logos/kotlin.svg',
+	android: '/logos/android.svg',
+	c: '/logos/c.svg',
+	cplusplus: '/logos/cplusplus.svg',
+	csharp: '/logos/csharp.svg',
 	java: '/logos/java.svg',
 	r: '/logos/r.svg',
 	react: '/logos/react.svg',
 	qwik: '/logos/qwik.svg',
+	nodejs: '/logos/nodejs.svg',
+	angular: '/logos/angular.svg',
+	django: '/logos/django.svg',
 	git: '/logos/git.svg',
+	docker: '/logos/docker.svg',
+	linux: '/logos/linux.svg',
 	sql: tablerIcon(
 		"%3Cpath d='M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0'/%3E%3Cpath d='M4 6v6a8 3 0 0 0 16 0v-6'/%3E%3Cpath d='M4 12v6a8 3 0 0 0 16 0v-6'/%3E",
 	),
+	nosql: ['/logos/mongodb.svg', '/logos/redis.svg'],
+	'sistemas-operativos': tablerIcon(
+		"%3Cpath d='M4 5h16v10h-16z'/%3E%3Cpath d='M8 21h8'/%3E%3Cpath d='M12 15v6'/%3E",
+	),
+	ia: '/logos/ai.svg',
+	metodologias: '/logos/agile.svg',
 };
 
-const structuredData = {
-	'@context': 'https://schema.org',
-	'@type': 'CollectionPage',
-	name: title,
-	description,
-	inLanguage: 'es',
-	url: 'https://librosgratis.dev/',
-	isPartOf: {
-		'@type': 'WebSite',
-		name: 'librosgratis.dev',
-		url: 'https://librosgratis.dev/',
-	},
-	mainEntity: {
-		'@type': 'ItemList',
-		name: 'Biblioteca de libros de programación gratis en español',
-		numberOfItems: totalBooks,
-		itemListElement: allBooks.map((book, index) => ({
-			'@type': 'ListItem',
-			position: index + 1,
-			name: book.title,
-			url: book.href,
-		})),
-	},
+const sectionLogoSources = (slug: string) => {
+	const logos = sectionLogos[slug] ?? [];
+	return Array.isArray(logos) ? logos : [logos];
 };
+
+const sectionEntries = librarySections.map(getSectionPageEntry);
+
+const externalLinkRel = 'nofollow noreferrer';
+const bookLinkRel = (href: string) =>
+	/^https?:\/\//.test(href) ? externalLinkRel : 'noreferrer';
+
+const structuredData = createHomeStructuredData();
 ---
 
-<Layout title={title} description={description} keywords={keywords} structuredData={structuredData}>
+<Layout
+	title={title}
+	description={description}
+	keywords={keywords}
+	structuredData={structuredData}
+	canonical="/"
+	image={siteConfig.defaultImage}
+>
 	<div class="page">
 		<header class="header">
 			<a class="logo" href="/" aria-label="Inicio">
@@ -86,8 +104,8 @@ const structuredData = {
 				</svg>
 			</a>
 			<nav class="header-nav">
-				<a href={sourceRepository.href} target="_blank" rel="noreferrer">GitHub</a>
-				<a class="header-cta" href={`${sourceRepository.href}/issues/new?title=Nuevo+libro+gratuito&body=%23%23+Datos+del+libro%0A%0A-+**T%C3%ADtulo**%3A+%0A-+**Autor**%3A+%0A-+**Enlace**%3A+%0A-+**Idioma**%3A+Espa%C3%B1ol%0A-+**Categor%C3%ADa**%3A+%0A-+**Formato**%3A+%28PDF%2C+HTML%2C+ePub...%29%0A`} target="_blank" rel="noreferrer">+ Enviar libro</a>
+				<a href={sourceRepository.href} target="_blank" rel={externalLinkRel}>GitHub</a>
+				<a class="header-cta" href={`${sourceRepository.href}/issues/new?title=Nuevo+libro+gratuito&body=%23%23+Datos+del+libro%0A%0A-+**T%C3%ADtulo**%3A+%0A-+**Autor**%3A+%0A-+**Enlace**%3A+%0A-+**Idioma**%3A+Espa%C3%B1ol%0A-+**Categor%C3%ADa**%3A+%0A-+**Formato**%3A+%28PDF%2C+HTML%2C+ePub...%29%0A`} target="_blank" rel={externalLinkRel}>+ Enviar libro</a>
 			</nav>
 		</header>
 
@@ -95,7 +113,7 @@ const structuredData = {
 			<section class="hero">
 				<h1>Libros <em>gratis</em> de programación en español</h1>
 				<p class="hero-sub">
-					{totalBooks} libros y guías de código abierto sobre JavaScript, TypeScript, Python,
+					{totalBooks} recursos gratuitos sobre JavaScript, TypeScript, Python,
 					Rust, React, Git, SQL y más.
 				</p>
 			</section>
@@ -104,87 +122,124 @@ const structuredData = {
 				<h2 id="library-title" class="sr-only">Biblioteca</h2>
 
 				<div class="toolbar">
-					<input
-						id="library-search"
-						class="search-input"
-						type="search"
-						placeholder="Buscar por título, autor o tema..."
-						autocomplete="off"
-					/>
-
-					<div class="filters" aria-label="Filtrar por grupo">
-						<button class="filter-chip is-active" type="button" data-filter="all">
-							Todo
-						</button>
+					<nav class="language-dock" aria-label="Ir a tema">
 						{
-							groupSummaries.map((group) => (
-								<button class="filter-chip" type="button" data-filter={group.group}>
-									{group.group} <small>{group.books}</small>
-								</button>
+							sectionEntries.map((entry) => (
+								<a
+									class="language-dock-link"
+									href={`#${entry.section.slug}`}
+									aria-label={`Ir a ${entry.section.title}`}
+									title={entry.section.title}
+								>
+									<span class="language-dock-logo-stack" aria-hidden="true">
+										{sectionLogoSources(entry.section.slug).map((logo) => (
+											<img
+												src={logo}
+												alt=""
+												width="28"
+												height="28"
+												loading="lazy"
+											/>
+										))}
+									</span>
+								</a>
 							))
 						}
-					</div>
+					</nav>
+
+					<label class="search-control" for="library-search">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M10 18a8 8 0 1 1 5.657 -13.657A8 8 0 0 1 10 18z" />
+							<path d="M21 21l-5.35 -5.35" />
+						</svg>
+						<input
+							id="library-search"
+							class="search-input"
+							type="search"
+							placeholder="Buscar por título, autor, lenguaje o tema..."
+							autocomplete="off"
+						/>
+					</label>
 
 					<div class="results-bar" aria-live="polite">
 						<span><strong data-results-count>{totalBooks}</strong> resultados</span>
-						<button class="reset-btn" type="button" data-reset-filters hidden>
-							Limpiar filtros
+						<button class="reset-btn" type="button" data-reset-search hidden>
+							Limpiar búsqueda
 						</button>
 					</div>
 				</div>
 
 				{
-					librarySections.map((section) => (
-						<section
-							class="topic"
-							id={section.slug}
-							data-group={section.group}
-							data-section={section.title}
-							aria-labelledby={`${section.slug}-title`}
-						>
-							<div class="topic-header">
-								<h2 id={`${section.slug}-title`}>
-									<img
-										class="topic-logo"
-										src={sectionLogos[section.slug]}
-										alt=""
-										width="22"
-										height="22"
-										loading="lazy"
-									/>
-									{section.title}
-								</h2>
-								<span class="topic-count">
-									{section.books.length} {section.books.length === 1 ? 'libro' : 'libros'}
-								</span>
-							</div>
-							<p class="topic-desc">{section.description}</p>
+					sectionEntries.map((entry) => {
+						const section = entry.section;
 
-							<div class="book-grid">
-								{section.books.map((book) => (
-									<article
-										class="book"
-										data-search={`${book.title} ${book.author ?? ''} ${section.title} ${section.group}`.toLowerCase()}
-									>
-										<h3>
-											<a href={book.href} target="_blank" rel="noreferrer">
-												{book.title}
-											</a>
-										</h3>
-										{book.author && <p class="book-author">{book.author}</p>}
-										{book.formats && book.formats.length > 0 && (
-											<div class="book-formats">
-												{book.formats.map((format) => (
-													<span>{format}</span>
-												))}
-											</div>
-										)}
-										{book.note && <p class="book-note">{book.note}</p>}
-									</article>
-								))}
-							</div>
-						</section>
-					))
+						return (
+							<section
+								class="topic"
+								id={section.slug}
+								data-group={section.group}
+								data-section={section.title}
+								aria-labelledby={`${section.slug}-title`}
+							>
+								<div class="topic-header">
+									<h2 id={`${section.slug}-title`}>
+										<span class="topic-logo-stack" aria-hidden="true">
+											{sectionLogoSources(section.slug).map((logo) => (
+												<img
+													class="topic-logo"
+													src={logo}
+													alt=""
+													width="22"
+													height="22"
+													loading="lazy"
+												/>
+											))}
+										</span>
+										{section.title}
+										<a
+											class="topic-title-link"
+											href={getSectionPagePath(entry)}
+											aria-label={`Ver libros gratis de ${entry.displayName}`}
+											title={`Libros gratis de ${entry.displayName}`}
+										>
+											<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+												<path d="M7 17L17 7" />
+												<path d="M8 7h9v9" />
+											</svg>
+										</a>
+									</h2>
+									<span class="topic-count">
+										{section.books.length} {section.books.length === 1 ? 'libro' : 'libros'}
+									</span>
+								</div>
+								<p class="topic-desc">{section.description}</p>
+
+								<div class="book-grid">
+									{section.books.map((book) => (
+										<article
+											class="book"
+											data-search={`${book.title} ${book.author ?? ''} ${section.title} ${section.group}`.toLowerCase()}
+										>
+											<h3>
+												<a href={book.href} target="_blank" rel={bookLinkRel(book.href)}>
+													{book.title}
+												</a>
+											</h3>
+											{book.author && <p class="book-author">{book.author}</p>}
+											{book.formats && book.formats.length > 0 && (
+												<div class="book-formats">
+													{book.formats.map((format) => (
+														<span>{format}</span>
+													))}
+												</div>
+											)}
+											{book.note && <p class="book-note">{book.note}</p>}
+										</article>
+									))}
+								</div>
+							</section>
+						);
+					})
 				}
 
 				<div class="empty-state" hidden data-empty-state>
@@ -194,43 +249,46 @@ const structuredData = {
 		</main>
 
 		<footer class="footer">
-			<p>
-				Contenido del repositorio{' '}
-				<a href={sourceRepository.href} target="_blank" rel="noreferrer">
-					{sourceRepository.name}
-				</a>
-			</p>
-			<button class="footer-share" type="button" data-share-trigger>Compartir</button>
+			<nav class="footer-topic-links" aria-label="Páginas de libros por tema">
+				{
+					sectionEntries.map((entry) => (
+						<a href={getSectionPagePath(entry)}>Libros gratis de {entry.displayName}</a>
+					))
+				}
+			</nav>
+			<div class="footer-meta">
+				<p>
+					Contenido del repositorio{' '}
+					<a href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
+						{sourceRepository.name}
+					</a>
+				</p>
+				<button class="footer-share" type="button" data-share-trigger>Compartir</button>
+			</div>
 		</footer>
 	</div>
 
 	<script is:inline>
 		const searchInput = document.querySelector('#library-search');
-		const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
-		const resetButton = document.querySelector('[data-reset-filters]');
+		const resetButton = document.querySelector('[data-reset-search]');
 		const resultsCount = document.querySelector('[data-results-count]');
 		const emptyState = document.querySelector('[data-empty-state]');
 		const sectionBlocks = Array.from(document.querySelectorAll('.topic'));
 		const shareButtons = Array.from(document.querySelectorAll('[data-share-trigger]'));
-
-		let activeFilter = 'all';
 
 		const applyFilters = () => {
 			const query = (searchInput?.value ?? '').trim().toLowerCase();
 			let visibleBooks = 0;
 
 			sectionBlocks.forEach((section) => {
-				const groupMatches =
-					activeFilter === 'all' || section.getAttribute('data-group') === activeFilter;
 				let sectionVisibleBooks = 0;
 
 				section.querySelectorAll('.book').forEach((card) => {
 					const haystack = card.getAttribute('data-search') ?? '';
 					const matchesSearch = query === '' || haystack.includes(query);
-					const shouldShow = groupMatches && matchesSearch;
 
-					card.toggleAttribute('hidden', !shouldShow);
-					if (shouldShow) {
+					card.toggleAttribute('hidden', !matchesSearch);
+					if (matchesSearch) {
 						sectionVisibleBooks += 1;
 						visibleBooks += 1;
 					}
@@ -248,30 +306,17 @@ const structuredData = {
 			}
 
 			if (resetButton) {
-				resetButton.toggleAttribute('hidden', query === '' && activeFilter === 'all');
+				resetButton.toggleAttribute('hidden', query === '');
 			}
 		};
 
 		searchInput?.addEventListener('input', applyFilters);
 
-		filterButtons.forEach((button) => {
-			button.addEventListener('click', () => {
-				activeFilter = button.getAttribute('data-filter') ?? 'all';
-				filterButtons.forEach((item) => {
-					item.classList.toggle('is-active', item === button);
-				});
-				applyFilters();
-			});
-		});
-
 		resetButton?.addEventListener('click', () => {
-			activeFilter = 'all';
 			if (searchInput) {
 				searchInput.value = '';
+				searchInput.focus();
 			}
-			filterButtons.forEach((button) => {
-				button.classList.toggle('is-active', button.getAttribute('data-filter') === 'all');
-			});
 			applyFilters();
 		});
 
