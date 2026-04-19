@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "libros-programacion-gratis",
+  "account_id": "599228840df452ef6b4df93a2b67c0ee",
   "compatibility_date": "2025-04-01",
   "assets": {
     "directory": "dist"
