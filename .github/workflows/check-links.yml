@@ -1,0 +1,145 @@
+name: Check links
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 7 * * *'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/check-links.yml'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+      - 'web/**'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-links:
+    name: Check links
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build site
+        run: pnpm build
+
+      - name: Check links
+        id: check-links
+        continue-on-error: true
+        run: pnpm -C web check:links -- --report=../link-check-report.json
+
+      - name: Create or update issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            const reportPath = 'link-check-report.json';
+
+            if (!fs.existsSync(reportPath)) {
+              core.warning('Link check report was not generated.');
+              return;
+            }
+
+            const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+            const brokenLinks = report.brokenLinks ?? [];
+            const title = 'Enlaces rotos detectados';
+            const marker = '<!-- librosgratis-link-check -->';
+            const labels = ['broken-links'];
+
+            const { owner, repo } = context.repo;
+            const runUrl = `${process.env.GITHUB_SERVER_URL}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'open',
+              per_page: 100,
+            });
+            const existingIssue = existingIssues.find((issue) => !issue.pull_request && issue.title === title);
+
+            if (brokenLinks.length === 0) {
+              if (existingIssue) {
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: existingIssue.number,
+                  body: `${marker}\nLa revision de enlaces ya no encuentra enlaces rotos. Cierro esta issue automaticamente.`,
+                });
+                await github.rest.issues.update({
+                  owner,
+                  repo,
+                  issue_number: existingIssue.number,
+                  state: 'closed',
+                  state_reason: 'completed',
+                });
+              }
+
+              return;
+            }
+
+            const lines = brokenLinks.map((link) => {
+              const location = `${link.source}:${link.line}`;
+              const status = link.status ? `${link.status} ${link.statusText ?? ''}`.trim() : link.error;
+              const reason = link.reason ?? status ?? 'unknown';
+              return `- [ ] \`${link.url}\` (${reason}) en \`${location}\``;
+            });
+            const body = [
+              marker,
+              `La revision automatica de enlaces encontro ${brokenLinks.length} enlace(s) roto(s).`,
+              '',
+              lines.join('\n'),
+              '',
+              `Workflow: ${runUrl}`,
+            ].join('\n');
+
+            if (existingIssue) {
+              await github.rest.issues.update({
+                owner,
+                repo,
+                issue_number: existingIssue.number,
+                body,
+              });
+            } else {
+              try {
+                await github.rest.issues.create({
+                  owner,
+                  repo,
+                  title,
+                  body,
+                  labels,
+                });
+              } catch (error) {
+                if (error.status !== 422) {
+                  throw error;
+                }
+
+                await github.rest.issues.create({
+                  owner,
+                  repo,
+                  title,
+                  body,
+                });
+              }
+            }

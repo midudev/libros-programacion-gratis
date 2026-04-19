@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "pnpm -C web dev",
     "build": "pnpm -C web build",
+    "check:links": "pnpm -C web build && pnpm -C web check:links",
     "deploy": "pnpm -C web deploy"
   }
 }
