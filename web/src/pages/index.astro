@@ -11,6 +11,7 @@ import {
 	getSectionPagePath,
 	siteConfig,
 } from '../data/seo';
+import { sectionLogoSources } from '../data/sectionLogos';
 
 const title = 'Libros gratis de programación en español — librosgratis.dev';
 const description =
@@ -24,56 +25,6 @@ const keywords = [
 	'python gratis',
 	'libros desarrollo web',
 ];
-
-const tablerIcon = (paths: string, stroke = '%23777') =>
-	`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='${stroke}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E${paths}%3C/svg%3E`;
-
-const sectionLogos: Record<string, string | string[]> = {
-	generales: tablerIcon(
-		"%3Cpath d='M7 8l-4 4l4 4'/%3E%3Cpath d='M17 8l4 4l-4 4'/%3E%3Cpath d='M14 4l-4 16'/%3E",
-	),
-	algoritmos: tablerIcon(
-		"%3Cpath d='M5 4h4v4h-4z'/%3E%3Cpath d='M15 4h4v4h-4z'/%3E%3Cpath d='M5 16h4v4h-4z'/%3E%3Cpath d='M15 16h4v4h-4z'/%3E%3Cpath d='M9 6h6'/%3E%3Cpath d='M7 8v8'/%3E%3Cpath d='M17 8v8'/%3E%3Cpath d='M9 18h6'/%3E",
-	),
-	'html-css': ['/logos/html.svg', '/logos/css.svg'],
-	javascript: '/logos/javascript.svg',
-	typescript: '/logos/typescript.svg',
-	python: '/logos/python.svg',
-	ruby: '/logos/ruby.svg',
-	rust: '/logos/rust.svg',
-	php: '/logos/php.svg',
-	haskell: '/logos/haskell.svg',
-	golang: '/logos/golang.svg',
-	kotlin: '/logos/kotlin.svg',
-	android: '/logos/android.svg',
-	c: '/logos/c.svg',
-	cplusplus: '/logos/cplusplus.svg',
-	csharp: '/logos/csharp.svg',
-	java: '/logos/java.svg',
-	r: '/logos/r.svg',
-	react: '/logos/react.svg',
-	qwik: '/logos/qwik.svg',
-	nodejs: '/logos/nodejs.svg',
-	angular: '/logos/angular.svg',
-	django: '/logos/django.svg',
-	git: '/logos/git.svg',
-	docker: '/logos/docker.svg',
-	linux: '/logos/linux.svg',
-	sql: tablerIcon(
-		"%3Cpath d='M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0'/%3E%3Cpath d='M4 6v6a8 3 0 0 0 16 0v-6'/%3E%3Cpath d='M4 12v6a8 3 0 0 0 16 0v-6'/%3E",
-	),
-	nosql: ['/logos/mongodb.svg', '/logos/redis.svg'],
-	'sistemas-operativos': tablerIcon(
-		"%3Cpath d='M4 5h16v10h-16z'/%3E%3Cpath d='M8 21h8'/%3E%3Cpath d='M12 15v6'/%3E",
-	),
-	ia: '/logos/ai.svg',
-	metodologias: '/logos/agile.svg',
-};
-
-const sectionLogoSources = (slug: string) => {
-	const logos = sectionLogos[slug] ?? [];
-	return Array.isArray(logos) ? logos : [logos];
-};
 
 const sectionEntries = librarySections.map(getSectionPageEntry);
 
@@ -103,9 +54,22 @@ const structuredData = createHomeStructuredData();
 					<path d="M14 9l4 -1" /><path d="M16 16l3.923 -.98" />
 				</svg>
 			</a>
-			<nav class="header-nav">
-				<a href={sourceRepository.href} target="_blank" rel={externalLinkRel}>GitHub</a>
-				<a class="header-cta" href={`${sourceRepository.href}/issues/new?title=Nuevo+libro+gratuito&body=%23%23+Datos+del+libro%0A%0A-+**T%C3%ADtulo**%3A+%0A-+**Autor**%3A+%0A-+**Enlace**%3A+%0A-+**Idioma**%3A+Espa%C3%B1ol%0A-+**Categor%C3%ADa**%3A+%0A-+**Formato**%3A+%28PDF%2C+HTML%2C+ePub...%29%0A`} target="_blank" rel={externalLinkRel}>+ Enviar libro</a>
+			<nav class="header-nav" aria-label="Principal">
+				<a class="header-link" href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3" />
+						<path d="M15 21v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+					</svg>
+					<span>GitHub</span>
+				</a>
+				<a class="header-cta" href={`${sourceRepository.href}/issues/new?title=Nuevo+libro+gratuito&body=%23%23+Datos+del+libro%0A%0A-+**T%C3%ADtulo**%3A+%0A-+**Autor**%3A+%0A-+**Enlace**%3A+%0A-+**Idioma**%3A+Espa%C3%B1ol%0A-+**Categor%C3%ADa**%3A+%0A-+**Formato**%3A+%28PDF%2C+HTML%2C+ePub...%29%0A`} target="_blank" rel={externalLinkRel}>
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M5 19.5v-14a2.5 2.5 0 0 1 2.5 -2.5h10.5v18h-10.5a2.5 2.5 0 0 1 0 -5h10.5" />
+						<path d="M9 8h5" />
+						<path d="M9 11h4" />
+					</svg>
+					<span>Enviar libro</span>
+				</a>
 			</nav>
 		</header>
 
