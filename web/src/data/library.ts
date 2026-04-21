@@ -6,6 +6,16 @@ export type LibraryBook = {
   note?: string;
 };
 
+export type LocalPdfBook = LibraryBook & {
+  section: LibrarySection;
+  sectionSlug: string;
+  bookSlug: string;
+  pdfHref: string;
+  fileName: string;
+  readerPath: string;
+  downloadPath: string;
+};
+
 export type LibrarySection = {
   slug: string;
   title: string;
@@ -21,6 +31,24 @@ export const sourceRepository = {
   href: 'https://github.com/midudev/libros-programacion-gratis',
 };
 
+const isPdfFormat = (format: string) => format.toLowerCase() === 'pdf';
+
+export const isLocalPdfHref = (href: string) =>
+  href.startsWith('/books/') && /\.pdf(?:[?#].*)?$/i.test(href);
+
+export const isLocalPdfBook = (book: LibraryBook) =>
+  isLocalPdfHref(book.href) && (book.formats?.some(isPdfFormat) ?? true);
+
+const getPdfFileName = (href: string) => href.split(/[?#]/)[0].split('/').at(-1) ?? 'libro.pdf';
+
+const slugifyBook = (value: string) =>
+  value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
 export const librarySections: LibrarySection[] = [
   {
     slug: 'generales',
@@ -32,8 +60,9 @@ export const librarySections: LibrarySection[] = [
     books: [
       {
         title: '97 cosas que todo programador debe saber',
-        href: 'https://97cosas.com/programador/',
+        href: '/97-cosas-programador/',
         author: 'Kevlin Henney',
+        formats: ['HTML'],
       },
       {
         title: 'Los apuntes de Majo',
@@ -111,6 +140,7 @@ export const librarySections: LibrarySection[] = [
       {
         title: 'Diseño de Interfaces Web',
         href: 'http://interfacesweb.github.io/unidades/',
+        author: 'Pedro Prieto',
         formats: ['HTML'],
       },
       {
@@ -157,6 +187,12 @@ export const librarySections: LibrarySection[] = [
         title: 'JavaScript Moderno',
         href: 'https://es.javascript.info/',
         author: 'Ilya Kantor',
+        formats: ['HTML'],
+      },
+      {
+        title: 'You Don’t Know JS (traducción al español)',
+        href: 'https://github.com/You-Dont-Know-JS-ES/Traduccion',
+        author: 'Kyle Simpson, traducido por You-Dont-Know-JS-ES',
         formats: ['HTML'],
       },
       {
@@ -224,13 +260,15 @@ export const librarySections: LibrarySection[] = [
       },
       {
         title: 'Introducción a TypeScript',
-        href: 'https://mega.nz/file/TldlTZID#1A90Wn8xYloDvekX8rQewI3Yh8HMJXlufRUEWEcOzNU',
-        author: 'Adictos al trabajo',
+        href: '/books/typescript-introduccion-adictos-trabajo.pdf',
+        author: 'Adictos al Trabajo',
+        formats: ['PDF'],
       },
       {
-        title: 'TypeScript para Principantes',
-        href: 'https://mega.nz/file/7hdwEY6b#ESsixH9wCUFhUugkRq8BEa1uZlzFXCJX6QxHdL5Yz9Q',
+        title: 'TypeScript para Principiantes',
+        href: '/books/typescript-para-principiantes-envato-tuts.pdf',
         author: 'Envato Tuts+',
+        formats: ['PDF'],
       },
       {
         title: 'Manual de TypeScript',
@@ -693,9 +731,15 @@ export const librarySections: LibrarySection[] = [
         formats: ['PDF'],
       },
       {
-        title: 'React Redux',
+        title: 'Preguntas de entrevista de React.js',
+        href: 'https://www.reactjs.wiki/',
+        author: 'Miguel Ángel Durán',
+        formats: ['HTML'],
+      },
+      {
+        title: 'Desarrollo de Aplicaciones Web con React.js y Redux.js',
         href: 'https://leanpub.com/read/react-redux',
-        author: 'Carlos Azaustre',
+        author: 'Sergio Daniel Xalambrí',
         formats: ['HTML'],
       },
     ],
@@ -960,6 +1004,33 @@ export const librarySections: LibrarySection[] = [
 export const allBooks = librarySections.flatMap((section) =>
   section.books.map((book) => ({ ...book, section: section.title, group: section.group, slug: section.slug })),
 );
+
+const bookSlugCounts = new Map<string, number>();
+
+export const localPdfBooks: LocalPdfBook[] = librarySections.flatMap((section) =>
+  section.books.filter(isLocalPdfBook).map((book) => {
+    const fileName = getPdfFileName(book.href);
+    const baseSlug = slugifyBook(fileName.replace(/\.pdf$/i, '')) || slugifyBook(book.title);
+    const slugCount = bookSlugCounts.get(baseSlug) ?? 0;
+    const bookSlug = slugCount === 0 ? baseSlug : `${baseSlug}-${section.slug}`;
+
+    bookSlugCounts.set(baseSlug, slugCount + 1);
+
+    return {
+      ...book,
+      section,
+      sectionSlug: section.slug,
+      bookSlug,
+      pdfHref: book.href,
+      fileName,
+      readerPath: `/leer/${bookSlug}/`,
+      downloadPath: `/descargar/${bookSlug}/`,
+    };
+  }),
+);
+
+export const getLocalPdfBook = (book: LibraryBook) =>
+  localPdfBooks.find((pdfBook) => pdfBook.href === book.href && pdfBook.title === book.title);
 
 export const totalBooks = allBooks.length;
 export const totalSections = librarySections.length;

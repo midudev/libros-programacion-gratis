@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { sourceRepository } from '../../data/library';
+import { getLocalPdfBook, sourceRepository } from '../../data/library';
 import { sectionLogoSources } from '../../data/sectionLogos';
 import {
 	createSectionStructuredData,
@@ -34,14 +34,21 @@ const canonical = getSectionCanonicalUrl(entry);
 const formats = Array.from(new Set(section.books.flatMap((book) => book.formats ?? [])));
 const formatsLabel = formats.length > 0 ? formats.join(', ') : 'recursos web';
 const highlightedBooks = section.books.slice(0, 3).map((book) => book.title);
+const highlightedBooksSentence =
+	highlightedBooks.length > 0
+		? `Para empezar, puedes revisar ${highlightedBooks.join(', ')}${
+				section.books.length > highlightedBooks.length ? ' y el resto de recursos de la lista.' : '.'
+			}`
+		: '';
 const heroLogoSources = sectionLogoSources(section.slug);
 const relatedEntries = sectionPageEntries
 	.filter((related) => related.section.group === section.group && related.section.slug !== section.slug)
 	.slice(0, 4);
 
 const externalLinkRel = 'nofollow noreferrer';
+const isExternalHref = (href: string) => /^https?:\/\//.test(href);
 const bookLinkRel = (href: string) =>
-	/^https?:\/\//.test(href) ? externalLinkRel : 'noreferrer';
+	isExternalHref(href) ? externalLinkRel : undefined;
 ---
 
 <Layout
@@ -128,8 +135,7 @@ const bookLinkRel = (href: string) =>
 				</p>
 				{highlightedBooks.length > 0 && (
 					<p>
-						Para empezar, puedes revisar {highlightedBooks.join(', ')}
-						{section.books.length > highlightedBooks.length ? ' y el resto de recursos de la lista.' : '.'}
+						{highlightedBooksSentence}
 					</p>
 				)}
 			</section>
@@ -144,24 +150,54 @@ const bookLinkRel = (href: string) =>
 				<p class="topic-desc">{description}</p>
 
 				<div class="book-grid">
-					{section.books.map((book) => (
-						<article class="book">
-							<h3>
-								<a href={book.href} target="_blank" rel={bookLinkRel(book.href)}>
-									{book.title}
-								</a>
-							</h3>
-							{book.author && <p class="book-author">{book.author}</p>}
-							{book.formats && book.formats.length > 0 && (
-								<div class="book-formats">
-									{book.formats.map((format) => (
-										<span>{format}</span>
-									))}
-								</div>
-							)}
-							{book.note && <p class="book-note">{book.note}</p>}
-						</article>
-					))}
+					{section.books.map((book) => {
+						const pdfBook = getLocalPdfBook(book);
+						const bookHref = pdfBook?.readerPath ?? book.href;
+						const opensInNewTab = !pdfBook && isExternalHref(book.href);
+
+						return (
+							<article class:list={['book', pdfBook && 'is-pdf']}>
+								<h3>
+									<a
+										href={bookHref}
+										target={opensInNewTab ? '_blank' : undefined}
+										rel={pdfBook ? undefined : bookLinkRel(book.href)}
+									>
+										{book.title}
+									</a>
+								</h3>
+								{book.author && <p class="book-author">{book.author}</p>}
+								{book.formats && book.formats.length > 0 && (
+									<div class="book-formats">
+										{book.formats.map((format) => (
+											<span>{format}</span>
+										))}
+									</div>
+								)}
+								{book.note && <p class="book-note">{book.note}</p>}
+								{pdfBook && (
+									<div class="book-actions" aria-label={`Acciones para ${book.title}`}>
+										<a class="book-action" href={pdfBook.readerPath}>
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+												<path d="M4 19a2 2 0 0 0 2 2h12" />
+												<path d="M6 17a2 2 0 0 0 -2 2v-14a2 2 0 0 1 2 -2h12v18" />
+												<path d="M8 7h6" />
+											</svg>
+											<span>Leer</span>
+										</a>
+										<a class="book-action" href={pdfBook.downloadPath}>
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+												<path d="M12 3v12" />
+												<path d="M7 10l5 5l5 -5" />
+												<path d="M5 21h14" />
+											</svg>
+											<span>Descargar</span>
+										</a>
+									</div>
+								)}
+							</article>
+						);
+					})}
 				</div>
 			</section>
 

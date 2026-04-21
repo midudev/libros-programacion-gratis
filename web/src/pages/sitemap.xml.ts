@@ -1,9 +1,11 @@
 import type { APIRoute } from 'astro';
+import { localPdfBooks } from '../data/library';
+import { programmer97ThingsAdvice } from '../data/programmer97Things';
 import { sectionPageEntries, siteConfig } from '../data/seo';
 
 export const prerender = true;
 
-const lastmod = '2026-04-19';
+const lastmod = '2026-04-21';
 
 const urls = [
   {
@@ -15,6 +17,21 @@ const urls = [
     loc: `/libros/${entry.pathSlug}/`,
     changefreq: 'weekly',
     priority: entry.section.group === 'Lenguajes' ? '0.9' : '0.8',
+  })),
+  ...localPdfBooks.map((book) => ({
+    loc: book.readerPath,
+    changefreq: 'monthly',
+    priority: '0.7',
+  })),
+  {
+    loc: '/97-cosas-programador/',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  ...programmer97ThingsAdvice.map((advice) => ({
+    loc: `/97-cosas-programador/${advice.slug}/`,
+    changefreq: 'yearly',
+    priority: '0.6',
   })),
 ];
 

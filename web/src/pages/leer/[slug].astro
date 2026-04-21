@@ -1,0 +1,299 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { localPdfBooks, sourceRepository, type LocalPdfBook } from '../../data/library';
+import { getSectionPageEntry, getSectionPagePath, siteConfig } from '../../data/seo';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+	return localPdfBooks.map((book) => ({
+		params: { slug: book.bookSlug },
+		props: { book },
+	}));
+}
+
+const { book } = Astro.props as { book: LocalPdfBook };
+const sectionEntry = getSectionPageEntry(book.section);
+const title = `${book.title} - leer PDF online | ${siteConfig.name}`;
+const description = `Lee gratis ${book.title} en PDF desde librosgratis.dev${book.author ? `, de ${book.author}` : ''}.`;
+const canonical = book.readerPath;
+const externalLinkRel = 'nofollow noreferrer';
+---
+
+<Layout
+	title={title}
+	description={description}
+	canonical={canonical}
+	image={siteConfig.defaultImage}
+	imageAlt={book.title}
+	ogType="article"
+>
+	<div class="page reader-page">
+		<header class="header">
+			<a class="logo" href="/" aria-label="Inicio">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
+					<path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
+					<path d="M5 8h4" /><path d="M9 16h4" />
+					<path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041" />
+					<path d="M14 9l4 -1" /><path d="M16 16l3.923 -.98" />
+				</svg>
+			</a>
+			<nav class="header-nav" aria-label="Principal">
+				<a class="header-link" href="/">
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M4 19a2 2 0 0 0 2 2h12" />
+						<path d="M6 17a2 2 0 0 0 -2 2v-14a2 2 0 0 1 2 -2h12v18" />
+						<path d="M8 7h6" />
+					</svg>
+					<span>Biblioteca</span>
+				</a>
+				<a class="header-link" href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3" />
+						<path d="M15 21v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+					</svg>
+					<span>GitHub</span>
+				</a>
+			</nav>
+		</header>
+
+		<main>
+			<nav class="breadcrumbs" aria-label="Migas de pan">
+				<a href="/">Libros gratis de programación</a>
+				<span aria-hidden="true">/</span>
+				<a href={getSectionPagePath(sectionEntry)}>{sectionEntry.displayName}</a>
+				<span aria-hidden="true">/</span>
+				<span>{book.title}</span>
+			</nav>
+
+			<section class="reader-hero" aria-labelledby="reader-title">
+				<div>
+					<p class="eyebrow">{book.section.group}</p>
+					<h1 id="reader-title">{book.title}</h1>
+					{book.author && <p class="reader-author">{book.author}</p>}
+				</div>
+				<div class="reader-actions">
+					<a class="reader-button reader-button-primary" href={book.downloadPath}>
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M12 3v12" />
+							<path d="M7 10l5 5l5 -5" />
+							<path d="M5 21h14" />
+						</svg>
+						<span>Descargar PDF</span>
+					</a>
+					<a class="reader-button" href={getSectionPagePath(sectionEntry)}>
+						<span>Más de {sectionEntry.displayName}</span>
+					</a>
+				</div>
+			</section>
+
+			<section
+				class="pdf-shell"
+				aria-label={`Lector PDF de ${book.title}`}
+				data-pdf-viewer
+				data-pdf-url={book.pdfHref}
+			>
+				<div class="pdf-toolbar" aria-label="Controles del lector">
+					<div class="pdf-toolbar-group">
+						<button class="pdf-icon-button" type="button" data-pdf-prev aria-label="Página anterior">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M15 6l-6 6l6 6" />
+							</svg>
+						</button>
+						<label class="pdf-page-field">
+							<span class="sr-only">Página actual</span>
+							<input data-pdf-page-input type="number" min="1" value="1" inputmode="numeric" />
+						</label>
+						<span class="pdf-total">de <strong data-pdf-total>...</strong></span>
+						<button class="pdf-icon-button" type="button" data-pdf-next aria-label="Página siguiente">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M9 6l6 6l-6 6" />
+							</svg>
+						</button>
+					</div>
+					<div class="pdf-toolbar-group">
+						<button class="pdf-icon-button" type="button" data-pdf-zoom-out aria-label="Alejar">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M5 12h14" />
+							</svg>
+						</button>
+						<span class="pdf-zoom" data-pdf-zoom>100%</span>
+						<button class="pdf-icon-button" type="button" data-pdf-zoom-in aria-label="Acercar">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M12 5v14" />
+								<path d="M5 12h14" />
+							</svg>
+						</button>
+					</div>
+				</div>
+				<p class="pdf-status" data-pdf-status aria-live="polite">Cargando PDF...</p>
+				<div class="pdf-stage" data-pdf-stage>
+					<canvas data-pdf-canvas role="img" aria-label={`Página del PDF ${book.title}`}></canvas>
+				</div>
+			</section>
+		</main>
+
+		<footer class="footer">
+			<p>
+				<a href="/">Volver a la biblioteca</a> · Contenido del repositorio{' '}
+				<a href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
+					{sourceRepository.name}
+				</a>
+			</p>
+		</footer>
+	</div>
+</Layout>
+
+<script>
+	import * as pdfjsLib from 'pdfjs-dist/build/pdf.mjs';
+	import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.mjs?url';
+
+	pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
+
+	const root = document.querySelector('[data-pdf-viewer]');
+	const pdfUrl = root?.getAttribute('data-pdf-url');
+	const canvas = root?.querySelector('[data-pdf-canvas]');
+	const stage = root?.querySelector('[data-pdf-stage]');
+	const status = root?.querySelector('[data-pdf-status]');
+	const total = root?.querySelector('[data-pdf-total]');
+	const pageInput = root?.querySelector('[data-pdf-page-input]');
+	const previousButton = root?.querySelector('[data-pdf-prev]');
+	const nextButton = root?.querySelector('[data-pdf-next]');
+	const zoomOutButton = root?.querySelector('[data-pdf-zoom-out]');
+	const zoomInButton = root?.querySelector('[data-pdf-zoom-in]');
+	const zoomLabel = root?.querySelector('[data-pdf-zoom]');
+
+	if (
+		root instanceof HTMLElement &&
+		pdfUrl &&
+		canvas instanceof HTMLCanvasElement &&
+		stage instanceof HTMLElement &&
+		status instanceof HTMLElement &&
+		total instanceof HTMLElement &&
+		pageInput instanceof HTMLInputElement &&
+		previousButton instanceof HTMLButtonElement &&
+		nextButton instanceof HTMLButtonElement &&
+		zoomOutButton instanceof HTMLButtonElement &&
+		zoomInButton instanceof HTMLButtonElement &&
+		zoomLabel instanceof HTMLElement
+	) {
+		const context = canvas.getContext('2d');
+		let pdfDocument: Awaited<ReturnType<typeof pdfjsLib.getDocument>['promise']> | undefined;
+		let currentPage = 1;
+		let zoom = 1;
+		let isRendering = false;
+		let hasPendingRender = false;
+
+		const setStatus = (message: string, isError = false) => {
+			status.textContent = message;
+			status.toggleAttribute('data-error', isError);
+		};
+
+		const updateControls = () => {
+			const pages = pdfDocument?.numPages ?? 1;
+
+			pageInput.value = String(currentPage);
+			pageInput.max = String(pages);
+			total.textContent = String(pages);
+			previousButton.disabled = currentPage <= 1;
+			nextButton.disabled = currentPage >= pages;
+			zoomOutButton.disabled = zoom <= 0.75;
+			zoomInButton.disabled = zoom >= 1.8;
+			zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
+		};
+
+		const renderPage = async () => {
+			if (!pdfDocument || !context) return;
+			if (isRendering) {
+				hasPendingRender = true;
+				return;
+			}
+
+			isRendering = true;
+
+			try {
+				const page = await pdfDocument.getPage(currentPage);
+				const baseViewport = page.getViewport({ scale: 1 });
+				const availableWidth = Math.max(stage.clientWidth - 32, 280);
+				const fitScale = Math.min(availableWidth / baseViewport.width, 1.28);
+				const viewport = page.getViewport({ scale: fitScale * zoom });
+				const outputScale = window.devicePixelRatio || 1;
+
+				canvas.width = Math.floor(viewport.width * outputScale);
+				canvas.height = Math.floor(viewport.height * outputScale);
+				canvas.style.width = `${Math.floor(viewport.width)}px`;
+				canvas.style.height = `${Math.floor(viewport.height)}px`;
+				context.setTransform(outputScale, 0, 0, outputScale, 0, 0);
+				context.clearRect(0, 0, viewport.width, viewport.height);
+
+				setStatus(`Mostrando página ${currentPage}`);
+				updateControls();
+
+				await page.render({
+					canvasContext: context,
+					viewport,
+				}).promise;
+			} finally {
+				isRendering = false;
+
+				if (hasPendingRender) {
+					hasPendingRender = false;
+					await renderPage();
+				}
+			}
+		};
+
+		const goToPage = async (pageNumber: number) => {
+			const pages = pdfDocument?.numPages ?? 1;
+			currentPage = Math.min(Math.max(Number(pageNumber) || 1, 1), pages);
+			await renderPage();
+		};
+
+		const changeZoom = async (nextZoom: number) => {
+			zoom = Math.min(Math.max(nextZoom, 0.75), 1.8);
+			await renderPage();
+		};
+
+		previousButton.addEventListener('click', () => {
+			void goToPage(currentPage - 1);
+		});
+
+		nextButton.addEventListener('click', () => {
+			void goToPage(currentPage + 1);
+		});
+
+		zoomOutButton.addEventListener('click', () => {
+			void changeZoom(zoom - 0.15);
+		});
+
+		zoomInButton.addEventListener('click', () => {
+			void changeZoom(zoom + 0.15);
+		});
+
+		pageInput.addEventListener('change', () => {
+			void goToPage(pageInput.valueAsNumber);
+		});
+
+		window.addEventListener('keydown', (event) => {
+			if (event.target instanceof HTMLInputElement) return;
+			if (event.key === 'ArrowLeft') void goToPage(currentPage - 1);
+			if (event.key === 'ArrowRight') void goToPage(currentPage + 1);
+		});
+
+		const resizeObserver = new ResizeObserver(() => {
+			void renderPage();
+		});
+
+		resizeObserver.observe(stage);
+
+		try {
+			pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
+			total.textContent = String(pdfDocument.numPages);
+			await renderPage();
+		} catch (error) {
+			console.error(error);
+			setStatus('No se pudo cargar este PDF en el lector. Prueba la descarga desde el botón superior.', true);
+		}
+	}
+</script>

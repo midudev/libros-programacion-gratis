@@ -1,4 +1,4 @@
-import { allBooks, librarySections, totalBooks, type LibraryBook, type LibrarySection } from './library';
+import { allBooks, getLocalPdfBook, librarySections, totalBooks, type LibraryBook, type LibrarySection } from './library';
 
 export const siteConfig = {
   name: 'librosgratis.dev',
@@ -142,7 +142,7 @@ const bookStructuredData = (book: LibraryBook) => ({
   '@type': 'Book',
   name: book.title,
   ...(book.author && { author: { '@type': 'Person', name: book.author } }),
-  url: toAbsoluteUrl(book.href),
+  url: toAbsoluteUrl(getLocalPdfBook(book)?.readerPath ?? book.href),
   inLanguage: siteConfig.language,
   isAccessibleForFree: true,
   ...(book.formats?.length && { encodingFormat: book.formats.map(getEncodingFormat) }),

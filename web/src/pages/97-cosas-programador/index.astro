@@ -1,0 +1,148 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { sourceRepository } from '../../data/library';
+import { programmer97ThingsAdvice, programmer97ThingsMeta } from '../../data/programmer97Things';
+import { siteConfig } from '../../data/seo';
+
+export const prerender = true;
+
+const title = `${programmer97ThingsMeta.shortTitle} en español | ${siteConfig.name}`;
+const description =
+	'Lee online los 97 consejos de 97 cosas que todo programador debe saber, traducidos al español y organizados en páginas individuales.';
+const canonical = '/97-cosas-programador/';
+const externalLinkRel = 'nofollow noreferrer';
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'Book',
+			name: programmer97ThingsMeta.title,
+			editor: {
+				'@type': 'Person',
+				name: programmer97ThingsMeta.editor,
+			},
+			inLanguage: 'es',
+			isAccessibleForFree: true,
+			license: programmer97ThingsMeta.originalLicenseUrl,
+			isBasedOn: programmer97ThingsMeta.originalSourceUrl,
+			url: new URL(canonical, siteConfig.url).toString(),
+		},
+		{
+			'@type': 'ItemList',
+			name: programmer97ThingsMeta.title,
+			numberOfItems: programmer97ThingsAdvice.length,
+			itemListElement: programmer97ThingsAdvice.map((advice) => ({
+				'@type': 'ListItem',
+				position: advice.number,
+				url: new URL(`/97-cosas-programador/${advice.slug}/`, siteConfig.url).toString(),
+				name: advice.title,
+			})),
+		},
+	],
+};
+---
+
+<Layout
+	title={title}
+	description={description}
+	canonical={canonical}
+	structuredData={structuredData}
+	image={siteConfig.defaultImage}
+	imageAlt={programmer97ThingsMeta.shortTitle}
+	ogType="article"
+>
+	<div class="page advice-book-page">
+		<header class="header">
+			<a class="logo" href="/" aria-label="Inicio">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
+					<path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
+					<path d="M5 8h4" /><path d="M9 16h4" />
+					<path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041" />
+					<path d="M14 9l4 -1" /><path d="M16 16l3.923 -.98" />
+				</svg>
+			</a>
+			<nav class="header-nav" aria-label="Principal">
+				<a class="header-link" href="/">
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M4 19a2 2 0 0 0 2 2h12" />
+						<path d="M6 17a2 2 0 0 0 -2 2v-14a2 2 0 0 1 2 -2h12v18" />
+						<path d="M8 7h6" />
+					</svg>
+					<span>Biblioteca</span>
+				</a>
+				<a class="header-link" href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3" />
+						<path d="M15 21v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+					</svg>
+					<span>GitHub</span>
+				</a>
+			</nav>
+		</header>
+
+		<main>
+			<nav class="breadcrumbs" aria-label="Migas de pan">
+				<a href="/">Libros gratis de programación</a>
+				<span aria-hidden="true">/</span>
+				<span>{programmer97ThingsMeta.shortTitle}</span>
+			</nav>
+
+			<section class="advice-book-hero" aria-labelledby="advice-book-title">
+				<p class="eyebrow">Kevlin Henney y colaboradores</p>
+				<h1 id="advice-book-title">{programmer97ThingsMeta.title}</h1>
+				<p class="hero-sub">
+					Los {programmer97ThingsAdvice.length} consejos del libro, traducidos al español y
+					disponibles como lectura interna en librosgratis.dev.
+				</p>
+				<div class="topic-page-stats" aria-label="Resumen del libro">
+					<span><strong>{programmer97ThingsAdvice.length}</strong> consejos</span>
+					<span><strong>HTML</strong> lectura online</span>
+					<span><strong>CC BY 3.0</strong> licencia original</span>
+				</div>
+			</section>
+
+			<section class="advice-license" aria-label="Atribución y licencia">
+				<p>
+					Traducción al español a partir de las contribuciones originales listadas en{' '}
+					<a href={programmer97ThingsMeta.originalSourceUrl} target="_blank" rel={externalLinkRel}>
+						Programmer 97-things
+					</a>
+					. La obra original indica: “{programmer97ThingsMeta.originalLicenseNotice}” (
+					<a href={programmer97ThingsMeta.originalLicenseUrl} target="_blank" rel={externalLinkRel}>
+						{programmer97ThingsMeta.originalLicenseName}
+					</a>
+					).
+				</p>
+			</section>
+
+			<section class="advice-index" aria-labelledby="advice-index-title">
+				<div class="topic-header">
+					<h2 id="advice-index-title">Índice de consejos</h2>
+					<span class="topic-count">{programmer97ThingsAdvice.length} páginas</span>
+				</div>
+
+				<div class="advice-index-grid">
+					{programmer97ThingsAdvice.map((advice) => (
+						<a class="advice-index-card" href={`/97-cosas-programador/${advice.slug}/`}>
+							<span class="advice-index-number">{String(advice.number).padStart(2, '0')}</span>
+							<span class="advice-index-copy">
+								<strong>{advice.title}</strong>
+								<small>{advice.author}</small>
+							</span>
+						</a>
+					))}
+				</div>
+			</section>
+		</main>
+
+		<footer class="footer">
+			<p>
+				<a href="/">Volver a la biblioteca</a> · Contenido del repositorio{' '}
+				<a href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
+					{sourceRepository.name}
+				</a>
+			</p>
+		</footer>
+	</div>
+</Layout>
