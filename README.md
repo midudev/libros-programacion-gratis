@@ -81,7 +81,7 @@ Lógica, pseudocódigo, POO, análisis de algoritmos y estructuras para resolver
 
 Maquetación, estilos e interfaces web desde fundamentos hasta CSS moderno.
 
-- [Diseño de Interfaces Web](http://interfacesweb.github.io/unidades/) · HTML
+- [Diseño de Interfaces Web](http://interfacesweb.github.io/unidades/) — Pedro Prieto · HTML
 - [Estructura con CSS](https://es.learnlayout.com/) — Learn CSS Layout, traducido al español · HTML
 - [MDN: HTML](https://developer.mozilla.org/es/docs/Web/HTML) — MDN Web Docs · HTML
 - [MDN: CSS](https://developer.mozilla.org/es/docs/Web/CSS) — MDN Web Docs · HTML
@@ -95,6 +95,7 @@ La puerta de entrada a la web moderna, desde fundamentos hasta buenas prácticas
 - [JavaScript elocuente (Cuarta edición)](https://librosgratis.dev/books/javascript-elocuente-cuarta-edicion.pdf) — Marijn Haverbeke · PDF
 - [JavaScript, ¡Inspírate!](https://leanpub.com/javascript-inspirate) — Ulises Gascón · eBook
 - [JavaScript Moderno](https://es.javascript.info/) — Ilya Kantor · HTML
+- [You Don’t Know JS (traducción al español)](https://github.com/You-Dont-Know-JS-ES/Traduccion) — Kyle Simpson, traducido por You-Dont-Know-JS-ES · HTML
 - [MDN: Guía de JavaScript](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide) · HTML
 - [Learn JavaScript](https://javascript.sumankunwar.com.np/es) — Suman Kunwar · HTML
 - [Introducción a JavaScript](https://librosgratis.dev/books/javascript-introduccion-eguiluz.pdf) — Javier Eguíluz Pérez · PDF
@@ -264,7 +265,8 @@ Componentes, estado y patrones para crear interfaces ricas y mantenibles.
 
 - [React: De aprendiz a maestro](https://librosgratis.dev/books/react-aprendiz-maestro.pdf) — Raúl Expósito · PDF
 - [React](https://librosgratis.dev/books/react-stackoverflow-docs.pdf) — Stack Overflow Documentation · PDF
-- [React Redux](https://leanpub.com/read/react-redux) — Carlos Azaustre · HTML
+- [Preguntas de entrevista de React.js](https://www.reactjs.wiki/) — Miguel Ángel Durán · HTML
+- [Desarrollo de Aplicaciones Web con React.js y Redux.js](https://leanpub.com/read/react-redux) — Sergio Daniel Xalambrí · HTML
 
 ## Qwik
 
