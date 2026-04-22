@@ -8,6 +8,8 @@
   --border: #e6e1da;
   --max-w: 960px;
   --sticky-offset: 13rem;
+  --ui-icon-color: var(--muted);
+  --ui-icon-stroke-width: 1.9;
 }
 
 *,
@@ -45,6 +47,12 @@ button {
 img {
   max-width: 100%;
   display: block;
+}
+
+:where(.header-nav, .search-control, .topic-title-link, .book-action, .reader-button, .pdf-icon-button) svg {
+  color: var(--ui-icon-color);
+  stroke: var(--ui-icon-color);
+  stroke-width: var(--ui-icon-stroke-width);
 }
 
 .page {
@@ -395,8 +403,6 @@ img {
 .search-control svg {
   width: 20px;
   height: 20px;
-  color: var(--accent);
-  opacity: 0.8;
 }
 
 .search-input {
@@ -726,7 +732,7 @@ img {
   right: 0.95rem;
   width: 14px;
   height: 14px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238b8378' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 7l-10 10'/%3E%3Cpath d='M8 7l9 0l0 9'/%3E%3C/svg%3E") center / contain no-repeat;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238b8378' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 7l-10 10'/%3E%3Cpath d='M8 7l9 0l0 9'/%3E%3C/svg%3E") center / contain no-repeat;
   opacity: 0;
   transform: translate(-3px, 3px);
   transition: all 200ms ease;
