@@ -566,9 +566,15 @@ export const librarySections: LibrarySection[] = [
     accent: 'emerald',
     books: [
       {
-        title: 'Curso de Android',
-        href: 'https://www.develou.com/android/',
-        author: 'Develou',
+        title: 'Manual Programación Android',
+        href: 'https://aluzardo.github.io/trabajo-fin-de-grado/Tutoriales/Manual%20Programacion%20Android.pdf',
+        author: 'Salvador Gómez Oliver',
+        formats: ['PDF'],
+      },
+      {
+        title: 'Curso sobre los aspectos básicos de Android con Compose',
+        href: 'https://developer.android.com/courses/android-basics-compose/course?hl=es-419',
+        author: 'Android Developers',
         formats: ['HTML'],
       },
     ],

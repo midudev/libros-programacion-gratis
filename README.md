@@ -31,7 +31,7 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 - [Haskell](#haskell) · 3
 - [Golang](#golang) · 2
 - [Kotlin](#kotlin) · 2
-- [Android](#android) · 1
+- [Android](#android) · 2
 - [C](#c) · 1
 - [C++](#cplusplus) · 4
 - [C#](#csharp) · 2
@@ -205,7 +205,8 @@ Android moderno y una sintaxis muy agradable para aplicaciones robustas.
 
 Desarrollo de aplicaciones Android con guías prácticas en español.
 
-- [Curso de Android](https://www.develou.com/android/) — Develou · HTML
+- [Manual Programación Android](https://aluzardo.github.io/trabajo-fin-de-grado/Tutoriales/Manual%20Programacion%20Android.pdf) — Salvador Gómez Oliver · PDF
+- [Curso sobre los aspectos básicos de Android con Compose](https://developer.android.com/courses/android-basics-compose/course?hl=es-419) — Android Developers · HTML
 
 ## C
 
