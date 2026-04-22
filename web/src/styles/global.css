@@ -22,6 +22,7 @@ html {
   background: linear-gradient(180deg, #fdf9f4, #faf7f2 50%, #f7f3ec);
   color: var(--text);
   font-family: 'Manrope', system-ui, sans-serif;
+  overflow-x: clip;
   scroll-behavior: smooth;
 }
 
@@ -29,6 +30,7 @@ body {
   margin: 0;
   line-height: 1.6;
   min-height: 100vh;
+  overflow-x: clip;
 }
 
 a {
@@ -358,6 +360,7 @@ img {
   position: sticky;
   top: 0;
   z-index: 10;
+  min-width: 0;
   background: rgba(250, 247, 242, 0.92);
   backdrop-filter: blur(12px);
   display: grid;
@@ -452,12 +455,22 @@ img {
   align-items: center;
   justify-content: center;
   gap: 0.32rem;
-  max-width: 840px;
+  width: 100%;
+  max-width: min(840px, 100%);
+  min-width: 0;
   padding: 0.1rem 0 0.1rem;
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: none;
+}
+
+.language-dock::-webkit-scrollbar {
+  display: none;
 }
 
 .language-dock-link {
   position: relative;
+  flex: 0 0 42px;
   display: grid;
   place-items: center;
   width: 42px;
@@ -472,6 +485,7 @@ img {
 }
 
 .language-dock-link.is-logo-pair {
+  flex-basis: 58px;
   width: 58px;
 }
 
