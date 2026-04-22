@@ -90,26 +90,30 @@ const structuredData = createHomeStructuredData();
 				<div class="toolbar">
 					<nav class="language-dock" aria-label="Ir a tema">
 						{
-							sectionEntries.map((entry) => (
-								<a
-									class="language-dock-link"
-									href={`#${entry.section.slug}`}
-									aria-label={`Ir a ${entry.section.title}`}
-									title={entry.section.title}
-								>
-									<span class="language-dock-logo-stack" aria-hidden="true">
-										{sectionLogoSources(entry.section.slug).map((logo) => (
-											<img
-												src={logo}
-												alt=""
-												width="28"
-												height="28"
-												loading="lazy"
-											/>
-										))}
-									</span>
-								</a>
-							))
+							sectionEntries.map((entry) => {
+								const logoSources = sectionLogoSources(entry.section.slug);
+
+								return (
+									<a
+										class:list={['language-dock-link', logoSources.length > 1 && 'is-logo-pair']}
+										href={`#${entry.section.slug}`}
+										aria-label={`Ir a ${entry.section.title}`}
+										title={entry.section.title}
+									>
+										<span class="language-dock-logo-stack" aria-hidden="true">
+											{logoSources.map((logo) => (
+												<img
+													src={logo}
+													alt=""
+													width="28"
+													height="28"
+													loading="lazy"
+												/>
+											))}
+										</span>
+									</a>
+								);
+							})
 						}
 					</nav>
 

@@ -471,6 +471,10 @@ img {
     box-shadow 180ms ease;
 }
 
+.language-dock-link.is-logo-pair {
+  width: 58px;
+}
+
 .language-dock-link:hover,
 .language-dock-link:focus-visible {
   background: rgba(255, 255, 255, 0.82);
