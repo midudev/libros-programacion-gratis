@@ -971,7 +971,7 @@ img {
 
 .advice-article {
   display: grid;
-  gap: 1.3rem;
+  gap: 1.55rem;
   max-width: 820px;
   margin: 0 auto;
   padding: 2.8rem 0 1.2rem;
@@ -992,8 +992,10 @@ img {
 
 .advice-content {
   color: color-mix(in srgb, var(--text) 91%, transparent);
-  font-size: clamp(1.02rem, 1.4vw, 1.13rem);
-  line-height: 1.76;
+  font-size: clamp(1.06rem, 1.4vw, 1.16rem);
+  line-height: 1.84;
+  hanging-punctuation: first last;
+  text-wrap: pretty;
 }
 
 .advice-content > *:first-child {
@@ -1008,14 +1010,57 @@ img {
 .advice-content ul,
 .advice-content ol,
 .advice-content blockquote,
+.advice-content .highlight,
 .advice-content pre,
 .advice-content table {
-  margin: 1.05rem 0;
+  margin: 1.18rem 0;
+}
+
+.advice-content > p:first-of-type {
+  margin-bottom: 1.45rem;
+  color: color-mix(in srgb, var(--text) 96%, transparent);
+  font-size: clamp(1.18rem, 2vw, 1.38rem);
+  line-height: 1.62;
+}
+
+.advice-content strong {
+  color: var(--text);
+  font-weight: 900;
+}
+
+.advice-content em {
+  color: color-mix(in srgb, var(--accent) 78%, var(--text));
+  font-style: italic;
+  font-weight: 650;
+}
+
+.advice-content .advice-key-term {
+  padding: 0.02em 0.14em;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--accent) 11%, transparent);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.advice-content .advice-soft-emphasis {
+  color: color-mix(in srgb, var(--accent) 84%, var(--text));
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.14em;
+  font-weight: 400;
 }
 
 .advice-content ul,
 .advice-content ol {
-  padding-left: 1.35rem;
+  padding: 0.15rem 0 0.15rem 1.35rem;
+}
+
+.advice-content li {
+  padding-left: 0.15rem;
+}
+
+.advice-content li::marker {
+  color: var(--accent);
+  font-weight: 900;
 }
 
 .advice-content li + li {
@@ -1023,12 +1068,30 @@ img {
 }
 
 .advice-content blockquote {
-  padding: 0.2rem 0 0.2rem 1rem;
-  border-left: 3px solid var(--accent);
+  position: relative;
+  padding: 1rem 1.15rem 1rem 1.35rem;
+  border: 1px solid rgba(197, 90, 61, 0.22);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.42)),
+    rgba(197, 90, 61, 0.05);
   color: color-mix(in srgb, var(--text) 78%, transparent);
   font-family: 'Instrument Serif', serif;
-  font-size: clamp(1.45rem, 3vw, 2rem);
-  line-height: 1.2;
+  font-size: clamp(1.48rem, 3vw, 2.06rem);
+  line-height: 1.18;
+}
+
+.advice-content blockquote::before {
+  content: 'Idea clave';
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--accent);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .advice-content blockquote p {
@@ -1037,19 +1100,38 @@ img {
 
 .advice-content code {
   border-radius: 5px;
-  background: rgba(26, 26, 26, 0.07);
-  padding: 0.1em 0.28em;
-  font-size: 0.9em;
+  background: rgba(26, 26, 26, 0.075);
+  padding: 0.12em 0.34em;
+  color: color-mix(in srgb, var(--text) 88%, var(--accent));
+  font-size: 0.88em;
+  font-weight: 750;
 }
 
 .advice-content pre {
+  position: relative;
   overflow-x: auto;
-  padding: 1rem;
+  padding: 2.75rem 1rem 1rem;
   border: 1px solid rgba(26, 26, 26, 0.08);
   border-radius: 8px;
-  background: #1d1d1b;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 2.3rem),
+    #1d1d1b;
   color: #fffaf0;
   line-height: 1.5;
+  box-shadow: 0 18px 42px rgba(41, 31, 23, 0.12);
+}
+
+.advice-content pre::before {
+  content: 'Ejemplo de código';
+  position: absolute;
+  top: 0.72rem;
+  left: 1rem;
+  color: color-mix(in srgb, #fffaf0 72%, transparent);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .advice-content pre code {
@@ -1059,6 +1141,8 @@ img {
   background: transparent;
   color: inherit;
   font-size: 0.88rem;
+  font-weight: 500;
+  tab-size: 2;
 }
 
 .advice-content table {

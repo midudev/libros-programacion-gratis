@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { sourceRepository } from '../../data/library';
 import { programmer97ThingsAdvice, programmer97ThingsMeta } from '../../data/programmer97Things';
+import { enhanceProgrammerAdviceHtml } from '../../data/programmer97ThingsReadability';
 import { siteConfig } from '../../data/seo';
 
 export const prerender = true;
@@ -79,7 +80,7 @@ const externalLinkRel = 'nofollow noreferrer';
 							{advice.translator && ` · Traducción: ${advice.translator}`}
 						</p>
 					</header>
-					<div class="advice-content print-advice-content" set:html={advice.contentHtml} />
+					<div class="advice-content print-advice-content" set:html={enhanceProgrammerAdviceHtml(advice.contentHtml)} />
 				</article>
 			))}
 		</section>

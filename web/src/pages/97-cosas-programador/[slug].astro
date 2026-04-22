@@ -6,6 +6,7 @@ import {
 	programmer97ThingsMeta,
 	type ProgrammerAdvice,
 } from '../../data/programmer97Things';
+import { enhanceProgrammerAdviceHtml } from '../../data/programmer97ThingsReadability';
 import { siteConfig } from '../../data/seo';
 
 export const prerender = true;
@@ -24,6 +25,7 @@ const canonical = `/97-cosas-programador/${advice.slug}/`;
 const title = `${advice.title} | ${programmer97ThingsMeta.shortTitle}`;
 const description = advice.excerpt;
 const externalLinkRel = 'nofollow noreferrer';
+const contentHtml = enhanceProgrammerAdviceHtml(advice.contentHtml);
 const structuredData = {
 	'@context': 'https://schema.org',
 	'@graph': [
@@ -138,7 +140,7 @@ const structuredData = {
 					<p class="reader-author">Por {advice.author}</p>
 				</header>
 
-				<div class="advice-content" set:html={advice.contentHtml} />
+				<div class="advice-content" set:html={contentHtml} />
 
 				<footer class="advice-attribution">
 					<p>
