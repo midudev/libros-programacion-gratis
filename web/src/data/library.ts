@@ -453,6 +453,39 @@ export const librarySections: LibrarySection[] = [
     ],
   },
   {
+    slug: 'blockchain',
+    title: 'Blockchain',
+    icon: '⛓️',
+    group: 'Lenguajes',
+    description: 'Descentralización, contratos inteligentes y criptografía aplicada.',
+    accent: 'indigo',
+    books: [
+      {
+        title: 'Bitcoin: Un sistema de efectivo electrónico de usuario a usuario',
+        href: 'https://bitcoin.org/files/bitcoin-paper/bitcoin_es.pdf',
+        author: 'Satoshi Nakamoto',
+        formats: ['PDF'],
+      },
+      {
+        title: 'El Libro de Satoshi',
+        href: 'http://www.libroblockchain.com/satoshi/',
+        author: 'Phil Champagne',
+        formats: ['HTML'],
+      },
+      {
+        title: 'Entendiendo el Blockchain',
+        href: 'https://www.secmca.org/wp-content/uploads/2019/12/Blockchain.pdf',
+        author: 'SECMCA',
+        formats: ['PDF'],
+      },
+      {
+        title: 'Solidity: Documentación oficial en español',
+        href: 'https://solidity-es.readthedocs.io/',
+        formats: ['HTML'],
+      },
+    ],
+  },
+  {
     slug: 'php',
     title: 'PHP',
     icon: '🐘',
