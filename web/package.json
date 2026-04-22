@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "check:links": "node ./scripts/check-links.mjs",
+    "generate:97-things-pdf": "node ./scripts/generate-97-things-pdf.mjs",
     "preview": "astro preview",
     "deploy": "astro build && wrangler deploy",
     "astro": "astro"

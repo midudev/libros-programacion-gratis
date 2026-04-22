@@ -1,6 +1,7 @@
 export type LibraryBook = {
   title: string;
   href: string;
+  pdfHref?: string;
   author?: string;
   formats?: string[];
   note?: string;
@@ -36,8 +37,10 @@ const isPdfFormat = (format: string) => format.toLowerCase() === 'pdf';
 export const isLocalPdfHref = (href: string) =>
   href.startsWith('/books/') && /\.pdf(?:[?#].*)?$/i.test(href);
 
+const getBookPdfHref = (book: LibraryBook) => book.pdfHref ?? book.href;
+
 export const isLocalPdfBook = (book: LibraryBook) =>
-  isLocalPdfHref(book.href) && (book.formats?.some(isPdfFormat) ?? true);
+  isLocalPdfHref(getBookPdfHref(book)) && (book.formats?.some(isPdfFormat) ?? true);
 
 const getPdfFileName = (href: string) => href.split(/[?#]/)[0].split('/').at(-1) ?? 'libro.pdf';
 
@@ -61,8 +64,9 @@ export const librarySections: LibrarySection[] = [
       {
         title: '97 cosas que todo programador debe saber',
         href: '/97-cosas-programador/',
+        pdfHref: '/books/97-cosas-que-todo-programador-deberia-saber.pdf',
         author: 'Kevlin Henney',
-        formats: ['HTML'],
+        formats: ['HTML', 'PDF'],
       },
       {
         title: 'Los apuntes de Majo',
@@ -299,7 +303,7 @@ export const librarySections: LibrarySection[] = [
     books: [
       {
         title: 'Aprende Python',
-        href: 'https://uneweb.edu.ve/tuto-docs/libro-python.pdf',
+        href: '/books/python-aprende-sergio-delgado-quintero.pdf',
         author: 'Sergio Delgado Quintero',
         formats: ['PDF'],
       },
@@ -1009,7 +1013,8 @@ const bookSlugCounts = new Map<string, number>();
 
 export const localPdfBooks: LocalPdfBook[] = librarySections.flatMap((section) =>
   section.books.filter(isLocalPdfBook).map((book) => {
-    const fileName = getPdfFileName(book.href);
+    const pdfHref = getBookPdfHref(book);
+    const fileName = getPdfFileName(pdfHref);
     const baseSlug = slugifyBook(fileName.replace(/\.pdf$/i, '')) || slugifyBook(book.title);
     const slugCount = bookSlugCounts.get(baseSlug) ?? 0;
     const bookSlug = slugCount === 0 ? baseSlug : `${baseSlug}-${section.slug}`;
@@ -1021,7 +1026,7 @@ export const localPdfBooks: LocalPdfBook[] = librarySections.flatMap((section) =
       section,
       sectionSlug: section.slug,
       bookSlug,
-      pdfHref: book.href,
+      pdfHref,
       fileName,
       readerPath: `/leer/${bookSlug}/`,
       downloadPath: `/descargar/${bookSlug}/`,

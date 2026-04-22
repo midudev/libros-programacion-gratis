@@ -138,15 +138,20 @@ const getEncodingFormat = (format: string) => {
   return format;
 };
 
-const bookStructuredData = (book: LibraryBook) => ({
-  '@type': 'Book',
-  name: book.title,
-  ...(book.author && { author: { '@type': 'Person', name: book.author } }),
-  url: toAbsoluteUrl(getLocalPdfBook(book)?.readerPath ?? book.href),
-  inLanguage: siteConfig.language,
-  isAccessibleForFree: true,
-  ...(book.formats?.length && { encodingFormat: book.formats.map(getEncodingFormat) }),
-});
+const bookStructuredData = (book: LibraryBook) => {
+  const pdfBook = getLocalPdfBook(book);
+  const primaryHref = pdfBook && pdfBook.href === pdfBook.pdfHref ? pdfBook.readerPath : book.href;
+
+  return {
+    '@type': 'Book',
+    name: book.title,
+    ...(book.author && { author: { '@type': 'Person', name: book.author } }),
+    url: toAbsoluteUrl(primaryHref),
+    inLanguage: siteConfig.language,
+    isAccessibleForFree: true,
+    ...(book.formats?.length && { encodingFormat: book.formats.map(getEncodingFormat) }),
+  };
+};
 
 export const createHomeStructuredData = () => ({
   '@context': 'https://schema.org',
