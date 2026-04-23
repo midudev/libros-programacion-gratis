@@ -4,13 +4,13 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 
 - Web: [librosgratis.dev](https://librosgratis.dev)
 - Repositorio fuente original: [midudev/libros-programacion-gratis](https://github.com/midudev/libros-programacion-gratis)
-- Total actual: 105 recursos en 31 secciones
+- Total actual: 109 recursos en 32 secciones
 
 ## Categorías
 
 - Fundamentos: 13 recursos en 4 secciones
 - Desarrollo web: 4 recursos en 1 sección
-- Lenguajes: 64 recursos en 14 secciones
+- Lenguajes: 68 recursos en 15 secciones
 - Plataformas: 1 recurso en 1 sección
 - Frameworks: 8 recursos en 5 secciones
 - Herramientas: 8 recursos en 3 secciones
@@ -27,6 +27,7 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 - [Python](#python) · 13
 - [Ruby](#ruby) · 3
 - [Rust](#rust) · 5
+- [Blockchain](#blockchain) · 4
 - [PHP](#php) · 4
 - [Haskell](#haskell) · 3
 - [Golang](#golang) · 2
@@ -159,6 +160,17 @@ Rendimiento, seguridad de memoria y una comunidad técnica con mucha calidad.
 - [El Lenguaje de Programación Rust - 2024](https://book.rustlang-es.org) — Libro oficial traducido por RustLang en Español · HTML, PDF
 - [Comprehensive Rust](https://google.github.io/comprehensive-rust/es/) — Google · HTML, PDF _Está planteado como workshop, muy útil para estudiar con instructor o en grupo._
 - [Rust para C#/.NET Developers](https://dotnet-book.rustlang-es.org) — Microsoft, traducido por RustLang en Español · HTML, PDF _Incluye comparaciones sencillas para entender bien el cambio de mentalidad entre lenguajes._
+
+## Blockchain
+
+<a id="blockchain"></a>
+
+Descentralización, contratos inteligentes y criptografía aplicada.
+
+- [Bitcoin: Un sistema de efectivo electrónico de usuario a usuario](https://bitcoin.org/files/bitcoin-paper/bitcoin_es.pdf) — Satoshi Nakamoto · PDF
+- [El Libro de Satoshi](http://www.libroblockchain.com/satoshi/) — Phil Champagne · HTML
+- [Entendiendo el Blockchain](https://www.secmca.org/wp-content/uploads/2019/12/Blockchain.pdf) — SECMCA · PDF
+- [Solidity: Documentación oficial en español](https://solidity-es.readthedocs.io/) · HTML
 
 ## PHP
 

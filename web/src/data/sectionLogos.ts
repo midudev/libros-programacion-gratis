@@ -14,6 +14,9 @@ const sectionLogos: Record<string, string | string[]> = {
   python: '/logos/python.svg',
   ruby: '/logos/ruby.svg',
   rust: '/logos/rust.svg',
+  blockchain: tablerIcon(
+    "%3Cpath d='M6 6h8a3 3 0 0 1 0 6a3 3 0 0 1 0 6h-8'/%3E%3Cpath d='M8 6v12'/%3E%3Cpath d='M8 12h6'/%3E%3Cpath d='M9 3v3'/%3E%3Cpath d='M13 3v3'/%3E%3Cpath d='M9 18v3'/%3E%3Cpath d='M13 18v3'/%3E"
+  ),
   php: '/logos/php.svg',
   haskell: '/logos/haskell.svg',
   golang: '/logos/golang.svg',
