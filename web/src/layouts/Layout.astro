@@ -75,6 +75,20 @@ const jsonLd = structuredData ? JSON.stringify(structuredData).replace(/</g, '\\
 		<meta name="twitter:image:alt" content={imageAlt} />
 		<title>{title}</title>
 		{structuredData && <script type="application/ld+json" set:html={jsonLd} />}
+		<script is:inline>
+			const theme = (() => {
+				if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+					return localStorage.getItem('theme');
+				}
+				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					return 'dark';
+				}
+				return 'light';
+			})();
+			if (theme === 'dark') {
+				document.documentElement.classList.add('dark');
+			}
+		</script>
 	</head>
 	<body>
 		<slot />
