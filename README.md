@@ -4,15 +4,15 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 
 - Web: [librosgratis.dev](https://librosgratis.dev)
 - Repositorio fuente original: [midudev/libros-programacion-gratis](https://github.com/midudev/libros-programacion-gratis)
-- Total actual: 109 recursos en 32 secciones
+- Total actual: 112 recursos en 32 secciones
 
 ## Categorías
 
 - Fundamentos: 13 recursos en 4 secciones
 - Desarrollo web: 4 recursos en 1 sección
-- Lenguajes: 68 recursos en 15 secciones
-- Plataformas: 1 recurso en 1 sección
-- Frameworks: 8 recursos en 5 secciones
+- Lenguajes: 69 recursos en 15 secciones
+- Plataformas: 2 recursos en 1 sección
+- Frameworks: 9 recursos en 5 secciones
 - Herramientas: 8 recursos en 3 secciones
 - Bases de datos: 6 recursos en 2 secciones
 - IA y datos: 1 recurso en 1 sección
@@ -22,7 +22,7 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 - [Generales](#generales) · 2
 - [Algoritmos y estructuras de datos](#algoritmos) · 8
 - [HTML y CSS](#html-css) · 4
-- [JavaScript](#javascript) · 10
+- [JavaScript](#javascript) · 11
 - [TypeScript](#typescript) · 7
 - [Python](#python) · 13
 - [Ruby](#ruby) · 3
@@ -38,7 +38,7 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 - [C#](#csharp) · 2
 - [Java](#java) · 6
 - [R](#r) · 2
-- [React](#react) · 3
+- [React](#react) · 4
 - [Qwik](#qwik) · 1
 - [Node.js](#nodejs) · 1
 - [Angular](#angular) · 1
@@ -114,7 +114,7 @@ Tipos, tooling y confianza para escalar aplicaciones front y back.
 - [Introducción a TypeScript](https://khru.gitbooks.io/typescript/) — Emmanuel Valverde Ramos · HTML
 - [TypeScript en Profundidad](https://github.com/melissarofman/typescript-book) — Basarat Ali Syed, traducido por Melissa Rofman · HTML
 - [Introducción a TypeScript](https://mega.nz/file/TldlTZID#1A90Wn8xYloDvekX8rQewI3Yh8HMJXlufRUEWEcOzNU) — Adictos al trabajo
-- [TypeScript para Principantes](https://mega.nz/file/7hdwEY6b#ESsixH9wCUFhUugkRq8BEa1uZlzFXCJX6QxHdL5Yz9Q) — Envato Tuts+
+- [TypeScript para Principiantes](https://mega.nz/file/7hdwEY6b#ESsixH9wCUFhUugkRq8BEa1uZlzFXCJX6QxHdL5Yz9Q) — Envato Tuts+
 - [Manual de TypeScript](https://mega.nz/#!qwcFDZ7a!ggLXIZ4c-O1Do0OEuvK0Mz8k39LvYQwdaJ2LtKKxgsE) — Emmanuel Valverde y Pedro Hernández-Mora
 - [Uso avanzado de TypeScript en un ejemplo real](https://neliosoftware.com/es/blog/uso-avanzado-de-typescript/) — Nelio Software · HTML
 - [Aprendizaje TypeScript](https://librosgratis.dev/books/typescript-aprendizaje.pdf) — RipTutorial · PDF
