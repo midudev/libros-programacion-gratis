@@ -1,0 +1,388 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { allBooks, librarySections, sourceRepository } from '../data/library';
+
+const title = 'Contribuir un libro gratis de programacion en espanol';
+const description =
+  'Propone un libro o guia gratuita de programacion en espanol sin tocar codigo. La propuesta se prepara como issue de GitHub.';
+const externalLinkRel = 'nofollow noreferrer';
+const categories = librarySections.map((section) => section.title);
+const compactCatalog = allBooks.map((book) => ({
+  title: book.title,
+  href: book.href,
+  author: book.author,
+  section: book.section,
+}));
+---
+
+<Layout title={title} description={description} canonical="/contribuir/">
+  <div class="page contribute-page">
+    <header class="header">
+      <a class="logo" href="/" aria-label="Inicio">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
+          <path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
+          <path d="M5 8h4" /><path d="M9 16h4" />
+          <path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041" />
+          <path d="M14 9l4 -1" /><path d="M16 16l3.923 -.98" />
+        </svg>
+      </a>
+      <nav class="header-nav" aria-label="Principal">
+        <a class="header-link" href="/">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19a2 2 0 0 0 2 2h12" />
+            <path d="M6 17a2 2 0 0 0 -2 2v-14a2 2 0 0 1 2 -2h12v18" />
+            <path d="M8 7h6" />
+          </svg>
+          <span>Biblioteca</span>
+        </a>
+        <a class="header-link" href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3" />
+            <path d="M15 21v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </nav>
+    </header>
+
+    <main>
+      <nav class="breadcrumbs" aria-label="Migas de pan">
+        <a href="/">Libros gratis de programación</a>
+        <span aria-hidden="true">/</span>
+        <span>Contribuir</span>
+      </nav>
+
+      <section class="hero topic-page-hero contribute-hero" aria-labelledby="contribute-title">
+        <div class="topic-page-hero-copy">
+          <p class="eyebrow">Archivo abierto</p>
+          <h1 id="contribute-title">Dona una ficha al estante publico.</h1>
+          <p class="hero-sub text-wrap">
+            Trae un libro o guia gratuita de programacion en espanol. Esta mesa de entrada
+            ordena los datos, avisa duplicados y deja la issue lista para revisar.
+          </p>
+          <div class="topic-page-stats" aria-label="Resumen del flujo">
+            <span><strong>3</strong> pasos</span>
+            <span><strong>Issue</strong> lista</span>
+            <span><strong>Sin codigo</strong></span>
+          </div>
+        </div>
+
+        <div class="topic-page-hero-logos contribute-hero-logos" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19a2 2 0 0 0 2 2h12" />
+            <path d="M6 17a2 2 0 0 0 -2 2v-14a2 2 0 0 1 2 -2h12v18" />
+            <path d="M8 7h6" />
+            <path d="M8 11h8" />
+            <path d="M8 15h5" />
+          </svg>
+        </div>
+      </section>
+
+      <section class="seo-copy" aria-labelledby="how-it-works-title">
+        <h2 id="how-it-works-title">Proponer recursos gratuitos sin tocar el catalogo</h2>
+        <p>
+          Esta pagina prepara una propuesta con los datos minimos que revisa el equipo:
+          enlace, título, categoría, formato y confirmación de que el recurso es gratis y está en español.
+        </p>
+        <p>
+          GitHub mostrará tu usuario en la propuesta. Si no quieres iniciar sesión todavía,
+          puedes copiar el texto completo y guardarlo para después.
+        </p>
+      </section>
+
+      <noscript>
+        <div class="noscript-note">
+          Para generar la propuesta guiada necesitas JavaScript. Tambien puedes abrir una issue manual en
+          <a href={`${sourceRepository.href}/issues/new/choose`}>GitHub</a>.
+        </div>
+      </noscript>
+
+      <section class="topic topic-page-list contribute-shell" aria-labelledby="proposal-title">
+        <form class="proposal-form" data-contribution-form novalidate>
+          <div class="form-head">
+            <div class="topic-header">
+              <h2 id="proposal-title">Ficha de propuesta</h2>
+              <span class="topic-count form-stamp">Borrador</span>
+            </div>
+            <p>Completa lo esencial. Los duplicados solo muestran una advertencia, no bloquean.</p>
+          </div>
+
+          <fieldset class="proposal-step">
+            <legend><span>1</span> Enlace del recurso</legend>
+            <label for="resource-url">URL del libro, guia o PDF</label>
+            <input id="resource-url" name="url" type="url" inputmode="url" placeholder="https://ejemplo.com/libro-gratis.pdf" required aria-describedby="url-help" />
+            <p class="field-help" id="url-help" data-url-status>Pega una URL http o https. No hacemos comprobaciones remotas.</p>
+            <div class="duplicate-warning" data-duplicate-warning hidden aria-live="polite"></div>
+          </fieldset>
+
+          <fieldset class="proposal-step">
+            <legend><span>2</span> Datos del libro</legend>
+            <div class="field-grid">
+              <div class="field-card">
+                <label for="resource-title">Titulo</label>
+                <input id="resource-title" name="title" type="text" autocomplete="off" required />
+              </div>
+              <div class="field-card">
+                <label for="resource-author">Autor o proyecto</label>
+                <input id="resource-author" name="author" type="text" placeholder="Autoria, editorial o comunidad" />
+              </div>
+            </div>
+            <div class="field-grid">
+              <div class="field-card">
+                <label for="resource-category">Categoria sugerida</label>
+                <select id="resource-category" name="category" required>
+                  <option value="">Elige una categoria</option>
+                  {categories.map((category) => <option value={category}>{category}</option>)}
+                </select>
+              </div>
+              <div class="field-card">
+                <label for="resource-format">Formato</label>
+                <select id="resource-format" name="format" required>
+                  <option value="">Elige formato</option>
+                  <option>PDF</option>
+                  <option>HTML</option>
+                  <option>ePub</option>
+                  <option>Mobi</option>
+                  <option>Otro</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="proposal-step">
+            <legend><span>3</span> Confirmacion y nota</legend>
+            <label class="check-card">
+              <input name="isFree" type="checkbox" required />
+              <span><strong>Es gratuito</strong> Sin paywall, registro obligatorio ni version trial.</span>
+            </label>
+            <label class="check-card">
+              <input name="isSpanish" type="checkbox" required />
+              <span><strong>Esta en espanol</strong> Escrito o traducido al espanol.</span>
+            </label>
+            <div class="field-card note-card">
+              <label for="resource-note">Por que deberia estar en el catalogo <small>opcional, max. 500</small></label>
+              <textarea id="resource-note" name="note" maxlength="500" rows="5" placeholder="Nivel, enfoque, ejercicios o por que te parece util."></textarea>
+              <p class="field-help"><span data-note-count>0</span> / 500</p>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <p class="status-line" data-form-status aria-live="polite">Faltan campos obligatorios para crear la issue.</p>
+            <button class="secondary-action" type="button" data-copy-proposal>Copiar propuesta</button>
+            <a class="primary-action is-disabled" data-create-issue href={sourceRepository.href} aria-disabled="true" role="button">Crear issue en GitHub</a>
+          </div>
+        </form>
+
+        <aside class="proposal-preview" aria-label="Vista previa">
+          <section class="book preview-card">
+            <p class="card-label">Preview de catálogo</p>
+            <h3 data-preview-title>Tu titulo aparecera aqui</h3>
+            <p class="book-author" data-preview-author>Autor o proyecto</p>
+            <div class="preview-formats"><span data-preview-category>Categoria</span><span data-preview-format>Formato</span><span>Gratis</span></div>
+            <p class="preview-note" data-preview-note>Tu nota ayudara a revisar el recurso.</p>
+          </section>
+          <section class="issue-preview">
+            <p class="card-label">Issue de GitHub</p>
+            <strong data-issue-title>[nuevo-libro] Nuevo recurso gratuito</strong>
+            <pre data-issue-body>Completa el formulario para ver la propuesta.</pre>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        <a href="/">Volver a la biblioteca</a> · Contenido del repositorio{' '}
+        <a href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
+          {sourceRepository.name}
+        </a>
+      </p>
+    </footer>
+  </div>
+
+  <script type="application/json" id="contribution-data" set:html={JSON.stringify({ compactCatalog, repositoryHref: sourceRepository.href }).replace(/</g, '\\u003c')} />
+
+  <script>
+    import { buildIssueBody, buildIssueTitle, buildIssueUrl, findPotentialDuplicates, isSupportedUrl } from '../lib/contribution';
+
+    const pageData = JSON.parse(document.querySelector('#contribution-data')?.textContent || '{}');
+    const compactCatalog = pageData.compactCatalog || [];
+    const repositoryHref = pageData.repositoryHref || '';
+    const form = document.querySelector('[data-contribution-form]');
+    const createIssue = document.querySelector('[data-create-issue]');
+    const copyButton = document.querySelector('[data-copy-proposal]');
+    const formStatus = document.querySelector('[data-form-status]');
+    const urlStatus = document.querySelector('[data-url-status]');
+    const duplicateWarning = document.querySelector('[data-duplicate-warning]');
+    const noteCount = document.querySelector('[data-note-count]');
+    const previewTitle = document.querySelector('[data-preview-title]');
+    const previewAuthor = document.querySelector('[data-preview-author]');
+    const previewCategory = document.querySelector('[data-preview-category]');
+    const previewFormat = document.querySelector('[data-preview-format]');
+    const previewNote = document.querySelector('[data-preview-note]');
+    const issueTitle = document.querySelector('[data-issue-title]');
+    const issueBody = document.querySelector('[data-issue-body]');
+
+    const getFormData = () => {
+      const data = new FormData(form);
+
+      return {
+        url: String(data.get('url') ?? '').trim(),
+        title: String(data.get('title') ?? '').trim(),
+        author: String(data.get('author') ?? '').trim(),
+        category: String(data.get('category') ?? ''),
+        format: String(data.get('format') ?? ''),
+        note: String(data.get('note') ?? '').trim(),
+        isFree: data.get('isFree') === 'on',
+        isSpanish: data.get('isSpanish') === 'on',
+      };
+    };
+
+    const getMissingFields = (data) => {
+      const missing = [];
+
+      if (!data.url) missing.push('URL');
+      if (data.url && !isSupportedUrl(data.url)) missing.push('URL valida');
+      if (!data.title) missing.push('titulo');
+      if (!data.category) missing.push('categoria');
+      if (!data.format) missing.push('formato');
+      if (!data.isFree) missing.push('confirmar que es gratuito');
+      if (!data.isSpanish) missing.push('confirmar que esta en espanol');
+
+      return missing;
+    };
+
+    const update = () => {
+      const data = getFormData();
+      const missing = getMissingFields(data);
+      const valid = missing.length === 0;
+      const body = buildIssueBody(data);
+      const title = buildIssueTitle(data);
+      const duplicates = findPotentialDuplicates(data, compactCatalog);
+
+      previewTitle.textContent = data.title || 'Tu titulo aparecera aqui';
+      previewAuthor.textContent = data.author || 'Autor o proyecto';
+      previewCategory.textContent = data.category || 'Categoria';
+      previewFormat.textContent = data.format || 'Formato';
+      previewNote.textContent = data.note || 'Tu nota ayudara a revisar el recurso.';
+      issueTitle.textContent = title;
+      issueBody.textContent = body;
+      noteCount.textContent = String(data.note.length);
+
+      if (!data.url) {
+        urlStatus.textContent = 'Pega una URL http o https. No hacemos comprobaciones remotas.';
+        urlStatus.dataset.state = '';
+      } else if (isSupportedUrl(data.url)) {
+        urlStatus.textContent = 'URL con formato valido.';
+        urlStatus.dataset.state = 'ok';
+      } else {
+        urlStatus.textContent = 'Usa una URL valida que empiece con http o https.';
+        urlStatus.dataset.state = 'error';
+      }
+
+      duplicateWarning.hidden = duplicates.length === 0;
+      if (duplicates.length > 0) {
+        duplicateWarning.textContent = `Puede que ya exista: ${duplicates.map((entry) => `${entry.title} (${entry.section})`).join(', ')}. Si es otra edicion o traduccion, continua.`;
+      }
+
+      if (valid) {
+        createIssue.href = buildIssueUrl(repositoryHref, data);
+        createIssue.classList.remove('is-disabled');
+        createIssue.setAttribute('aria-disabled', 'false');
+        formStatus.textContent = 'Propuesta lista para abrir en GitHub.';
+      } else {
+        createIssue.href = repositoryHref;
+        createIssue.classList.add('is-disabled');
+        createIssue.setAttribute('aria-disabled', 'true');
+        formStatus.textContent = `Falta: ${missing.join(', ')}.`;
+      }
+
+      copyButton.dataset.proposal = body;
+    };
+
+    form.addEventListener('input', update);
+    form.addEventListener('change', update);
+    createIssue.addEventListener('click', (event) => {
+      if (createIssue.getAttribute('aria-disabled') === 'true') {
+        event.preventDefault();
+      }
+    });
+    copyButton.addEventListener('click', async () => {
+      const proposal = copyButton.dataset.proposal || issueBody.textContent || '';
+
+      try {
+        await navigator.clipboard.writeText(proposal);
+        formStatus.textContent = 'Propuesta copiada al portapapeles.';
+      } catch {
+        const fallback = document.createElement('textarea');
+        fallback.className = 'copy-fallback';
+        fallback.value = proposal;
+        fallback.readOnly = true;
+        copyButton.insertAdjacentElement('afterend', fallback);
+        fallback.focus();
+        fallback.select();
+        formStatus.textContent = 'No se pudo copiar automaticamente. Selecciona el texto mostrado.';
+      }
+    });
+
+    update();
+  </script>
+</Layout>
+
+<style>
+  .contribute-hero-logos svg { width: 72%; height: 72%; color: color-mix(in srgb, var(--accent) 80%, var(--text)); filter: drop-shadow(0 18px 18px rgba(41, 31, 23, 0.14)); }
+  .preview-card, .issue-preview, .proposal-form { border: 1px solid rgba(84,63,44,0.14); border-radius: 18px; background: rgba(255,255,255,0.48); }
+  .proposal-form { position: relative; isolation: isolate; overflow: clip; background: linear-gradient(90deg, #8f3d2a 0 0.42rem, transparent 0.42rem), repeating-linear-gradient(180deg, rgba(41,31,23,0.026) 0 1px, transparent 1px 38px), linear-gradient(180deg, rgba(255,252,246,0.92), rgba(246,239,228,0.68)); box-shadow: 0 24px 66px rgba(41,31,23,0.1), inset 0 1px 0 rgba(255,255,255,0.9); }
+  .proposal-form::before { content: ''; position: absolute; inset: 1rem auto 1rem 1.1rem; z-index: -1; width: 1px; background: repeating-linear-gradient(180deg, rgba(143,61,42,0.44) 0 10px, transparent 10px 18px); }
+  .issue-preview { box-shadow: none; }
+  .card-label { margin: 0 0 0.7rem; color: #8f3d2a; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; }
+  .preview-card { cursor: default; padding: 1rem 1rem 1.1rem; background: linear-gradient(180deg, rgba(255,252,246,0.9), rgba(255,255,255,0.5)); box-shadow: 0 16px 40px rgba(41,31,23,0.07); }
+  .preview-card::after { display: none; }
+  .preview-card:hover, .preview-card:focus-within { transform: none; background: linear-gradient(180deg, rgba(255,252,246,0.9), rgba(255,255,255,0.5)); }
+  .preview-card h3 { padding-right: 0; font-family: 'Instrument Serif', serif; font-size: 1.55rem; font-weight: 400; line-height: 1.05; }
+  .preview-formats { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.68rem; }
+  .preview-formats span { min-height: 28px; padding: 0.42rem 0.55rem; border: 1px solid rgba(26,26,26,0.1); border-radius: 999px; background: rgba(255,255,255,0.62); color: color-mix(in srgb, var(--text) 82%, transparent); font-size: 0.68rem; font-weight: 850; line-height: 1; }
+  .preview-note { margin: 0.75rem 0 0; padding-top: 0.75rem; border-top: 1px dashed rgba(84,63,44,0.18); color: var(--muted); font-size: 0.82rem; font-style: italic; line-height: 1.45; }
+  .noscript-note, .duplicate-warning { margin-bottom: 1rem; padding: 0.85rem 1rem; border: 1px solid rgba(183,121,31,0.38); border-radius: 12px; background: rgba(247,223,168,0.28); color: color-mix(in srgb, var(--text) 82%, #b7791f); }
+  .contribute-shell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(17rem, 20rem); gap: 1rem; align-items: start; padding-top: 1.75rem; }
+  .form-head, .form-actions { margin-left: 0.58rem; padding: 1rem 1rem 1rem 1.15rem; background: linear-gradient(180deg, rgba(255,252,246,0.88), rgba(250,247,242,0.62)); border-bottom: 1px solid rgba(84,63,44,0.12); }
+  .form-head .topic-header { margin-bottom: 0.15rem; }
+  .form-head p, .field-help, .status-line { margin: 0.25rem 0 0; color: var(--muted); font-size: 0.86rem; }
+  .form-stamp { align-self: center; padding: 0.28rem 0.52rem; border: 1px solid rgba(143,61,42,0.28); border-radius: 5px; color: #8f3d2a; font-size: 0.68rem; font-weight: 900; letter-spacing: 0.13em; line-height: 1; text-transform: uppercase; transform: rotate(1.5deg); }
+  fieldset { display: grid; gap: 0.78rem; min-width: 0; margin: 0 0 0 0.58rem; padding: 1.7rem 1rem 1.1rem 1.15rem; border: 0; border-bottom: 1px solid rgba(84,63,44,0.12); }
+  .proposal-step { position: relative; }
+  .proposal-step::before { content: ''; position: absolute; top: 3rem; left: -0.34rem; width: 0.72rem; height: 0.72rem; border: 2px solid rgba(143,61,42,0.5); border-radius: 999px; background: #fff8ec; box-shadow: 0 0 0 4px rgba(250,247,242,0.94); }
+  legend { display: flex; align-items: center; margin: 0 0 0.45rem; padding: 1.25rem 0 0; font-size: 1rem; font-weight: 850; letter-spacing: -0.01em; }
+  legend span { display: inline-grid; place-items: center; width: 1.7rem; height: 1.7rem; margin-right: 0.42rem; border: 1px solid rgba(26,26,26,0.1); border-radius: 7px; background: linear-gradient(180deg, #2d241d, #111110); color: #fffaf0; font-size: 0.76rem; box-shadow: 0 5px 12px rgba(26,26,26,0.12); }
+  label { display: grid; gap: 0.32rem; color: color-mix(in srgb, var(--text) 88%, transparent); font-size: 0.82rem; font-weight: 850; letter-spacing: -0.005em; }
+  .field-card { display: grid; gap: 0.42rem; padding: 0.72rem; border: 1px solid rgba(126,93,54,0.14); border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.68), rgba(255,252,246,0.42)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.78); }
+  input, select, textarea { width: 100%; min-height: 44px; border: 1px solid rgba(84,63,44,0.18); border-radius: 10px; background: rgba(255,255,255,0.76); color: var(--text); padding: 0.62rem 0.72rem; box-shadow: inset 0 1px 0 rgba(255,255,255,0.78); transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease; }
+  input:hover, select:hover, textarea:hover { border-color: rgba(143,61,42,0.28); background: rgba(255,255,255,0.92); }
+  textarea { resize: vertical; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, .primary-action:focus-visible { outline: 2px solid rgba(197,90,61,0.45); outline-offset: 2px; box-shadow: 0 0 0 4px rgba(197,90,61,0.08), inset 0 1px 0 rgba(255,255,255,0.86); }
+  .field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
+  .check-card { grid-template-columns: auto 1fr; align-items: start; min-height: 58px; padding: 0.78rem; border: 1px solid rgba(47,107,69,0.22); border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.62), rgba(47,107,69,0.055)); transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease; }
+  .check-card:hover, .check-card:focus-within { border-color: rgba(47,107,69,0.38); background: rgba(47,107,69,0.07); transform: translateY(-1px); }
+  .check-card input { width: 1.2rem; min-height: 1.2rem; margin-top: 0.15rem; accent-color: #2f6b45; }
+  .check-card span { font-weight: 400; color: var(--muted); }
+  .check-card strong { display: block; color: var(--text); }
+  .note-card { background: linear-gradient(180deg, rgba(255,255,255,0.66), rgba(247,243,236,0.78)); }
+  .form-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 0.75rem; border-bottom: 0; border-top: 1px solid rgba(84,63,44,0.12); }
+  .status-line { flex: 1 0 100%; }
+  .secondary-action, .primary-action { display: inline-flex; flex: 1 1 calc(50% - 0.4rem); align-items: center; justify-content: center; min-height: 46px; padding: 0 0.95rem; border-radius: 999px; font-size: 0.88rem; font-weight: 900; text-decoration: none; transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease; }
+  .secondary-action { border: 1px solid rgba(84,63,44,0.18); background: rgba(255,255,255,0.74); color: var(--text); box-shadow: 0 1px 0 rgba(41,31,23,0.06); }
+  .secondary-action:hover { border-color: rgba(26,26,26,0.2); background: rgba(255,255,255,0.96); transform: translateY(-1px); }
+  .primary-action { border: 1px solid rgba(26,26,26,0.12); background: linear-gradient(180deg, #2d241d, #111110); color: #fffaf0; box-shadow: 0 12px 24px rgba(26,26,26,0.14), inset 0 1px 0 rgba(255,255,255,0.14); }
+  .primary-action:not(.is-disabled):hover { background: linear-gradient(180deg, #cf6142, var(--accent)); box-shadow: 0 12px 26px rgba(197,90,61,0.2), inset 0 1px 0 rgba(255,255,255,0.18); transform: translateY(-1px); }
+  .primary-action.is-disabled { cursor: not-allowed; opacity: 0.48; }
+  .proposal-preview { position: sticky; top: 1rem; display: grid; gap: 0.75rem; min-width: 0; }
+  .issue-preview { padding: 0.9rem; overflow: hidden; }
+  .issue-preview pre { max-height: 22rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--muted); font: inherit; font-size: 0.8rem; }
+  .copy-fallback { margin-left: 0.5rem; flex: 1 1 100%; }
+  [data-state="ok"] { color: #2f6b45; }
+  [data-state="error"] { color: #a33a2c; }
+  @media (max-width: 820px) { .contribute-shell, .field-grid { grid-template-columns: 1fr; } .proposal-preview { position: static; } }
+  @media (max-width: 640px) { .contribute-page { padding-bottom: 4rem; } .proposal-form { background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.46)); } .proposal-form::before, .proposal-step::before { display: none; } .form-head, fieldset, .form-actions { margin-left: 0; padding-left: 1rem; } .form-actions { position: sticky; bottom: 0; z-index: 5; align-items: stretch; } .secondary-action, .primary-action { flex: 1 1 100%; } }
+  @media (prefers-reduced-motion: reduce) { input, select, textarea, .check-card, .secondary-action, .primary-action { transition: none; } .check-card:hover, .check-card:focus-within, .secondary-action:hover, .primary-action:not(.is-disabled):hover { transform: none; } }
+</style>
