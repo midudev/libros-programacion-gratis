@@ -1,7 +1,12 @@
+import epubManifest from './epubManifest.json' with { type: 'json' };
+
+const availableEpubs = new Set(epubManifest as string[]);
+
 export type LibraryBook = {
   title: string;
   href: string;
   pdfHref?: string;
+  epubHref?: string;
   author?: string;
   formats?: string[];
   note?: string;
@@ -12,6 +17,8 @@ export type LocalPdfBook = LibraryBook & {
   sectionSlug: string;
   bookSlug: string;
   pdfHref: string;
+  epubHref?: string;
+  epubFileName?: string;
   fileName: string;
   readerPath: string;
   downloadPath: string;
@@ -1050,6 +1057,21 @@ export const allBooks = librarySections.flatMap((section) =>
 
 const bookSlugCounts = new Map<string, number>();
 
+const resolveLocalEpub = (book: LibraryBook, pdfFileName: string) => {
+  if (book.epubHref) {
+    const fileName = book.epubHref.split(/[?#]/)[0].split('/').at(-1) ?? '';
+    return { epubHref: book.epubHref, epubFileName: fileName };
+  }
+
+  const epubFileName = pdfFileName.replace(/\.pdf$/i, '.epub');
+
+  if (availableEpubs.has(epubFileName)) {
+    return { epubHref: `/books/${epubFileName}`, epubFileName };
+  }
+
+  return { epubHref: undefined, epubFileName: undefined };
+};
+
 export const localPdfBooks: LocalPdfBook[] = librarySections.flatMap((section) =>
   section.books.filter(isLocalPdfBook).map((book) => {
     const pdfHref = getBookPdfHref(book);
@@ -1060,12 +1082,20 @@ export const localPdfBooks: LocalPdfBook[] = librarySections.flatMap((section) =
 
     bookSlugCounts.set(baseSlug, slugCount + 1);
 
+    const { epubHref, epubFileName } = resolveLocalEpub(book, fileName);
+    const formatsSet = new Set(book.formats ?? ['PDF']);
+
+    if (epubHref) formatsSet.add('EPUB');
+
     return {
       ...book,
+      formats: Array.from(formatsSet),
       section,
       sectionSlug: section.slug,
       bookSlug,
       pdfHref,
+      epubHref,
+      epubFileName,
       fileName,
       readerPath: `/leer/${bookSlug}/`,
       downloadPath: `/descargar/${bookSlug}/`,

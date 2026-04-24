@@ -155,6 +155,7 @@ const bookLinkRel = (href: string) =>
 						const hasHtmlVersion = pdfBook && pdfBook.href !== pdfBook.pdfHref;
 						const bookHref = hasHtmlVersion ? book.href : (pdfBook?.readerPath ?? book.href);
 						const opensInNewTab = isExternalHref(bookHref);
+						const bookFormats = pdfBook?.formats ?? book.formats;
 
 						return (
 							<article class:list={['book', pdfBook && 'is-pdf']}>
@@ -172,9 +173,9 @@ const bookLinkRel = (href: string) =>
 									{book.title}
 								</h3>
 								{book.author && <p class="book-author">{book.author}</p>}
-								{book.formats && book.formats.length > 0 && (
+								{bookFormats && bookFormats.length > 0 && (
 									<div class="book-formats">
-										{book.formats.map((format) => (
+										{bookFormats.map((format) => (
 											<span>{format}</span>
 										))}
 									</div>
@@ -216,15 +217,32 @@ const bookLinkRel = (href: string) =>
 												<a
 													class="book-action"
 													href={pdfBook.downloadPath}
-													aria-label={`Descargar ${book.title}`}
+													aria-label={`Descargar PDF de ${book.title}`}
 												>
 													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 														<path d="M12 3v12" />
 														<path d="M7 10l5 5l5 -5" />
 														<path d="M5 21h14" />
 													</svg>
-													<span>Descargar</span>
+													<span>PDF</span>
 												</a>
+												{pdfBook.epubHref && (
+													<a
+														class="book-action"
+														href={pdfBook.epubHref}
+														download={pdfBook.epubFileName}
+														aria-label={`Descargar EPUB de ${book.title}`}
+													>
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+															<path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+															<path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+															<path d="M3 6v13" />
+															<path d="M12 6v13" />
+															<path d="M21 6v13" />
+														</svg>
+														<span>EPUB</span>
+													</a>
+												)}
 											</>
 										) : (
 											<a
