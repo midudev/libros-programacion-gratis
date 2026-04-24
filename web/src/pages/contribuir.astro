@@ -5,7 +5,7 @@ import { allBooks, librarySections, sourceRepository } from '../data/library';
 const title = 'Contribuir un libro gratis de programacion en espanol';
 const description =
   'Propone un libro o guia gratuita de programacion en espanol sin tocar codigo. La propuesta se prepara como issue de GitHub.';
-const externalLinkRel = 'nofollow noreferrer';
+const externalLinkRel = 'nofollow noopener noreferrer';
 const categories = librarySections.map((section) => section.title);
 const compactCatalog = allBooks.map((book) => ({
   title: book.title,
