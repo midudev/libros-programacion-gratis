@@ -82,6 +82,18 @@ const externalLinkRel = 'nofollow noreferrer';
 						</svg>
 						<span>Descargar PDF</span>
 					</a>
+					{book.epubHref && (
+						<a class="reader-button" href={book.epubHref} download={book.epubFileName}>
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+								<path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+								<path d="M3 6v13" />
+								<path d="M12 6v13" />
+								<path d="M21 6v13" />
+							</svg>
+							<span>Descargar EPUB</span>
+						</a>
+					)}
 					<a class="reader-button" href={getSectionPagePath(sectionEntry)}>
 						<span>Más de {sectionEntry.displayName}</span>
 					</a>
@@ -101,11 +113,13 @@ const externalLinkRel = 'nofollow noreferrer';
 								<path d="M15 6l-6 6l6 6" />
 							</svg>
 						</button>
-						<label class="pdf-page-field">
-							<span class="sr-only">Página actual</span>
-							<input data-pdf-page-input type="number" min="1" value="1" inputmode="numeric" />
-						</label>
-						<span class="pdf-total">de <strong data-pdf-total>...</strong></span>
+						<span class="pdf-page-control">
+							<label class="pdf-page-field">
+								<span class="sr-only">Página actual</span>
+								<input data-pdf-page-input type="number" min="1" value="1" inputmode="numeric" />
+							</label>
+							<span class="pdf-total">de <strong data-pdf-total>...</strong></span>
+						</span>
 						<button class="pdf-icon-button" type="button" data-pdf-next aria-label="Página siguiente">
 							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 								<path d="M9 6l6 6l-6 6" />
@@ -113,6 +127,15 @@ const externalLinkRel = 'nofollow noreferrer';
 						</button>
 					</div>
 					<div class="pdf-toolbar-group">
+						<button class="pdf-icon-button" type="button" data-pdf-thumbnails-toggle aria-label="Ocultar vistas previas" aria-pressed="true">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<rect x="4" y="4" width="6" height="7" rx="1" />
+								<rect x="4" y="15" width="6" height="5" rx="1" />
+								<path d="M14 6h6" />
+								<path d="M14 12h6" />
+								<path d="M14 18h6" />
+							</svg>
+						</button>
 						<button class="pdf-icon-button" type="button" data-pdf-zoom-out aria-label="Alejar">
 							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 								<path d="M5 12h14" />
@@ -127,9 +150,45 @@ const externalLinkRel = 'nofollow noreferrer';
 						</button>
 					</div>
 				</div>
-				<p class="pdf-status" data-pdf-status aria-live="polite">Cargando PDF...</p>
-				<div class="pdf-stage" data-pdf-stage>
-					<canvas data-pdf-canvas role="img" aria-label={`Página del PDF ${book.title}`}></canvas>
+				<div class="pdf-viewer-layout">
+					<aside class="pdf-thumbnails" data-pdf-thumbnails aria-label="Vistas previas de páginas">
+						<div class="pdf-thumbnail-list" data-pdf-thumbnail-list></div>
+					</aside>
+					<div class="pdf-stage" data-pdf-stage>
+						<div class="pdf-loading" data-pdf-loading>
+							<p class="pdf-status" data-pdf-status aria-live="polite">Cargando PDF...</p>
+							<div
+								class="pdf-progress"
+								data-pdf-progress
+								role="progressbar"
+								aria-label="Progreso de descarga del PDF"
+								aria-valuemin="0"
+								aria-valuemax="100"
+								aria-valuenow="0"
+							>
+								<span class="pdf-progress-bar" data-pdf-progress-bar></span>
+							</div>
+							<p class="pdf-progress-value" data-pdf-progress-value>0%</p>
+						</div>
+						<canvas data-pdf-canvas role="img" aria-label={`Página del PDF ${book.title}`} hidden></canvas>
+					</div>
+				</div>
+				<div class="pdf-toolbar pdf-toolbar-bottom" aria-label="Navegación inferior del lector">
+					<div class="pdf-toolbar-group">
+						<button class="pdf-icon-button" type="button" data-pdf-prev aria-label="Página anterior">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M15 6l-6 6l6 6" />
+							</svg>
+						</button>
+						<span class="pdf-total pdf-page-readout">
+							Página <strong data-pdf-current>1</strong> de <strong data-pdf-total>...</strong>
+						</span>
+						<button class="pdf-icon-button" type="button" data-pdf-next aria-label="Página siguiente">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M9 6l6 6l-6 6" />
+							</svg>
+						</button>
+					</div>
 				</div>
 			</section>
 		</main>
@@ -155,11 +214,27 @@ const externalLinkRel = 'nofollow noreferrer';
 	const pdfUrl = root?.getAttribute('data-pdf-url');
 	const canvas = root?.querySelector('[data-pdf-canvas]');
 	const stage = root?.querySelector('[data-pdf-stage]');
+	const loading = root?.querySelector('[data-pdf-loading]');
+	const thumbnails = root?.querySelector('[data-pdf-thumbnails]');
+	const thumbnailList = root?.querySelector('[data-pdf-thumbnail-list]');
+	const thumbnailToggle = root?.querySelector('[data-pdf-thumbnails-toggle]');
 	const status = root?.querySelector('[data-pdf-status]');
-	const total = root?.querySelector('[data-pdf-total]');
+	const progress = root?.querySelector('[data-pdf-progress]');
+	const progressBar = root?.querySelector('[data-pdf-progress-bar]');
+	const progressValue = root?.querySelector('[data-pdf-progress-value]');
+	const totals = Array.from(root?.querySelectorAll('[data-pdf-total]') ?? []).filter(
+		(element): element is HTMLElement => element instanceof HTMLElement,
+	);
+	const currentLabels = Array.from(root?.querySelectorAll('[data-pdf-current]') ?? []).filter(
+		(element): element is HTMLElement => element instanceof HTMLElement,
+	);
 	const pageInput = root?.querySelector('[data-pdf-page-input]');
-	const previousButton = root?.querySelector('[data-pdf-prev]');
-	const nextButton = root?.querySelector('[data-pdf-next]');
+	const previousButtons = Array.from(root?.querySelectorAll('[data-pdf-prev]') ?? []).filter(
+		(element): element is HTMLButtonElement => element instanceof HTMLButtonElement,
+	);
+	const nextButtons = Array.from(root?.querySelectorAll('[data-pdf-next]') ?? []).filter(
+		(element): element is HTMLButtonElement => element instanceof HTMLButtonElement,
+	);
 	const zoomOutButton = root?.querySelector('[data-pdf-zoom-out]');
 	const zoomInButton = root?.querySelector('[data-pdf-zoom-in]');
 	const zoomLabel = root?.querySelector('[data-pdf-zoom]');
@@ -169,11 +244,18 @@ const externalLinkRel = 'nofollow noreferrer';
 		pdfUrl &&
 		canvas instanceof HTMLCanvasElement &&
 		stage instanceof HTMLElement &&
+		loading instanceof HTMLElement &&
+		thumbnails instanceof HTMLElement &&
+		thumbnailList instanceof HTMLElement &&
+		thumbnailToggle instanceof HTMLButtonElement &&
 		status instanceof HTMLElement &&
-		total instanceof HTMLElement &&
+		progress instanceof HTMLElement &&
+		progressBar instanceof HTMLElement &&
+		progressValue instanceof HTMLElement &&
+		totals.length > 0 &&
 		pageInput instanceof HTMLInputElement &&
-		previousButton instanceof HTMLButtonElement &&
-		nextButton instanceof HTMLButtonElement &&
+		previousButtons.length > 0 &&
+		nextButtons.length > 0 &&
 		zoomOutButton instanceof HTMLButtonElement &&
 		zoomInButton instanceof HTMLButtonElement &&
 		zoomLabel instanceof HTMLElement
@@ -184,10 +266,181 @@ const externalLinkRel = 'nofollow noreferrer';
 		let zoom = 1;
 		let isRendering = false;
 		let hasPendingRender = false;
+		let isFirstPageRendered = false;
+		let isPdfDownloaded = false;
+		let areThumbnailsVisible = true;
+		let thumbnailButtons: HTMLButtonElement[] = [];
+		let thumbnailObserver: IntersectionObserver | undefined;
 
 		const setStatus = (message: string, isError = false) => {
 			status.textContent = message;
 			status.toggleAttribute('data-error', isError);
+		};
+
+		const hideDownloadProgress = () => {
+			loading.hidden = true;
+			loading.toggleAttribute('data-complete', true);
+		};
+
+		const setDownloadProgress = (loaded: number, totalBytes?: number) => {
+			if (!totalBytes) {
+				progress.removeAttribute('aria-valuenow');
+				progress.toggleAttribute('data-indeterminate', true);
+				progressValue.textContent = `${Math.round(loaded / 1024)} KB`;
+				return;
+			}
+
+			const percent = Math.min(100, Math.max(0, Math.round((loaded / totalBytes) * 100)));
+			progress.setAttribute('aria-valuenow', String(percent));
+			progress.removeAttribute('data-indeterminate');
+			progressBar.style.setProperty('--pdf-progress', `${percent}%`);
+			progressValue.textContent = `${percent}%`;
+
+			if (percent >= 100) {
+				isPdfDownloaded = true;
+				hideDownloadProgress();
+				if (isFirstPageRendered) {
+					setStatus('PDF cargado');
+				}
+			}
+		};
+
+		const updateThumbnailToggle = () => {
+			thumbnailToggle.setAttribute('aria-pressed', String(areThumbnailsVisible));
+			thumbnailToggle.setAttribute(
+				'aria-label',
+				areThumbnailsVisible ? 'Ocultar vistas previas' : 'Mostrar vistas previas',
+			);
+			root.toggleAttribute('data-thumbnails-hidden', !areThumbnailsVisible);
+		};
+
+		const updateActiveThumbnail = () => {
+			let activeButton: HTMLButtonElement | undefined;
+
+			for (const thumbnailButton of thumbnailButtons) {
+				const isActive = Number(thumbnailButton.dataset.page) === currentPage;
+				thumbnailButton.toggleAttribute('data-current', isActive);
+				thumbnailButton.setAttribute('aria-current', isActive ? 'page' : 'false');
+				if (isActive) activeButton = thumbnailButton;
+			}
+
+			if (activeButton && areThumbnailsVisible) {
+				activeButton.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+			}
+		};
+
+		const renderThumbnail = async (button: HTMLButtonElement) => {
+			if (!pdfDocument || button.dataset.rendered || button.dataset.rendering) return;
+			const thumbnailCanvas = button.querySelector('canvas');
+			if (!(thumbnailCanvas instanceof HTMLCanvasElement)) return;
+
+			button.dataset.rendering = 'true';
+
+			try {
+				const pageNumber = Number(button.dataset.page);
+				const page = await pdfDocument.getPage(pageNumber);
+				const baseViewport = page.getViewport({ scale: 1 });
+				const targetWidth = 104;
+				const viewport = page.getViewport({ scale: targetWidth / baseViewport.width });
+				const outputScale = window.devicePixelRatio || 1;
+				const thumbnailContext = thumbnailCanvas.getContext('2d');
+				if (!thumbnailContext) return;
+
+				thumbnailCanvas.width = Math.floor(viewport.width * outputScale);
+				thumbnailCanvas.height = Math.floor(viewport.height * outputScale);
+				thumbnailCanvas.style.width = `${Math.floor(viewport.width)}px`;
+				thumbnailCanvas.style.height = `${Math.floor(viewport.height)}px`;
+				thumbnailContext.setTransform(outputScale, 0, 0, outputScale, 0, 0);
+				thumbnailContext.clearRect(0, 0, viewport.width, viewport.height);
+
+				await page.render({
+					canvasContext: thumbnailContext,
+					viewport,
+				}).promise;
+
+				thumbnailCanvas.hidden = false;
+				button.dataset.rendered = 'true';
+			} finally {
+				delete button.dataset.rendering;
+			}
+		};
+
+		const renderNearbyThumbnails = () => {
+			if (!areThumbnailsVisible) return;
+			const pages = new Set([currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2]);
+
+			for (const pageNumber of pages) {
+				if (pageNumber < 1 || pageNumber > (pdfDocument?.numPages ?? 1)) continue;
+				const thumbnailButton = thumbnailButtons[pageNumber - 1];
+				if (thumbnailButton) void renderThumbnail(thumbnailButton);
+			}
+		};
+
+		const buildThumbnails = () => {
+			if (!pdfDocument) return;
+			thumbnailList.textContent = '';
+			thumbnailObserver?.disconnect();
+			thumbnailButtons = [];
+
+			thumbnailObserver = new IntersectionObserver(
+				(entries) => {
+					for (const entry of entries) {
+						if (entry.isIntersecting && entry.target instanceof HTMLButtonElement) {
+							void renderThumbnail(entry.target);
+							thumbnailObserver?.unobserve(entry.target);
+						}
+					}
+				},
+				{
+					root: thumbnails,
+					rootMargin: '360px',
+				},
+			);
+
+			for (let pageNumber = 1; pageNumber <= pdfDocument.numPages; pageNumber += 1) {
+				const button = document.createElement('button');
+				button.type = 'button';
+				button.className = 'pdf-thumbnail';
+				button.dataset.page = String(pageNumber);
+				button.setAttribute('aria-label', `Ir a la página ${pageNumber}`);
+
+				const preview = document.createElement('span');
+				preview.className = 'pdf-thumbnail-preview';
+
+				const thumbnailCanvas = document.createElement('canvas');
+				thumbnailCanvas.hidden = true;
+				preview.append(thumbnailCanvas);
+
+				const label = document.createElement('span');
+				label.className = 'pdf-thumbnail-label';
+				label.textContent = String(pageNumber);
+
+				button.append(preview, label);
+				button.addEventListener('click', () => {
+					void goToPage(pageNumber);
+				});
+
+				thumbnailList.append(button);
+				thumbnailButtons.push(button);
+				thumbnailObserver.observe(button);
+			}
+
+			updateActiveThumbnail();
+			renderNearbyThumbnails();
+		};
+
+		const setThumbnailsVisible = (isVisible: boolean) => {
+			areThumbnailsVisible = isVisible;
+			updateThumbnailToggle();
+
+			if (isVisible) {
+				updateActiveThumbnail();
+				renderNearbyThumbnails();
+			}
+
+			window.requestAnimationFrame(() => {
+				void renderPage();
+			});
 		};
 
 		const updateControls = () => {
@@ -195,12 +448,23 @@ const externalLinkRel = 'nofollow noreferrer';
 
 			pageInput.value = String(currentPage);
 			pageInput.max = String(pages);
-			total.textContent = String(pages);
-			previousButton.disabled = currentPage <= 1;
-			nextButton.disabled = currentPage >= pages;
+			for (const total of totals) {
+				total.textContent = String(pages);
+			}
+			for (const currentLabel of currentLabels) {
+				currentLabel.textContent = String(currentPage);
+			}
+			for (const previousButton of previousButtons) {
+				previousButton.disabled = currentPage <= 1;
+			}
+			for (const nextButton of nextButtons) {
+				nextButton.disabled = currentPage >= pages;
+			}
 			zoomOutButton.disabled = zoom <= 0.75;
 			zoomInButton.disabled = zoom >= 1.8;
 			zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
+			updateActiveThumbnail();
+			renderNearbyThumbnails();
 		};
 
 		const renderPage = async () => {
@@ -213,10 +477,18 @@ const externalLinkRel = 'nofollow noreferrer';
 			isRendering = true;
 
 			try {
+				setStatus(`Cargando página ${currentPage}...`);
+				updateControls();
+
 				const page = await pdfDocument.getPage(currentPage);
 				const baseViewport = page.getViewport({ scale: 1 });
 				const availableWidth = Math.max(stage.clientWidth - 32, 280);
-				const fitScale = Math.min(availableWidth / baseViewport.width, 1.28);
+				const availableHeight = Math.max(stage.clientHeight - 32, 380);
+				const fitScale = Math.min(
+					availableWidth / baseViewport.width,
+					availableHeight / baseViewport.height,
+					1.28,
+				);
 				const viewport = page.getViewport({ scale: fitScale * zoom });
 				const outputScale = window.devicePixelRatio || 1;
 
@@ -227,13 +499,17 @@ const externalLinkRel = 'nofollow noreferrer';
 				context.setTransform(outputScale, 0, 0, outputScale, 0, 0);
 				context.clearRect(0, 0, viewport.width, viewport.height);
 
-				setStatus(`Mostrando página ${currentPage}`);
-				updateControls();
-
 				await page.render({
 					canvasContext: context,
 					viewport,
 				}).promise;
+
+				canvas.hidden = false;
+				isFirstPageRendered = true;
+				setStatus(`Mostrando página ${currentPage}`);
+				if (isPdfDownloaded) {
+					setStatus('PDF cargado');
+				}
 			} finally {
 				isRendering = false;
 
@@ -255,13 +531,17 @@ const externalLinkRel = 'nofollow noreferrer';
 			await renderPage();
 		};
 
-		previousButton.addEventListener('click', () => {
-			void goToPage(currentPage - 1);
-		});
+		for (const previousButton of previousButtons) {
+			previousButton.addEventListener('click', () => {
+				void goToPage(currentPage - 1);
+			});
+		}
 
-		nextButton.addEventListener('click', () => {
-			void goToPage(currentPage + 1);
-		});
+		for (const nextButton of nextButtons) {
+			nextButton.addEventListener('click', () => {
+				void goToPage(currentPage + 1);
+			});
+		}
 
 		zoomOutButton.addEventListener('click', () => {
 			void changeZoom(zoom - 0.15);
@@ -269,6 +549,10 @@ const externalLinkRel = 'nofollow noreferrer';
 
 		zoomInButton.addEventListener('click', () => {
 			void changeZoom(zoom + 0.15);
+		});
+
+		thumbnailToggle.addEventListener('click', () => {
+			setThumbnailsVisible(!areThumbnailsVisible);
 		});
 
 		pageInput.addEventListener('change', () => {
@@ -286,10 +570,39 @@ const externalLinkRel = 'nofollow noreferrer';
 		});
 
 		resizeObserver.observe(stage);
+		updateThumbnailToggle();
 
 		try {
-			pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
-			total.textContent = String(pdfDocument.numPages);
+			setStatus('Descargando metadatos del PDF...');
+			const loadingTask = pdfjsLib.getDocument({
+				url: pdfUrl,
+				disableStream: false,
+				rangeChunkSize: 131072,
+			});
+
+			loadingTask.onProgress = ({ loaded, total: totalBytes }: { loaded: number; total?: number }) => {
+				setDownloadProgress(loaded, totalBytes);
+				if (!totalBytes) {
+					if (!isFirstPageRendered) setStatus(`Descargando PDF... (${Math.round(loaded / 1024)} KB)`);
+					return;
+				}
+
+				const percent = Math.min(100, Math.round((loaded / totalBytes) * 100));
+				if (!isFirstPageRendered) {
+					setStatus(`Preparando PDF... ${percent}%`);
+					return;
+				}
+
+				if (percent < 100) {
+					setStatus(`Descargando el resto del PDF... ${percent}%`);
+				}
+			};
+
+			pdfDocument = await loadingTask.promise;
+			for (const total of totals) {
+				total.textContent = String(pdfDocument.numPages);
+			}
+			buildThumbnails();
 			await renderPage();
 		} catch (error) {
 			console.error(error);
