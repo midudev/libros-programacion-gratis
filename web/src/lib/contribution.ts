@@ -16,6 +16,11 @@ export type CatalogEntry = {
   section: string;
 };
 
+export type SearchableCatalogEntry = CatalogEntry & {
+  normalizedHref: string;
+  normalizedTitle: string;
+};
+
 export const normalizeText = (value: string) =>
   value
     .normalize('NFD')
@@ -41,9 +46,16 @@ export const normalizeUrl = (value: string) => {
 
 export const isSupportedUrl = (value: string) => normalizeUrl(value) !== '';
 
+export const createSearchableCatalog = (catalog: CatalogEntry[]): SearchableCatalogEntry[] =>
+  catalog.map((entry) => ({
+    ...entry,
+    normalizedHref: normalizeUrl(entry.href),
+    normalizedTitle: normalizeText(entry.title),
+  }));
+
 export const findPotentialDuplicates = (
   proposal: Pick<ContributionForm, 'url' | 'title'>,
-  catalog: CatalogEntry[],
+  catalog: SearchableCatalogEntry[],
 ) => {
   const proposedUrl = normalizeUrl(proposal.url);
   const proposedTitle = normalizeText(proposal.title);
@@ -54,9 +66,9 @@ export const findPotentialDuplicates = (
 
   return catalog
     .filter((entry) => {
-      const sameUrl = proposedUrl && normalizeUrl(entry.href) === proposedUrl;
+      const sameUrl = proposedUrl && entry.normalizedHref === proposedUrl;
       const sameTitle =
-        proposedTitle.length >= 4 && normalizeText(entry.title) === proposedTitle;
+        proposedTitle.length >= 4 && entry.normalizedTitle === proposedTitle;
 
       return sameUrl || sameTitle;
     })
@@ -73,29 +85,29 @@ export const buildIssueBody = (form: ContributionForm) => {
   return [
     '## Datos del recurso',
     '',
-    `- **Titulo:** ${form.title.trim()}`,
+    `- **Título:** ${form.title.trim()}`,
     `- **Autor o proyecto:** ${author}`,
     `- **Enlace:** ${form.url.trim()}`,
-    `- **Categoria sugerida:** ${form.category}`,
+    `- **Categoría sugerida:** ${form.category}`,
     `- **Formato:** ${form.format}`,
-    '- **Idioma:** Espanol',
+    '- **Idioma:** Español',
     '',
     '## Confirmaciones',
     '',
     `- [${form.isFree ? 'x' : ' '}] Es gratuito, sin paywall ni trial`,
-    `- [${form.isSpanish ? 'x' : ' '}] Esta en espanol`,
+    `- [${form.isSpanish ? 'x' : ' '}] Está en español`,
     '',
-    '## Por que deberia estar en el catalogo',
+    '## Por qué debería estar en el catálogo',
     '',
     note,
     '',
     '## Checklist para mantenedores',
     '',
     '- [ ] El recurso es gratuito y legal',
-    '- [ ] Esta en espanol',
-    '- [ ] No es un articulo de blog aislado',
-    '- [ ] Encaja en la categoria sugerida o se ajusto a otra',
-    '- [ ] No duplica una entrada existente salvo nueva edicion/traduccion',
+    '- [ ] Está en español',
+    '- [ ] No es un artículo de blog aislado',
+    '- [ ] Encaja en la categoría sugerida o se ajustó a otra',
+    '- [ ] No duplica una entrada existente salvo nueva edición/traducción',
   ].join('\n');
 };
 

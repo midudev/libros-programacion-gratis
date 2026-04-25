@@ -56,15 +56,15 @@ const compactCatalog = allBooks.map((book) => ({
       <section class="hero topic-page-hero contribute-hero" aria-labelledby="contribute-title">
         <div class="topic-page-hero-copy">
           <p class="eyebrow">Archivo abierto</p>
-          <h1 id="contribute-title">Dona una ficha al estante publico.</h1>
+          <h1 id="contribute-title">Dona una ficha al estante público.</h1>
           <p class="hero-sub text-wrap">
-            Trae un libro o guia gratuita de programacion en espanol. Esta mesa de entrada
+            Trae un libro o guía gratuita de programación en español. Esta mesa de entrada
             ordena los datos, avisa duplicados y deja la issue lista para revisar.
           </p>
           <div class="topic-page-stats" aria-label="Resumen del flujo">
             <span><strong>3</strong> pasos</span>
             <span><strong>Issue</strong> lista</span>
-            <span><strong>Sin codigo</strong></span>
+            <span><strong>Sin código</strong></span>
           </div>
         </div>
 
@@ -80,9 +80,9 @@ const compactCatalog = allBooks.map((book) => ({
       </section>
 
       <section class="seo-copy" aria-labelledby="how-it-works-title">
-        <h2 id="how-it-works-title">Proponer recursos gratuitos sin tocar el catalogo</h2>
+        <h2 id="how-it-works-title">Proponer recursos gratuitos sin tocar el catálogo</h2>
         <p>
-          Esta pagina prepara una propuesta con los datos minimos que revisa el equipo:
+          Esta página prepara una propuesta con los datos mínimos que revisa el equipo:
           enlace, título, categoría, formato y confirmación de que el recurso es gratis y está en español.
         </p>
         <p>
@@ -93,7 +93,7 @@ const compactCatalog = allBooks.map((book) => ({
 
       <noscript>
         <div class="noscript-note">
-          Para generar la propuesta guiada necesitas JavaScript. Tambien puedes abrir una issue manual en
+          Para generar la propuesta guiada necesitas JavaScript. También puedes abrir una issue manual en
           <a href={`${sourceRepository.href}/issues/new/choose`}>GitHub</a>.
         </div>
       </noscript>
@@ -110,7 +110,7 @@ const compactCatalog = allBooks.map((book) => ({
 
           <fieldset class="proposal-step">
             <legend><span>1</span> Enlace del recurso</legend>
-            <label for="resource-url">URL del libro, guia o PDF</label>
+            <label for="resource-url">URL del libro, guía o PDF</label>
             <input id="resource-url" name="url" type="url" inputmode="url" placeholder="https://ejemplo.com/libro-gratis.pdf" required aria-describedby="url-help" />
             <p class="field-help" id="url-help" data-url-status>Pega una URL http o https. No hacemos comprobaciones remotas.</p>
             <div class="duplicate-warning" data-duplicate-warning hidden aria-live="polite"></div>
@@ -120,19 +120,19 @@ const compactCatalog = allBooks.map((book) => ({
             <legend><span>2</span> Datos del libro</legend>
             <div class="field-grid">
               <div class="field-card">
-                <label for="resource-title">Titulo</label>
+                <label for="resource-title">Título</label>
                 <input id="resource-title" name="title" type="text" autocomplete="off" required />
               </div>
               <div class="field-card">
                 <label for="resource-author">Autor o proyecto</label>
-                <input id="resource-author" name="author" type="text" placeholder="Autoria, editorial o comunidad" />
+                <input id="resource-author" name="author" type="text" placeholder="Autoría, editorial o comunidad" />
               </div>
             </div>
             <div class="field-grid">
               <div class="field-card">
-                <label for="resource-category">Categoria sugerida</label>
+                <label for="resource-category">Categoría sugerida</label>
                 <select id="resource-category" name="category" required>
-                  <option value="">Elige una categoria</option>
+                  <option value="">Elige una categoría</option>
                   {categories.map((category) => <option value={category}>{category}</option>)}
                 </select>
               </div>
@@ -151,18 +151,18 @@ const compactCatalog = allBooks.map((book) => ({
           </fieldset>
 
           <fieldset class="proposal-step">
-            <legend><span>3</span> Confirmacion y nota</legend>
+            <legend><span>3</span> Confirmación y nota</legend>
             <label class="check-card">
               <input name="isFree" type="checkbox" required />
-              <span><strong>Es gratuito</strong> Sin paywall, registro obligatorio ni version trial.</span>
+              <span><strong>Es gratuito</strong> Sin paywall, registro obligatorio ni versión trial.</span>
             </label>
             <label class="check-card">
               <input name="isSpanish" type="checkbox" required />
-              <span><strong>Esta en espanol</strong> Escrito o traducido al espanol.</span>
+              <span><strong>Está en español</strong> Escrito o traducido al español.</span>
             </label>
             <div class="field-card note-card">
-              <label for="resource-note">Por que deberia estar en el catalogo <small>opcional, max. 500</small></label>
-              <textarea id="resource-note" name="note" maxlength="500" rows="5" placeholder="Nivel, enfoque, ejercicios o por que te parece util."></textarea>
+              <label for="resource-note">Por qué debería estar en el catálogo <small>opcional, máx. 500</small></label>
+              <textarea id="resource-note" name="note" maxlength="500" rows="5" placeholder="Nivel, enfoque, ejercicios o por qué te parece útil."></textarea>
               <p class="field-help"><span data-note-count>0</span> / 500</p>
             </div>
           </fieldset>
@@ -170,17 +170,17 @@ const compactCatalog = allBooks.map((book) => ({
           <div class="form-actions">
             <p class="status-line" data-form-status aria-live="polite">Faltan campos obligatorios para crear la issue.</p>
             <button class="secondary-action" type="button" data-copy-proposal>Copiar propuesta</button>
-            <a class="primary-action is-disabled" data-create-issue href={sourceRepository.href} aria-disabled="true" role="button">Crear issue en GitHub</a>
+            <a class="primary-action is-disabled" data-create-issue href={sourceRepository.href} aria-disabled="true" tabindex="-1" role="button">Crear issue en GitHub</a>
           </div>
         </form>
 
         <aside class="proposal-preview" aria-label="Vista previa">
           <section class="book preview-card">
             <p class="card-label">Preview de catálogo</p>
-            <h3 data-preview-title>Tu titulo aparecera aqui</h3>
+            <h3 data-preview-title>Tu título aparecerá aquí</h3>
             <p class="book-author" data-preview-author>Autor o proyecto</p>
-            <div class="preview-formats"><span data-preview-category>Categoria</span><span data-preview-format>Formato</span><span>Gratis</span></div>
-            <p class="preview-note" data-preview-note>Tu nota ayudara a revisar el recurso.</p>
+            <div class="preview-formats"><span data-preview-category>Categoría</span><span data-preview-format>Formato</span><span>Gratis</span></div>
+            <p class="preview-note" data-preview-note>Tu nota ayudará a revisar el recurso.</p>
           </section>
           <section class="issue-preview">
             <p class="card-label">Issue de GitHub</p>
@@ -204,10 +204,10 @@ const compactCatalog = allBooks.map((book) => ({
   <script type="application/json" id="contribution-data" set:html={JSON.stringify({ compactCatalog, repositoryHref: sourceRepository.href }).replace(/</g, '\\u003c')} />
 
   <script>
-    import { buildIssueBody, buildIssueTitle, buildIssueUrl, findPotentialDuplicates, isSupportedUrl } from '../lib/contribution';
+    import { buildIssueBody, buildIssueTitle, buildIssueUrl, createSearchableCatalog, findPotentialDuplicates, isSupportedUrl } from '../lib/contribution';
 
     const pageData = JSON.parse(document.querySelector('#contribution-data')?.textContent || '{}');
-    const compactCatalog = pageData.compactCatalog || [];
+    const searchableCatalog = createSearchableCatalog(pageData.compactCatalog || []);
     const repositoryHref = pageData.repositoryHref || '';
     const form = document.querySelector('[data-contribution-form]');
     const createIssue = document.querySelector('[data-create-issue]');
@@ -243,12 +243,12 @@ const compactCatalog = allBooks.map((book) => ({
       const missing = [];
 
       if (!data.url) missing.push('URL');
-      if (data.url && !isSupportedUrl(data.url)) missing.push('URL valida');
-      if (!data.title) missing.push('titulo');
-      if (!data.category) missing.push('categoria');
+      if (data.url && !isSupportedUrl(data.url)) missing.push('URL válida');
+      if (!data.title) missing.push('título');
+      if (!data.category) missing.push('categoría');
       if (!data.format) missing.push('formato');
       if (!data.isFree) missing.push('confirmar que es gratuito');
-      if (!data.isSpanish) missing.push('confirmar que esta en espanol');
+      if (!data.isSpanish) missing.push('confirmar que está en español');
 
       return missing;
     };
@@ -259,13 +259,13 @@ const compactCatalog = allBooks.map((book) => ({
       const valid = missing.length === 0;
       const body = buildIssueBody(data);
       const title = buildIssueTitle(data);
-      const duplicates = findPotentialDuplicates(data, compactCatalog);
+      const duplicates = findPotentialDuplicates(data, searchableCatalog);
 
-      previewTitle.textContent = data.title || 'Tu titulo aparecera aqui';
+      previewTitle.textContent = data.title || 'Tu título aparecerá aquí';
       previewAuthor.textContent = data.author || 'Autor o proyecto';
-      previewCategory.textContent = data.category || 'Categoria';
+      previewCategory.textContent = data.category || 'Categoría';
       previewFormat.textContent = data.format || 'Formato';
-      previewNote.textContent = data.note || 'Tu nota ayudara a revisar el recurso.';
+      previewNote.textContent = data.note || 'Tu nota ayudará a revisar el recurso.';
       issueTitle.textContent = title;
       issueBody.textContent = body;
       noteCount.textContent = String(data.note.length);
@@ -274,27 +274,29 @@ const compactCatalog = allBooks.map((book) => ({
         urlStatus.textContent = 'Pega una URL http o https. No hacemos comprobaciones remotas.';
         urlStatus.dataset.state = '';
       } else if (isSupportedUrl(data.url)) {
-        urlStatus.textContent = 'URL con formato valido.';
+        urlStatus.textContent = 'URL con formato válido.';
         urlStatus.dataset.state = 'ok';
       } else {
-        urlStatus.textContent = 'Usa una URL valida que empiece con http o https.';
+        urlStatus.textContent = 'Usa una URL válida que empiece con http o https.';
         urlStatus.dataset.state = 'error';
       }
 
       duplicateWarning.hidden = duplicates.length === 0;
       if (duplicates.length > 0) {
-        duplicateWarning.textContent = `Puede que ya exista: ${duplicates.map((entry) => `${entry.title} (${entry.section})`).join(', ')}. Si es otra edicion o traduccion, continua.`;
+        duplicateWarning.textContent = `Puede que ya exista: ${duplicates.map((entry) => `${entry.title} (${entry.section})`).join(', ')}. Si es otra edición o traducción, continúa.`;
       }
 
       if (valid) {
         createIssue.href = buildIssueUrl(repositoryHref, data);
         createIssue.classList.remove('is-disabled');
         createIssue.setAttribute('aria-disabled', 'false');
+        createIssue.removeAttribute('tabindex');
         formStatus.textContent = 'Propuesta lista para abrir en GitHub.';
       } else {
         createIssue.href = repositoryHref;
         createIssue.classList.add('is-disabled');
         createIssue.setAttribute('aria-disabled', 'true');
+        createIssue.setAttribute('tabindex', '-1');
         formStatus.textContent = `Falta: ${missing.join(', ')}.`;
       }
 
@@ -313,16 +315,19 @@ const compactCatalog = allBooks.map((book) => ({
 
       try {
         await navigator.clipboard.writeText(proposal);
+        form.querySelector('.copy-fallback')?.remove();
         formStatus.textContent = 'Propuesta copiada al portapapeles.';
       } catch {
-        const fallback = document.createElement('textarea');
+        const fallback = form.querySelector('.copy-fallback') || document.createElement('textarea');
         fallback.className = 'copy-fallback';
         fallback.value = proposal;
         fallback.readOnly = true;
-        copyButton.insertAdjacentElement('afterend', fallback);
+        if (!fallback.isConnected) {
+          copyButton.insertAdjacentElement('afterend', fallback);
+        }
         fallback.focus();
         fallback.select();
-        formStatus.textContent = 'No se pudo copiar automaticamente. Selecciona el texto mostrado.';
+        formStatus.textContent = 'No se pudo copiar automáticamente. Selecciona el texto mostrado.';
       }
     });
 
