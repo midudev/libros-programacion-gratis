@@ -22,6 +22,7 @@ const nonNavigableRelations = new Set(['dns-prefetch', 'preconnect']);
 const retryableStatuses = new Set([429, 503, 504]);
 const transientNetworkErrors = new Set([
   'EAI_AGAIN',
+  'ECONNREFUSED',
   'ECONNRESET',
   'ETIMEDOUT',
   'UND_ERR_CONNECT_TIMEOUT',
