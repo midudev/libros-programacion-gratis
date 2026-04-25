@@ -389,6 +389,10 @@ function getSoftExternalFailure(result, hostname) {
     return 'external-rate-limited';
   }
 
+  if (result.status === 503 || result.status === 504) {
+    return 'external-temporary-failure';
+  }
+
   if (!hostname) {
     return null;
   }
