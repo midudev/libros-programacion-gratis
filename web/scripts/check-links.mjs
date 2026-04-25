@@ -375,11 +375,21 @@ async function requestUrl(url, method, options) {
   return result;
 }
 
-function getSoftExternalFailure(result, url) {
-  const hostname = new URL(url).hostname.toLowerCase();
+function getExternalHostname(url) {
+  try {
+    return new URL(url).hostname.toLowerCase();
+  } catch {
+    return null;
+  }
+}
 
+function getSoftExternalFailure(result, hostname) {
   if (result.status === 429) {
     return 'external-rate-limited';
+  }
+
+  if (!hostname) {
+    return null;
   }
 
   if (result.status === 403 && (hostname === 'nytimes.com' || hostname === 'www.nytimes.com')) {
@@ -418,7 +428,16 @@ async function checkExternalLink(link, options) {
     method: 'GET',
     type: 'external',
   };
-  const softReason = getSoftExternalFailure(result, url);
+  const hostname = getExternalHostname(url);
+  const softReason = getSoftExternalFailure(result, hostname);
+
+  if (!hostname) {
+    return {
+      ...result,
+      error: result.error === 'ERR_INVALID_URL' ? 'Invalid URL' : (result.error ?? 'Invalid URL'),
+      reason: 'invalid-url',
+    };
+  }
 
   if (softReason) {
     return {
