@@ -13,6 +13,8 @@ Si desea contribuir con el proyecto, puede crear un pull request en el repositor
 
 Para proponer un libro sin tocar código, usa la página guiada `/contribuir/` cuando esté desplegada.
 
+Si el cambio afecta a la interfaz o a los estilos de la web, revisa primero la [guía de diseño](./DESIGN.md) para mantener la coherencia visual del proyecto.
+
 ## Reportando errores
 
 Si encuentra un error en el código fuente, [crea una issue en el repositorio de GitHub](https://github.com/midudev/libros-programacion-gratis/issues/new/choose). Incluye un título y una descripción clara del error. Incluya capturas de pantalla si es posible.
