@@ -14,10 +14,21 @@ const defaultOptions = {
   concurrency: 8,
   dist: 'dist/client',
   report: null,
+  retries: 1,
   timeout: 12_000,
 };
 
 const nonNavigableRelations = new Set(['dns-prefetch', 'preconnect']);
+const retryableStatuses = new Set([429, 503, 504]);
+const transientNetworkErrors = new Set([
+  'EAI_AGAIN',
+  'ECONNRESET',
+  'ETIMEDOUT',
+  'UND_ERR_CONNECT_TIMEOUT',
+  'UND_ERR_HEADERS_TIMEOUT',
+  'UND_ERR_SOCKET',
+  'timeout',
+]);
 
 function parseArgs(argv) {
   const options = { ...defaultOptions };
@@ -49,6 +60,11 @@ function parseArgs(argv) {
       continue;
     }
 
+    if (name === '--retries' && value) {
+      options.retries = Number(value);
+      continue;
+    }
+
     if (name === '--timeout' && value) {
       options.timeout = Number(value);
       continue;
@@ -59,6 +75,10 @@ function parseArgs(argv) {
 
   if (!Number.isInteger(options.concurrency) || options.concurrency < 1) {
     throw new Error('--concurrency must be a positive integer');
+  }
+
+  if (!Number.isInteger(options.retries) || options.retries < 0) {
+    throw new Error('--retries must be a non-negative integer');
   }
 
   if (!Number.isInteger(options.timeout) || options.timeout < 1_000) {
@@ -74,6 +94,7 @@ function printHelp() {
 Options:
   --dist=<path>          Directory with the built client files. Default: dist/client
   --report=<path>        Write a JSON report for CI automation.
+  --retries=<count>      Retries for transient external failures. Default: 1
   --timeout=<ms>         HTTP timeout per request. Default: 12000
   --concurrency=<count>  External link checks in parallel. Default: 8
 `);
@@ -301,7 +322,11 @@ function resolveInternalLink(link, rootDir) {
   };
 }
 
-async function requestUrl(url, method, timeout) {
+function isRetryableResult(result) {
+  return retryableStatuses.has(result.status) || Boolean(result.error && transientNetworkErrors.has(result.error));
+}
+
+async function requestOnce(url, method, timeout) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeout);
 
@@ -333,9 +358,44 @@ async function requestUrl(url, method, timeout) {
   }
 }
 
-async function checkExternalLink(link, timeout) {
+async function requestUrl(url, method, options) {
+  let result;
+
+  for (let attempt = 0; attempt <= options.retries; attempt += 1) {
+    result = await requestOnce(url, method, options.timeout);
+
+    if (!isRetryableResult(result) || attempt === options.retries) {
+      return {
+        ...result,
+        attempts: attempt + 1,
+      };
+    }
+  }
+
+  return result;
+}
+
+function getSoftExternalFailure(result, url) {
+  const hostname = new URL(url).hostname.toLowerCase();
+
+  if (result.status === 429) {
+    return 'external-rate-limited';
+  }
+
+  if (result.status === 403 && (hostname === 'nytimes.com' || hostname === 'www.nytimes.com')) {
+    return 'external-bot-blocked';
+  }
+
+  if (hostname === 'web.archive.org' && result.error && transientNetworkErrors.has(result.error)) {
+    return 'external-transient-network';
+  }
+
+  return null;
+}
+
+async function checkExternalLink(link, options) {
   const url = normalizeExternalUrl(link.url);
-  const head = await requestUrl(url, 'HEAD', timeout);
+  const head = await requestUrl(url, 'HEAD', options);
 
   if (head.ok) {
     return {
@@ -347,17 +407,29 @@ async function checkExternalLink(link, timeout) {
     };
   }
 
-  const get = await requestUrl(url, 'GET', timeout);
-
-  return {
+  const get = await requestUrl(url, 'GET', options);
+  const result = {
     ...link,
     ...get,
     checkedUrl: url,
+    headAttempts: head.attempts,
     headError: head.error,
     headStatus: head.status,
     method: 'GET',
     type: 'external',
   };
+  const softReason = getSoftExternalFailure(result, url);
+
+  if (softReason) {
+    return {
+      ...result,
+      ok: true,
+      reason: softReason,
+      warning: true,
+    };
+  }
+
+  return result;
 }
 
 async function checkExternalLinks(links, options) {
@@ -368,7 +440,7 @@ async function checkExternalLinks(links, options) {
     while (currentIndex < links.length) {
       const link = links[currentIndex];
       currentIndex += 1;
-      results.push(await checkExternalLink(link, options.timeout));
+      results.push(await checkExternalLink(link, options));
     }
   }
 
@@ -403,6 +475,11 @@ function formatBrokenLink(link) {
   const location = `${link.source}:${link.line}`;
   const status = link.status ? `${link.status} ${link.statusText ?? ''}`.trim() : link.error;
   return `- ${link.url} (${link.reason ?? status}) at ${location}`;
+}
+
+function formatWarningLink(link) {
+  const location = `${link.source}:${link.line}`;
+  return `- ${link.url} (${link.reason}) at ${location}`;
 }
 
 function writeReport(report, reportPath) {
@@ -445,6 +522,7 @@ async function main() {
     return a.line - b.line;
   });
   const brokenLinks = results.filter((result) => !result.ok);
+  const warningLinks = results.filter((result) => result.warning);
   const report = {
     generatedAt: new Date().toISOString(),
     rootDir,
@@ -455,11 +533,25 @@ async function main() {
       htmlFiles: htmlFiles.length,
       skipped: skippedLinks.length,
       totalLinks: links.length,
+      warnings: warningLinks.length,
     },
     brokenLinks,
+    warningLinks,
   };
 
   writeReport(report, options.report);
+
+  if (warningLinks.length > 0) {
+    console.warn(`Found ${warningLinks.length} link warning(s):`);
+
+    for (const link of warningLinks.slice(0, 30)) {
+      console.warn(formatWarningLink(link));
+    }
+
+    if (warningLinks.length > 30) {
+      console.warn(`...and ${warningLinks.length - 30} more.`);
+    }
+  }
 
   if (brokenLinks.length > 0) {
     console.error(`Found ${brokenLinks.length} broken link(s):`);
