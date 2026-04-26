@@ -76,13 +76,13 @@ const externalLinkRel = 'nofollow noreferrer';
 					<p class="eyebrow">Descarga preparada</p>
 					<h1 id="download-title">{book.title}</h1>
 					{book.author && <p class="reader-author">{book.author}</p>}
-					<p class="download-note">
+					<p class="download-note" data-js-only>
 						La descarga del PDF se iniciará automáticamente cuando termine la espera. Si el navegador la bloquea, el botón quedará listo para hacerlo manualmente.
 						{book.epubHref && ' También puedes descargar la versión EPUB para leer en tu ebook o app de lectura.'}
 					</p>
 				</div>
 
-				<div class="download-timer" aria-live="polite">
+				<div class="download-timer" aria-live="polite" data-js-only>
 					<span class="download-count" data-download-count>{waitSeconds}</span>
 					<span class="download-count-label">segundos</span>
 					<div class="download-progress" aria-hidden="true">
@@ -96,6 +96,7 @@ const externalLinkRel = 'nofollow noreferrer';
 						href={book.pdfHref}
 						download={book.fileName}
 						aria-disabled="true"
+						data-js-only
 						data-download-link
 					>
 						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -105,6 +106,20 @@ const externalLinkRel = 'nofollow noreferrer';
 						</svg>
 						<span data-download-label>Preparando descarga (PDF)</span>
 					</a>
+					<noscript>
+						<style is:inline>
+							[data-js-only] {
+								display: none !important;
+							}
+						</style>
+						<a
+							class="reader-button reader-button-primary"
+							href={book.pdfHref}
+							download={book.fileName}
+						>
+							Descargar PDF
+						</a>
+					</noscript>
 					{book.epubHref && (
 						<a
 							class="reader-button"
