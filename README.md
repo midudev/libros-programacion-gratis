@@ -4,15 +4,15 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 
 - Web: [librosgratis.dev](https://librosgratis.dev)
 - Repositorio fuente original: [midudev/libros-programacion-gratis](https://github.com/midudev/libros-programacion-gratis)
-- Total actual: 105 recursos en 31 secciones
+- Total actual: 112 recursos en 32 secciones
 
 ## Categorías
 
 - Fundamentos: 13 recursos en 4 secciones
 - Desarrollo web: 4 recursos en 1 sección
-- Lenguajes: 64 recursos en 14 secciones
-- Plataformas: 1 recurso en 1 sección
-- Frameworks: 8 recursos en 5 secciones
+- Lenguajes: 69 recursos en 15 secciones
+- Plataformas: 2 recursos en 1 sección
+- Frameworks: 9 recursos en 5 secciones
 - Herramientas: 8 recursos en 3 secciones
 - Bases de datos: 6 recursos en 2 secciones
 - IA y datos: 1 recurso en 1 sección
@@ -22,11 +22,12 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 - [Generales](#generales) · 2
 - [Algoritmos y estructuras de datos](#algoritmos) · 8
 - [HTML y CSS](#html-css) · 4
-- [JavaScript](#javascript) · 10
+- [JavaScript](#javascript) · 11
 - [TypeScript](#typescript) · 7
 - [Python](#python) · 13
 - [Ruby](#ruby) · 3
 - [Rust](#rust) · 5
+- [Blockchain](#blockchain) · 4
 - [PHP](#php) · 4
 - [Haskell](#haskell) · 3
 - [Golang](#golang) · 2
@@ -37,7 +38,7 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 - [C#](#csharp) · 2
 - [Java](#java) · 6
 - [R](#r) · 2
-- [React](#react) · 3
+- [React](#react) · 4
 - [Qwik](#qwik) · 1
 - [Node.js](#nodejs) · 1
 - [Angular](#angular) · 1
@@ -113,7 +114,7 @@ Tipos, tooling y confianza para escalar aplicaciones front y back.
 - [Introducción a TypeScript](https://khru.gitbooks.io/typescript/) — Emmanuel Valverde Ramos · HTML
 - [TypeScript en Profundidad](https://github.com/melissarofman/typescript-book) — Basarat Ali Syed, traducido por Melissa Rofman · HTML
 - [Introducción a TypeScript](https://mega.nz/file/TldlTZID#1A90Wn8xYloDvekX8rQewI3Yh8HMJXlufRUEWEcOzNU) — Adictos al trabajo
-- [TypeScript para Principantes](https://mega.nz/file/7hdwEY6b#ESsixH9wCUFhUugkRq8BEa1uZlzFXCJX6QxHdL5Yz9Q) — Envato Tuts+
+- [TypeScript para Principiantes](https://mega.nz/file/7hdwEY6b#ESsixH9wCUFhUugkRq8BEa1uZlzFXCJX6QxHdL5Yz9Q) — Envato Tuts+
 - [Manual de TypeScript](https://mega.nz/#!qwcFDZ7a!ggLXIZ4c-O1Do0OEuvK0Mz8k39LvYQwdaJ2LtKKxgsE) — Emmanuel Valverde y Pedro Hernández-Mora
 - [Uso avanzado de TypeScript en un ejemplo real](https://neliosoftware.com/es/blog/uso-avanzado-de-typescript/) — Nelio Software · HTML
 - [Aprendizaje TypeScript](https://librosgratis.dev/books/typescript-aprendizaje.pdf) — RipTutorial · PDF
@@ -159,6 +160,17 @@ Rendimiento, seguridad de memoria y una comunidad técnica con mucha calidad.
 - [El Lenguaje de Programación Rust - 2024](https://book.rustlang-es.org) — Libro oficial traducido por RustLang en Español · HTML, PDF
 - [Comprehensive Rust](https://google.github.io/comprehensive-rust/es/) — Google · HTML, PDF _Está planteado como workshop, muy útil para estudiar con instructor o en grupo._
 - [Rust para C#/.NET Developers](https://dotnet-book.rustlang-es.org) — Microsoft, traducido por RustLang en Español · HTML, PDF _Incluye comparaciones sencillas para entender bien el cambio de mentalidad entre lenguajes._
+
+## Blockchain
+
+<a id="blockchain"></a>
+
+Descentralización, contratos inteligentes y criptografía aplicada.
+
+- [Bitcoin: Un sistema de efectivo electrónico de usuario a usuario](https://bitcoin.org/files/bitcoin-paper/bitcoin_es.pdf) — Satoshi Nakamoto · PDF
+- [El Libro de Satoshi](http://www.libroblockchain.com/satoshi/) — Phil Champagne · HTML
+- [Entendiendo el Blockchain](https://www.secmca.org/wp-content/uploads/2019/12/Blockchain.pdf) — SECMCA · PDF
+- [Solidity: Documentación oficial en español](https://solidity-es.readthedocs.io/) · HTML
 
 ## PHP
 

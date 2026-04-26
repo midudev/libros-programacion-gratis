@@ -1416,24 +1416,42 @@ img {
   backdrop-filter: blur(12px);
 }
 
+.pdf-toolbar-bottom {
+  position: static;
+  z-index: 1;
+  justify-content: center;
+  border-top: 1px solid var(--border);
+  border-bottom: 0;
+}
+
+.pdf-toolbar-bottom .pdf-toolbar-group {
+  margin-inline: auto;
+}
+
 .pdf-toolbar-group {
   display: flex;
   align-items: center;
-  gap: 0.42rem;
+  gap: 0.5rem;
 }
 
 .pdf-icon-button {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(var(--text-rgb), 0.08);
-  border-radius: 7px;
-  background: rgba(var(--glass-bg), 0.72);
-  color: var(--text);
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(41, 31, 23, 0.1);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 251, 244, 0.74)),
+    rgba(255, 255, 255, 0.74);
+  color: color-mix(in srgb, var(--text) 72%, var(--muted));
+  box-shadow:
+    0 1px 1px rgba(41, 31, 23, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
   transition:
     background-color 150ms ease,
     border-color 150ms ease,
+    box-shadow 150ms ease,
     color 150ms ease,
     transform 150ms ease;
 }
@@ -1442,7 +1460,18 @@ img {
 .pdf-icon-button:focus-visible:not(:disabled) {
   border-color: rgba(var(--accent-rgb), 0.34);
   color: var(--accent);
+  box-shadow:
+    0 8px 18px rgba(41, 31, 23, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
   transform: translateY(-1px);
+}
+
+.pdf-icon-button[aria-pressed="true"] {
+  border-color: rgba(197, 90, 61, 0.32);
+  color: var(--accent);
+  background:
+    linear-gradient(180deg, rgba(255, 245, 235, 0.96), rgba(255, 238, 224, 0.8)),
+    rgba(255, 255, 255, 0.78);
 }
 
 .pdf-icon-button:disabled {
@@ -1450,20 +1479,43 @@ img {
   opacity: 0.45;
 }
 
+.pdf-page-control {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  height: 40px;
+  overflow: hidden;
+  border: 1px solid rgba(41, 31, 23, 0.1);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 251, 244, 0.76)),
+    rgba(255, 255, 255, 0.82);
+  box-shadow:
+    0 1px 1px rgba(41, 31, 23, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
 .pdf-page-field input {
-  width: 4.3rem;
-  height: 36px;
-  border: 1px solid rgba(var(--text-rgb), 0.08);
-  border-radius: 7px;
-  background: rgba(var(--glass-bg), 0.78);
+  width: 4.35rem;
+  height: 38px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--text);
+  font-size: 1rem;
   font-weight: 800;
   text-align: center;
 }
 
 .pdf-page-field input:focus {
-  outline: 2px solid rgba(var(--accent-rgb), 0.34);
-  outline-offset: 2px;
+  outline: 0;
+}
+
+.pdf-page-control:focus-within {
+  border-color: rgba(197, 90, 61, 0.42);
+  box-shadow:
+    0 0 0 3px rgba(197, 90, 61, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
 }
 
 .pdf-total,
@@ -1478,10 +1530,58 @@ img {
   color: var(--text);
 }
 
+.pdf-page-control .pdf-total {
+  display: inline-flex;
+  align-items: center;
+  align-self: stretch;
+  gap: 0.22rem;
+  padding: 0 0.78rem 0 0.7rem;
+  border-left: 1px solid rgba(41, 31, 23, 0.08);
+  background: rgba(41, 31, 23, 0.025);
+}
+
+.pdf-page-readout {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  gap: 0.24rem;
+  padding: 0 0.9rem;
+  border: 1px solid rgba(41, 31, 23, 0.1);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 251, 244, 0.76)),
+    rgba(255, 255, 255, 0.82);
+  box-shadow:
+    0 1px 1px rgba(41, 31, 23, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+.pdf-loading {
+  position: absolute;
+  inset: 0.8rem 0.8rem auto;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.42rem 0.75rem;
+  align-items: center;
+  max-width: 32rem;
+  margin-inline: auto;
+  padding: 0.62rem 0.78rem 0.68rem;
+  border: 1px solid rgba(230, 225, 218, 0.86);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 251, 244, 0.82)),
+    rgba(255, 252, 247, 0.88);
+  box-shadow: 0 14px 34px rgba(41, 31, 23, 0.12);
+  pointer-events: none;
+}
+
+.pdf-loading[hidden] {
+  display: none;
+}
+
 .pdf-status {
   margin: 0;
-  padding: 0.55rem 0.85rem;
-  border-bottom: 1px solid rgba(var(--border-rgb), 0.72);
   color: var(--muted);
   font-size: 0.82rem;
 }
@@ -1490,10 +1590,162 @@ img {
   color: #a33a2c;
 }
 
+.pdf-progress {
+  position: relative;
+  grid-column: 1 / -1;
+  overflow: hidden;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(41, 31, 23, 0.08);
+  box-shadow: inset 0 1px 2px rgba(41, 31, 23, 0.08);
+}
+
+.pdf-progress-bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--pdf-progress, 0%);
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), #e0a448);
+  transition: width 180ms ease;
+}
+
+.pdf-progress[data-indeterminate] .pdf-progress-bar {
+  width: 38%;
+  animation: pdf-progress-indeterminate 1.1s ease-in-out infinite;
+}
+
+.pdf-progress-value {
+  margin: 0;
+  color: color-mix(in srgb, var(--muted) 84%, var(--text));
+  font-size: 0.74rem;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pdf-viewer-layout {
+  display: grid;
+  grid-template-columns: clamp(7.6rem, 12vw, 9.25rem) minmax(0, 1fr);
+  height: clamp(46rem, 86vh, 68rem);
+  overflow: hidden;
+  background: #f3eee6;
+}
+
+.pdf-shell[data-thumbnails-hidden] .pdf-viewer-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.pdf-shell[data-thumbnails-hidden] .pdf-thumbnails {
+  display: none;
+}
+
+.pdf-thumbnails {
+  overflow-y: auto;
+  min-height: 0;
+  border-right: 1px solid rgba(41, 31, 23, 0.09);
+  background:
+    linear-gradient(180deg, rgba(255, 252, 247, 0.82), rgba(246, 240, 232, 0.88)),
+    #f8f3ea;
+  scrollbar-color: rgba(41, 31, 23, 0.22) transparent;
+}
+
+.pdf-thumbnail-list {
+  display: grid;
+  gap: 0.62rem;
+  padding: 0.75rem 0.62rem;
+}
+
+.pdf-thumbnail {
+  display: grid;
+  gap: 0.38rem;
+  justify-items: center;
+  padding: 0.45rem 0.38rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+.pdf-thumbnail:hover,
+.pdf-thumbnail:focus-visible {
+  border-color: rgba(197, 90, 61, 0.24);
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--text);
+}
+
+.pdf-thumbnail:focus-visible {
+  outline: 2px solid rgba(197, 90, 61, 0.34);
+  outline-offset: 2px;
+}
+
+.pdf-thumbnail[data-current] {
+  border-color: rgba(197, 90, 61, 0.38);
+  background: rgba(255, 255, 255, 0.76);
+  color: var(--accent);
+  box-shadow:
+    0 10px 24px rgba(41, 31, 23, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+.pdf-thumbnail-preview {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(100%, 6.5rem);
+  aspect-ratio: 210 / 297;
+  overflow: hidden;
+  border-radius: 5px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent) -120% 0 / 220% 100%,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(250, 247, 242, 0.92));
+  box-shadow:
+    0 5px 14px rgba(41, 31, 23, 0.1),
+    0 0 0 1px rgba(41, 31, 23, 0.08);
+  animation: pdf-page-placeholder 1.25s ease-in-out infinite;
+}
+
+.pdf-thumbnail[data-rendered] .pdf-thumbnail-preview {
+  animation: none;
+  background: #fff;
+}
+
+.pdf-thumbnail-preview canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: inherit;
+  box-shadow: none;
+}
+
+.pdf-thumbnail-label {
+  display: inline-grid;
+  min-width: 1.45rem;
+  min-height: 1.45rem;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(41, 31, 23, 0.06);
+}
+
+.pdf-thumbnail[data-current] .pdf-thumbnail-label {
+  background: rgba(197, 90, 61, 0.14);
+}
+
 .pdf-stage {
+  position: relative;
   display: grid;
   justify-items: center;
-  min-height: min(74vh, 820px);
+  align-items: start;
+  min-height: 0;
   padding: clamp(0.8rem, 2vw, 1.5rem);
   overflow: auto;
   background:
@@ -1503,6 +1755,20 @@ img {
   background-size: 22px 22px;
 }
 
+.pdf-stage:has(canvas[hidden])::before {
+  content: "";
+  width: min(100%, 47.6rem);
+  aspect-ratio: 210 / 297;
+  border-radius: 5px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.74), transparent) -120% 0 / 220% 100%,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(250, 247, 242, 0.95));
+  box-shadow:
+    0 18px 48px rgba(41, 31, 23, 0.1),
+    0 0 0 1px rgba(41, 31, 23, 0.06);
+  animation: pdf-page-placeholder 1.25s ease-in-out infinite;
+}
+
 .pdf-stage canvas {
   max-width: none;
   border-radius: 5px;
@@ -1510,6 +1776,38 @@ img {
   box-shadow:
     0 18px 48px rgba(var(--shadow-rgb), 0.16),
     0 0 0 1px rgba(var(--shadow-rgb), 0.08);
+}
+
+@keyframes pdf-progress-indeterminate {
+  from {
+    transform: translateX(-120%);
+  }
+
+  to {
+    transform: translateX(280%);
+  }
+}
+
+@keyframes pdf-page-placeholder {
+  from {
+    background-position: -120% 0, 0 0;
+  }
+
+  to {
+    background-position: 120% 0, 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pdf-progress-bar,
+  .pdf-thumbnail-preview,
+  .pdf-stage:has(canvas[hidden])::before {
+    animation: none;
+  }
+
+  .pdf-progress-bar {
+    transition: none;
+  }
 }
 
 /* ── Download gate ── */
@@ -1755,12 +2053,41 @@ img {
     width: 100%;
   }
 
-  .pdf-page-field {
-    flex: 1;
+  .pdf-page-control,
+  .pdf-page-readout {
+    justify-content: center;
   }
 
   .pdf-page-field input {
-    width: 100%;
+    width: clamp(3.7rem, 18vw, 4.6rem);
+  }
+
+  .pdf-viewer-layout {
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .pdf-thumbnails {
+    max-width: 100%;
+    min-height: 0;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-right: 0;
+    border-bottom: 1px solid rgba(41, 31, 23, 0.09);
+  }
+
+  .pdf-thumbnail-list {
+    grid-auto-flow: column;
+    grid-auto-columns: 5.65rem;
+    grid-template-columns: none;
+    padding: 0.62rem;
+  }
+
+  .pdf-thumbnail {
+    min-width: 0;
   }
 
   .pdf-stage {
