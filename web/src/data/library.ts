@@ -79,6 +79,7 @@ export const librarySections: LibrarySection[] = [
         title: 'Los apuntes de Majo',
         href: 'https://losapuntesdemajo.vercel.app/',
         author: 'Majo Ledesma',
+        formats: ['HTML'],
       },
     ],
   },
@@ -285,6 +286,7 @@ export const librarySections: LibrarySection[] = [
         title: 'Manual de TypeScript',
         href: 'https://mega.nz/#!qwcFDZ7a!ggLXIZ4c-O1Do0OEuvK0Mz8k39LvYQwdaJ2LtKKxgsE',
         author: 'Emmanuel Valverde y Pedro Hernández-Mora',
+        formats: ['eBook'],
       },
       {
         title: 'Uso avanzado de TypeScript en un ejemplo real',
@@ -572,6 +574,7 @@ export const librarySections: LibrarySection[] = [
         title: 'Go en Español',
         href: 'https://nachopacheco.gitbooks.io/go-es/content/doc',
         author: 'Nacho Pacheco',
+        formats: ['HTML'],
       },
     ],
   },
@@ -953,11 +956,13 @@ export const librarySections: LibrarySection[] = [
         title: 'Tutorial de SQL',
         href: 'http://www.desarrolloweb.com/manuales/9/',
         author: 'Rubén Alvarez',
+        formats: ['HTML'],
       },
       {
         title: 'Manual de SQL',
         href: 'http://jorgesanchez.net/manuales/sql/intro-sql-sql2016.html',
         author: 'Jorge Sanchez Asenjo',
+        formats: ['HTML'],
       },
       {
         title: 'Apuntes básicos de SQL',
