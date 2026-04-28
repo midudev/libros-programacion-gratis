@@ -248,6 +248,23 @@ export const librarySections: LibrarySection[] = [
         author: 'Jordi Collell Puig',
         formats: ['PDF'],
       },
+      {
+        title: 'Full Stack Open',
+        href: 'https://fullstackopen.com/es/',
+        author:
+          'Universidad de Helsinki, traducido al español por Sebastian Torres, Cynthia Vico Vacca y Pablo Maffioli',
+        formats: ['HTML'],
+        note:
+          'Curso full-stack moderno basado en JavaScript con React, Node.js, MongoDB, GraphQL y TypeScript. La parte 11 de CI/CD está disponible en inglés.',
+      },
+      {
+        title: 'Clean Code JavaScript en Español',
+        href: 'https://github.com/andersontr15/clean-code-javascript-es',
+        author: 'Ryan McDermott, traducido al español por Theodore Anderson',
+        formats: ['HTML'],
+        note:
+          'Guía práctica de buenas prácticas para JavaScript: variables, funciones, clases, SOLID, pruebas, concurrencia, manejo de errores, formato y comentarios.',
+      },
     ],
   },
   {
