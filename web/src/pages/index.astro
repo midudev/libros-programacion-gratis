@@ -57,6 +57,13 @@ const structuredData = createHomeStructuredData();
 				</svg>
 			</a>
 			<nav class="header-nav" aria-label="Principal">
+				<a class="header-link" href="#" id="show-favorites" aria-label="Ver libros favoritos">
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+					</svg>
+					<span>Favoritos</span>
+					<span class="favorites-count" id="favorites-count">0</span>
+				</a>
 				<a class="header-link" href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
 					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3" />
@@ -192,10 +199,10 @@ const structuredData = createHomeStructuredData();
 										const opensInNewTab = isExternalHref(bookHref);
 
 										return (
-											<article
-												class:list={['book', pdfBook && 'is-pdf']}
-												data-search={`${book.title} ${book.author ?? ''} ${section.title} ${section.group}`.toLowerCase()}
-											>
+										<article
+											class:list={['book', pdfBook && 'is-pdf']}
+											data-search={`${book.title} ${book.author ?? ''} ${section.title} ${section.group}`.toLowerCase()}
+										>
 												{(pdfBook || opensInNewTab) && (
 													<a
 														class="book-card-link"
@@ -279,6 +286,18 @@ const structuredData = createHomeStructuredData();
 																<span>Visitar Sitio Web</span>
 															</a>
 														)}
+														<button
+															class="book-action"
+															data-favorite="false"
+															data-book-id={book.id}
+															aria-label="Marcar como favorito"
+														>
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" 
+														 stroke="currentColor" stroke-width="1.9" stroke-linecap="round" 
+														 stroke-linejoin="round" aria-hidden="true">
+														<path fill="none" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+													</svg>
+														</button>
 													</div>
 												)}
 											</article>
@@ -294,6 +313,21 @@ const structuredData = createHomeStructuredData();
 					<p>No hay coincidencias con esa búsqueda. Prueba con otro término.</p>
 				</div>
 			</section>
+
+			<div class="favorites-panel" id="favorites-panel" hidden>
+				<div class="favorites-header">
+					<h2>Libros Favoritos</h2>
+					<button class="favorites-close" type="button" aria-label="Cerrar panel de favoritos">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M18 6L6 18" />
+							<path d="M6 6l12 12" />
+						</svg>
+					</button>
+				</div>
+				<div class="favorites-list" id="favorites-list">
+					<p class="favorites-empty" hidden>No tienes libros favoritos aún. Haz clic en el corazón de cualquier libro para agregarlo.</p>
+				</div>
+			</div>
 		</main>
 
 		<footer class="footer">
@@ -396,5 +430,138 @@ const structuredData = createHomeStructuredData();
 		});
 
 		applyFilters();
+	</script>
+	<script>
+		import { getFavorites, toggleFavorite } from '../scripts/favorites.ts';
+
+		const showFavoritesBtn = document.querySelector('#show-favorites');
+		const favoritesPanel = document.querySelector('#favorites-panel');
+		const favoritesList = document.querySelector('#favorites-list');
+		const favoritesEmpty = favoritesPanel?.querySelector('.favorites-empty');
+		const favoritesClose = favoritesPanel?.querySelector('.favorites-close');
+		const favoritesCount = document.querySelector('#favorites-count');
+
+		const updateFavoritesCount = () => {
+			if (!favoritesCount) return;
+			const count = getFavorites().length;
+			favoritesCount.textContent = count.toString();
+			favoritesCount.setAttribute('data-count', count.toString());
+		};
+
+		const bookLookup = new Map();
+		document.querySelectorAll('.book').forEach((card) => {
+			const favBtn = card.querySelector('[data-book-id]');
+			if (!favBtn) return;
+			const bookId = favBtn.getAttribute('data-book-id');
+			if (!bookId) return;
+			const title = card.querySelector('h3')?.textContent?.trim() ?? '';
+			const author = card.querySelector('.book-author')?.textContent?.trim() ?? '';
+			const cardLink = card.querySelector('.book-card-link');
+			const href = cardLink?.getAttribute('href') ?? '';
+			bookLookup.set(bookId, { title, author, href });
+		});
+
+		const syncFavoritesUI = () => {
+			const favs = getFavorites();
+			document.querySelectorAll('[data-favorite]').forEach((btn) => {
+				const bookId = btn.getAttribute('data-book-id');
+				if (!bookId) return;
+				const isFav = favs.includes(bookId);
+				btn.setAttribute('data-favorite', isFav.toString());
+				btn.setAttribute('aria-label', isFav ? 'Quitar de favoritos' : 'Marcar como favorito');
+			});
+		};
+
+		const renderFavoritesPanel = () => {
+			if (!favoritesList || !favoritesEmpty) return;
+			const favorites = getFavorites();
+
+			while (favoritesList.children.length > 1) {
+				favoritesList.lastChild?.remove();
+			}
+			favoritesList.innerHTML = '';
+			favoritesList.appendChild(favoritesEmpty);
+
+			if (favorites.length === 0) {
+				favoritesEmpty.removeAttribute('hidden');
+				return;
+			}
+
+			favoritesEmpty.setAttribute('hidden', '');
+
+			favorites.forEach((bookId) => {
+				const book = bookLookup.get(bookId);
+				if (!book) return;
+
+				const isExternal = book.href && /^https?:\/\//.test(book.href);
+				const item = document.createElement('div');
+				item.className = 'favorites-item';
+				item.innerHTML = [
+					'<div style="flex:1">',
+					book.href
+						? `<a class="favorites-item-title" href="${book.href}" ${isExternal ? 'target="_blank" rel="nofollow noreferrer"' : ''}>${book.title}</a>`
+						: `<h3 class="favorites-item-title">${book.title}</h3>`,
+					book.author ? `<p class="favorites-item-author">${book.author}</p>` : '',
+					'</div>',
+					`<button class="favorites-item-remove" data-book-id="${bookId}" aria-label="Quitar ${book.title} de favoritos">`,
+					'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">',
+					'<path d="M18 6L6 18" /><path d="M6 6l12 12" />',
+					'</svg>',
+					'</button>',
+				].join('');
+				favoritesList.appendChild(item);
+			});
+
+			favoritesList.querySelectorAll('.favorites-item-remove').forEach((removeBtn) => {
+				removeBtn.addEventListener('click', (e) => {
+					e.stopPropagation();
+					const bookId = removeBtn.getAttribute('data-book-id');
+					if (!bookId) return;
+					toggleFavorite(bookId);
+					syncFavoritesUI();
+					updateFavoritesCount();
+					renderFavoritesPanel();
+				});
+			});
+		};
+
+		syncFavoritesUI();
+		updateFavoritesCount();
+
+		document.querySelectorAll('[data-favorite]').forEach((btn) => {
+			btn.addEventListener('click', (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				const bookId = btn.getAttribute('data-book-id');
+				if (!bookId) return;
+				const wasFavorited = toggleFavorite(bookId);
+				btn.setAttribute('data-favorite', wasFavorited.toString());
+				btn.setAttribute('aria-label', wasFavorited ? 'Quitar de favoritos' : 'Marcar como favorito');
+				updateFavoritesCount();
+				if (favoritesPanel && !favoritesPanel.hasAttribute('hidden')) {
+					renderFavoritesPanel();
+				}
+			});
+		});
+
+		showFavoritesBtn?.addEventListener('click', () => {
+			favoritesPanel?.removeAttribute('hidden');
+			renderFavoritesPanel();
+		});
+		favoritesClose?.addEventListener('click', () => {
+			favoritesPanel?.setAttribute('hidden', '');
+		});
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && favoritesPanel && !favoritesPanel.hasAttribute('hidden')) {
+				favoritesPanel.setAttribute('hidden', '');
+			}
+		});
+		document.addEventListener('favorites-changed', () => {
+			syncFavoritesUI();
+			updateFavoritesCount();
+			if (favoritesPanel && !favoritesPanel.hasAttribute('hidden')) {
+				renderFavoritesPanel();
+			}
+		});
 	</script>
 </Layout>

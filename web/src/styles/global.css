@@ -864,6 +864,156 @@ img {
   flex-shrink: 0;
 }
 
+/* Favorite button states */
+.book-action[data-favorite="true"] {
+  border-color: rgba(197, 90, 61, 0.32);
+  color: var(--accent);
+  background: rgba(197, 90, 61, 0.1);
+}
+
+.book-action[data-favorite="true"] svg {
+  fill: currentColor;
+}
+
+/* Favorites count badge in header */
+.favorites-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.2em;
+  height: 1.2em;
+  padding: 0 0.3em;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--accent);
+  background: rgba(197, 90, 61, 0.12);
+  border-radius: 999px;
+}
+
+.favorites-count:empty,
+.favorites-count[data-count="0"] {
+  display: none;
+}
+.favorites-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 380px;
+  max-width: 90vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.98);
+  border-left: 1px solid var(--border);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 200ms ease;
+}
+
+.favorites-panel:not([hidden]) {
+  transform: translateX(0);
+}
+
+.favorites-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.favorites-header h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.4rem;
+  color: var(--text);
+  margin: 0;
+}
+
+.favorites-close {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.4rem;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 150ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favorites-close:hover,
+.favorites-close:focus-visible {
+  color: var(--accent);
+  border-color: rgba(197, 90, 61, 0.32);
+  background: rgba(197, 90, 61, 0.1);
+  transform: translateY(-1px);
+}
+
+.favorites-list {
+  flex: 1;
+}
+
+.favorites-empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.95rem;
+}
+
+.favorites-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: background 150ms ease;
+}
+
+.favorites-item:hover {
+  background: rgba(197, 90, 61, 0.05);
+}
+
+.favorites-item-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0 0 0.2rem 0;
+  line-height: 1.3;
+  text-decoration: none;
+  display: block;
+}
+
+a.favorites-item-title:hover {
+  color: var(--accent);
+}
+
+.favorites-item-author {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.favorites-item-remove {
+  background: none;
+  border: none;
+  padding: 0.2rem;
+  cursor: pointer;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: color 150ms ease;
+}
+
+.favorites-item-remove:hover {
+  color: var(--accent);
+}
+
 /* ── 97 Things article pages ── */
 
 .advice-book-page,
