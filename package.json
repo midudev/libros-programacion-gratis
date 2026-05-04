@@ -1,7 +1,7 @@
 {
   "name": "libros-programacion-gratis",
   "private": true,
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@10.33.2",
   "scripts": {
     "dev": "pnpm -C web dev",
     "build": "pnpm -C web build",
