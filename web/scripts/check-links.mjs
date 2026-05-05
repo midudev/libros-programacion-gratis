@@ -154,8 +154,22 @@ function parseAttributes(rawAttributes = '') {
   return attributes;
 }
 
+function preserveLineBreaks(value) {
+  return value.replace(/[^\n]/g, '');
+}
+
+function stripRawTextElementContent(html) {
+  return html.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, (match) => {
+    const openingTag = match.match(/^<[^>]*>/)?.[0] ?? '';
+    const closingTag = match.match(/<\/(?:script|style)>$/i)?.[0] ?? '';
+    const content = match.slice(openingTag.length, match.length - closingTag.length);
+
+    return `${openingTag}${preserveLineBreaks(content)}${closingTag}`;
+  });
+}
+
 function extractLinks(htmlFile, rootDir) {
-  const html = readFileSync(htmlFile, 'utf8');
+  const html = stripRawTextElementContent(readFileSync(htmlFile, 'utf8'));
   const source = relative(rootDir, htmlFile);
   const links = [];
   const tagPattern = /<([a-z][\w:-]*)(\s[^<>]*?)?>/gi;
