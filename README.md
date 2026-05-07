@@ -4,13 +4,13 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 
 - Web: [librosgratis.dev](https://librosgratis.dev)
 - Repositorio fuente original: [midudev/libros-programacion-gratis](https://github.com/midudev/libros-programacion-gratis)
-- Total actual: 112 recursos en 32 secciones
+- Total actual: 114 recursos en 32 secciones
 
 ## Categorías
 
 - Fundamentos: 13 recursos en 4 secciones
 - Desarrollo web: 4 recursos en 1 sección
-- Lenguajes: 69 recursos en 15 secciones
+- Lenguajes: 71 recursos en 15 secciones
 - Plataformas: 2 recursos en 1 sección
 - Frameworks: 9 recursos en 5 secciones
 - Herramientas: 8 recursos en 3 secciones
@@ -22,7 +22,7 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 - [Generales](#generales) · 2
 - [Algoritmos y estructuras de datos](#algoritmos) · 8
 - [HTML y CSS](#html-css) · 4
-- [JavaScript](#javascript) · 11
+- [JavaScript](#javascript) · 13
 - [TypeScript](#typescript) · 7
 - [Python](#python) · 13
 - [Ruby](#ruby) · 3
@@ -104,6 +104,8 @@ La puerta de entrada a la web moderna, desde fundamentos hasta buenas prácticas
 - [Asincronismo en JavaScript](https://librosgratis.dev/books/javascript-asincronismo.pdf) — Charly Cimino · PDF
 - [Fundamentos de jQuery](https://librosgratis.dev/books/jquery-fundamentos.pdf) — Rebecca Murphey, traducido por Leandro D’Onofrio · PDF
 - [CSS3 y Javascript avanzado](https://librosgratis.dev/books/css3-javascript-avanzado.pdf) — Jordi Collell Puig · PDF
+- [Full Stack Open](https://fullstackopen.com/es/) — Universidad de Helsinki, traducido por Sebastian Torres, Cynthia Vico Vacca y Pablo Maffioli · HTML
+- [Clean Code JavaScript en Español](https://github.com/andersontr15/clean-code-javascript-es) — Ryan McDermott, traducido por Theodore Anderson · HTML
 
 ## TypeScript
 
