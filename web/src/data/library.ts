@@ -443,8 +443,7 @@ export const librarySections: LibrarySection[] = [
       {
         id: 'introduccion-a-la-programacion-con-python-3',
         title: 'Introducción a la programación con Python 3',
-        href: 'https://repositori.uji.es/items/992c7ee2-fef4-4061-9958-aefe932fd611',
-        pdfHref: '/books/python-introduccion-programacion-3.pdf',
+        href: '/books/python-introduccion-programacion-3.pdf',
         author: 'Andrés Marzal Varó, Isabel Gracia Luengo, Pedro García-Sevilla',
         formats: ['PDF'],
       },
@@ -673,7 +672,7 @@ export const librarySections: LibrarySection[] = [
       {
         id: 'go-en-espanol',
         title: 'Go en Español',
-        href: 'https://nachopacheco.gitbooks.io/go-es/content/doc',
+        href: 'https://nachopacheco.gitbooks.io/go-es/content/doc/',
         author: 'Nacho Pacheco',
         formats: ['HTML'],
       },
@@ -738,8 +737,7 @@ export const librarySections: LibrarySection[] = [
       {
         id: 'c-introduccion-a-la-programacion-con-c',
         title: 'Introducción a la Programación con C',
-        href: 'https://repositori.uji.es/items/3bd580d8-8def-470b-a053-164dc98f3d9e',
-        pdfHref: '/books/c-introduccion-programacion.pdf',
+        href: '/books/c-introduccion-programacion.pdf',
         author: 'Andrés Marzal Varó, Isabel Gracia Luengo',
         formats: ['PDF'],
       },
