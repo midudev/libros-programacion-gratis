@@ -1,7 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ThemeToggle from '../../components/ThemeToggle.astro';
 import { getLocalPdfBook, sourceRepository } from '../../data/library';
-import { sectionLogoSources } from '../../data/sectionLogos';
+import { isMonochromeLogo, sectionLogoSources } from '../../data/sectionLogos';
 import {
 	createSectionStructuredData,
 	getSectionCanonicalUrl,
@@ -65,7 +66,7 @@ const bookLinkRel = (href: string) =>
 >
 	<div class="page">
 		<header class="header">
-			<a class="logo" href="/" aria-label="Inicio">
+			<a class="logo" href="/" aria-label="Inicio" data-tooltip="Inicio" title="Inicio">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 					<path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
 					<path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
@@ -90,6 +91,7 @@ const bookLinkRel = (href: string) =>
 					</svg>
 					<span>GitHub</span>
 				</a>
+				<ThemeToggle />
 			</nav>
 		</header>
 
@@ -117,6 +119,7 @@ const bookLinkRel = (href: string) =>
 					>
 						{heroLogoSources.map((logo) => (
 							<img
+								class:list={['section-logo', isMonochromeLogo(logo) && 'section-logo--mono']}
 								src={logo}
 								alt=""
 								width="180"
@@ -162,115 +165,88 @@ const bookLinkRel = (href: string) =>
 				<div class="book-grid">
 					{section.books.map((book) => {
 						const pdfBook = getLocalPdfBook(book);
-						const hasHtmlVersion = pdfBook && pdfBook.href !== pdfBook.pdfHref;
-						const bookHref = hasHtmlVersion ? book.href : (pdfBook?.readerPath ?? book.href);
-						const opensInNewTab = isExternalHref(bookHref);
-						const bookFormats = pdfBook?.formats ?? book.formats;
+						const hasHtmlVersion = Boolean(pdfBook && pdfBook.href !== pdfBook.pdfHref);
+						const primaryHref = hasHtmlVersion ? book.href : (pdfBook?.readerPath ?? book.href);
+						const opensInNewTab = isExternalHref(primaryHref);
+						const formats = pdfBook?.formats ?? book.formats ?? [];
+						const canOpen = Boolean(primaryHref);
 
 						return (
-							<article class:list={['book', pdfBook && 'is-pdf', 'animate-fade-in-up', 'timeline-view', 'animate-range-[entry_5%_contain_15%]']}>
-								{(pdfBook || opensInNewTab) && (
+							<article class:list={['book', pdfBook && 'is-pdf', !canOpen && 'is-static', 'animate-fade-in-up', 'timeline-view', 'animate-range-[entry_5%_contain_15%]']}>
+								{canOpen && (
 									<a
 										class="book-card-link"
-										href={bookHref}
+										href={primaryHref}
 										target={opensInNewTab ? '_blank' : undefined}
-										rel={bookLinkRel(bookHref)}
-										aria-hidden="true"
-										tabindex="-1"
+										rel={bookLinkRel(primaryHref)}
+										aria-label={`Abrir ${book.title}`}
 									></a>
 								)}
-								<h3>
-									{book.title}
-								</h3>
-								{book.author && <p class="book-author">{book.author}</p>}
-								{bookFormats && bookFormats.length > 0 && (
-									<div class="book-formats">
-										{bookFormats.map((format) => (
-											<span>{format}</span>
-										))}
-									</div>
-								)}
-								{book.note && <p class="book-note">{book.note}</p>}
-								{(pdfBook || opensInNewTab) && (
+
+								<div class="book-body">
+									<h3>{book.title}</h3>
+									{book.author && <p class="book-author">{book.author}</p>}
+								</div>
+
+								<div class="book-meta">
+									{formats.length > 0 && (
+										<div class="book-formats" aria-label="Formatos disponibles">
+											{formats.map((format) => (
+												<span class="book-format">{format}</span>
+											))}
+										</div>
+									)}
+
 									<div class="book-actions" aria-label={`Acciones para ${book.title}`}>
 										{hasHtmlVersion && (
-											<a
-												class="book-action book-primary-action"
-												href={book.href}
-												target={isExternalHref(book.href) ? '_blank' : undefined}
-												rel={bookLinkRel(book.href)}
-												aria-label={`Ver HTML de ${book.title}`}
-											>
-												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+											<a class="book-icon-btn" href={book.href} target={isExternalHref(book.href) ? '_blank' : undefined} rel={bookLinkRel(book.href)} aria-label={`Leer HTML de ${book.title}`} data-tooltip="Leer HTML" title="Leer HTML">
+												<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 													<path d="M4 19a2 2 0 0 0 2 2h12" />
 													<path d="M6 17a2 2 0 0 0 -2 2v-14a2 2 0 0 1 2 -2h12v18" />
 													<path d="M8 7h6" />
 												</svg>
-												<span>Ver HTML</span>
 											</a>
 										)}
-										{pdfBook ? (
+										{pdfBook && (
 											<>
-												<a
-													class:list={['book-action', !hasHtmlVersion && 'book-primary-action']}
-													href={pdfBook.readerPath}
-													aria-label={`Ver PDF de ${book.title}`}
-												>
-													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+												<a class="book-icon-btn" href={pdfBook.readerPath} aria-label={`Leer PDF de ${book.title}`} data-tooltip="Leer PDF" title="Leer PDF">
+													<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 														<path d="M14 3v4a1 1 0 0 0 1 1h4" />
 														<path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
 														<path d="M9 15h6" />
 														<path d="M9 18h3" />
 													</svg>
-													<span>Ver PDF</span>
 												</a>
-												<a
-													class="book-action"
-													href={pdfBook.downloadPath}
-													aria-label={`Descargar PDF de ${book.title}`}
-												>
-													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+												<a class="book-icon-btn" href={pdfBook.downloadPath} aria-label={`Descargar PDF de ${book.title}`} data-tooltip="Descargar" title="Descargar">
+													<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 														<path d="M12 3v12" />
 														<path d="M7 10l5 5l5 -5" />
 														<path d="M5 21h14" />
 													</svg>
-													<span>PDF</span>
 												</a>
 												{pdfBook.epubHref && (
-													<a
-														class="book-action"
-														href={pdfBook.epubHref}
-														download={pdfBook.epubFileName}
-														aria-label={`Descargar EPUB de ${book.title}`}
-													>
-														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+													<a class="book-icon-btn" href={pdfBook.epubHref} download={pdfBook.epubFileName} aria-label={`Descargar EPUB de ${book.title}`} data-tooltip="EPUB" title="EPUB">
+														<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 															<path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
 															<path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
 															<path d="M3 6v13" />
 															<path d="M12 6v13" />
 															<path d="M21 6v13" />
 														</svg>
-														<span>EPUB</span>
 													</a>
 												)}
 											</>
-										) : (
-											<a
-												class="book-action book-primary-action"
-												href={bookHref}
-												target="_blank"
-												rel={bookLinkRel(bookHref)}
-												aria-label={`Visitar sitio web de ${book.title}`}
-											>
-												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+										)}
+										{!pdfBook && opensInNewTab && (
+											<a class="book-icon-btn" href={primaryHref} target="_blank" rel={bookLinkRel(primaryHref)} aria-label={`Abrir sitio de ${book.title}`} data-tooltip="Abrir web" title="Abrir web">
+												<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 													<path d="M7 17L17 7" />
 													<path d="M8 7h9v9" />
 												</svg>
-												<span>Visitar Sitio Web</span>
 											</a>
 										)}
 									</div>
-								)}
+								</div>
 							</article>
 						);
 					})}
