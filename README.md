@@ -203,7 +203,7 @@ Pensamiento funcional duro y puro para expandir cómo entiendes el código.
 Concurrencia, simplicidad y tooling impecable para servicios y utilidades.
 
 - [El pequeño libro de Go](https://librosgratis.dev/books/go-pequeno-libro.pdf) — Karl Seguin, traducido por Raúl Exposito · PDF
-- [Go en Español](https://nachopacheco.gitbooks.io/go-es/content/doc) — Nacho Pacheco
+- [Go en Español](https://nachopacheco.gitbooks.io/go-es/content/doc/) — Nacho Pacheco
 
 ## Kotlin
 
