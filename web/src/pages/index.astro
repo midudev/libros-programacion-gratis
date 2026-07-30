@@ -5,29 +5,22 @@ import {
 	librarySections,
 	sourceRepository,
 	totalBooks,
+	totalSections,
 } from '../data/library';
 import {
 	createHomeStructuredData,
 	getSectionPageEntry,
 	getSectionPagePath,
+	homeFaqs,
+	homeMeta,
 	siteConfig,
 } from '../data/seo';
 import { sectionLogoSources } from '../data/sectionLogos';
 
-const title = 'Libros gratis de programación en español — librosgratis.dev';
-const description =
-	'Encuentra libros y guías gratuitas de programación en español. JavaScript, TypeScript, Python, Rust, React, Git, SQL y más.';
-const keywords = [
-	'libros de programación gratis',
-	'libros gratis programación español',
-	'ebooks programación español',
-	'javascript gratis',
-	'typescript gratis',
-	'python gratis',
-	'libros desarrollo web',
-];
-
 const sectionEntries = librarySections.map(getSectionPageEntry);
+const topTopics = sectionEntries
+	.filter((entry) => entry.section.books.length > 0)
+	.slice(0, 12);
 
 const externalLinkRel = 'nofollow noreferrer';
 const isExternalHref = (href: string) => /^https?:\/\//.test(href);
@@ -38,15 +31,16 @@ const structuredData = createHomeStructuredData();
 ---
 
 <Layout
-	title={title}
-	description={description}
-	keywords={keywords}
+	title={homeMeta.title}
+	description={homeMeta.description}
+	keywords={homeMeta.keywords}
 	structuredData={structuredData}
 	canonical="/"
 	image={siteConfig.defaultImage}
+	imageAlt={siteConfig.defaultImageAlt}
 >
 	<div class="page">
-		<header class="header">
+		<header class="header animate-fade-in animate-duration-500">
 			<a class="logo" href="/" aria-label="Inicio">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 					<path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
@@ -84,8 +78,8 @@ const structuredData = createHomeStructuredData();
 
 		<main>
 			<section class="hero">
-				<h1>Libros <em>gratis</em> de programación en español</h1>
-				<p class="hero-sub">
+				<h1 class="animate-blurred-fade-in animate-duration-800">Libros <em>gratis</em> de programación en español</h1>
+				<p class="hero-sub animate-fade-in-up animate-delay-200 animate-duration-700">
 					{totalBooks} recursos gratuitos sobre JavaScript, TypeScript, Python,
 					Rust, React, Git, SQL y más.
 				</p>
@@ -94,7 +88,7 @@ const structuredData = createHomeStructuredData();
 			<section class="library" id="biblioteca" aria-labelledby="library-title">
 				<h2 id="library-title" class="sr-only">Biblioteca</h2>
 
-				<div class="toolbar">
+				<div class="toolbar animate-slide-up-fade animate-delay-300 animate-duration-700">
 					<nav class="language-dock" aria-label="Ir a tema">
 						{
 							sectionEntries.map((entry) => {
@@ -115,6 +109,7 @@ const structuredData = createHomeStructuredData();
 													width="28"
 													height="28"
 													loading="lazy"
+													decoding="async"
 												/>
 											))}
 										</span>
@@ -152,7 +147,7 @@ const structuredData = createHomeStructuredData();
 
 						return (
 							<section
-								class="topic"
+								class="topic animate-fade-in-up timeline-view animate-range-[entry_10%_contain_20%]"
 								id={section.slug}
 								data-group={section.group}
 								data-section={section.title}
@@ -309,9 +304,39 @@ const structuredData = createHomeStructuredData();
 					})
 				}
 
-				<div class="empty-state" hidden data-empty-state>
+				<div class="empty-state animate-fade-in" hidden data-empty-state>
 					<p>No hay coincidencias con esa búsqueda. Prueba con otro término.</p>
 				</div>
+			</section>
+
+			<section class="seo-copy" aria-labelledby="about-library-title">
+				<h2 id="about-library-title">Biblioteca de libros de programación gratis en español</h2>
+				<p>
+					{siteConfig.name} reúne {totalBooks} recursos gratuitos de programación en español,
+					organizados en {totalSections} temas: lenguajes, frameworks, bases de datos, herramientas
+					y fundamentos. El objetivo es que puedas <strong>aprender a programar gratis</strong> con
+					material en tu idioma, sin registros ni paywalls.
+				</p>
+				<p>
+					Explora colecciones como{' '}
+					{topTopics.map((entry, index) => (
+						<>
+							{index > 0 && (index === topTopics.length - 1 ? ' o ' : ', ')}
+							<a href={getSectionPagePath(entry)}>libros gratis de {entry.displayName}</a>
+						</>
+					))}
+					. Muchos títulos incluyen lectura online y descarga en PDF o EPUB.
+				</p>
+			</section>
+
+			<section class="seo-faq" aria-labelledby="home-faq-title">
+				<h2 id="home-faq-title">Preguntas frecuentes</h2>
+				{homeFaqs.map((faq) => (
+					<details>
+						<summary>{faq.question}</summary>
+						<p>{faq.answer}</p>
+					</details>
+				))}
 			</section>
 
 			<div class="favorites-panel" id="favorites-panel" hidden>
@@ -358,6 +383,21 @@ const structuredData = createHomeStructuredData();
 		const sectionBlocks = Array.from(document.querySelectorAll('.topic'));
 		const shareButtons = Array.from(document.querySelectorAll('[data-share-trigger]'));
 
+		const syncQueryToUrl = () => {
+			const query = (searchInput?.value ?? '').trim();
+			const url = new URL(window.location.href);
+			if (query) {
+				url.searchParams.set('q', query);
+			} else {
+				url.searchParams.delete('q');
+			}
+			const next = `${url.pathname}${url.search}${url.hash}`;
+			const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+			if (next !== current) {
+				window.history.replaceState({}, '', next);
+			}
+		};
+
 		const applyFilters = () => {
 			const query = (searchInput?.value ?? '').trim().toLowerCase();
 			let visibleBooks = 0;
@@ -390,6 +430,8 @@ const structuredData = createHomeStructuredData();
 			if (resetButton) {
 				resetButton.toggleAttribute('hidden', query === '');
 			}
+
+			syncQueryToUrl();
 		};
 
 		searchInput?.addEventListener('input', applyFilters);
@@ -429,6 +471,11 @@ const structuredData = createHomeStructuredData();
 			});
 		});
 
+		// Soporta SearchAction de Google: /?q=término
+		const initialQuery = new URLSearchParams(window.location.search).get('q');
+		if (initialQuery && searchInput) {
+			searchInput.value = initialQuery;
+		}
 
 		applyFilters();
 	</script>
@@ -496,7 +543,7 @@ const structuredData = createHomeStructuredData();
 
 				const isExternal = book.href && /^https?:\/\//.test(book.href);
 				const item = document.createElement('div');
-				item.className = 'favorites-item';
+				item.className = 'favorites-item animate-fade-in-right animate-duration-400';
 				item.innerHTML = [
 					'<div style="flex:1">',
 					book.href
@@ -538,6 +585,16 @@ const structuredData = createHomeStructuredData();
 				const wasFavorited = toggleFavorite(bookId);
 				btn.setAttribute('data-favorite', wasFavorited.toString());
 				btn.setAttribute('aria-label', wasFavorited ? 'Quitar de favoritos' : 'Marcar como favorito');
+				if (wasFavorited) {
+					btn.classList.remove('animate-heartbeat');
+					// Restart heartbeat when marking as favorite
+					void (btn as HTMLElement).offsetWidth;
+					btn.classList.add('animate-heartbeat');
+					window.setTimeout(() => btn.classList.remove('animate-heartbeat'), 700);
+				} else {
+					btn.classList.add('animate-pop');
+					window.setTimeout(() => btn.classList.remove('animate-pop'), 600);
+				}
 				updateFavoritesCount();
 				if (favoritesPanel && !favoritesPanel.hasAttribute('hidden')) {
 					renderFavoritesPanel();

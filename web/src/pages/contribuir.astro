@@ -2,9 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import { allBooks, librarySections, sourceRepository } from '../data/library';
 
-const title = 'Contribuir un libro gratis de programación en español';
+const title = 'Contribuir un libro gratis de programación en español | librosgratis.dev';
 const description =
-  'Propone un libro o guía gratuita de programación en español sin tocar código. La propuesta se prepara como issue de GitHub.';
+  'Propón un libro o guía gratuita de programación en español sin tocar código. Generamos la issue de GitHub con título, categoría y formato listos para revisar.';
 const externalLinkRel = 'nofollow noopener noreferrer';
 const categories = librarySections.map((section) => section.title);
 const compactCatalog = allBooks.map((book) => ({
@@ -15,7 +15,16 @@ const compactCatalog = allBooks.map((book) => ({
 }));
 ---
 
-<Layout title={title} description={description} canonical="/contribuir/">
+<Layout
+  title={title}
+  description={description}
+  canonical="/contribuir/"
+  keywords={[
+    'contribuir libros programación gratis',
+    'proponer libro programación español',
+    'enviar recurso gratis programación',
+  ]}
+>
   <div class="page contribute-page">
     <header class="header">
       <a class="logo" href="/" aria-label="Inicio">
@@ -54,7 +63,7 @@ const compactCatalog = allBooks.map((book) => ({
       </nav>
 
       <section class="hero topic-page-hero contribute-hero" aria-labelledby="contribute-title">
-        <div class="topic-page-hero-copy">
+        <div class="topic-page-hero-copy animate-fade-in-up animate-duration-700">
           <p class="eyebrow">Archivo abierto</p>
           <h1 id="contribute-title">Dona una ficha al estante público.</h1>
           <p class="hero-sub text-wrap">
@@ -68,7 +77,7 @@ const compactCatalog = allBooks.map((book) => ({
           </div>
         </div>
 
-        <div class="topic-page-hero-logos contribute-hero-logos" aria-hidden="true">
+        <div class="topic-page-hero-logos contribute-hero-logos animate-zoom-in animate-delay-150 animate-duration-700" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 19a2 2 0 0 0 2 2h12" />
             <path d="M6 17a2 2 0 0 0 -2 2v-14a2 2 0 0 1 2 -2h12v18" />
@@ -98,7 +107,7 @@ const compactCatalog = allBooks.map((book) => ({
         </div>
       </noscript>
 
-      <section class="topic topic-page-list contribute-shell" aria-labelledby="proposal-title">
+      <section class="topic topic-page-list contribute-shell animate-fade-in-up animate-delay-200 animate-duration-700" aria-labelledby="proposal-title">
         <form class="proposal-form" data-contribution-form novalidate>
           <div class="form-head">
             <div class="topic-header">
@@ -174,7 +183,7 @@ const compactCatalog = allBooks.map((book) => ({
           </div>
         </form>
 
-        <aside class="proposal-preview" aria-label="Vista previa">
+        <aside class="proposal-preview animate-slide-in-right animate-delay-300 animate-duration-700" aria-label="Vista previa">
           <section class="book preview-card">
             <p class="card-label">Preview de catálogo</p>
             <h3 data-preview-title>Tu título aparecerá aquí</h3>

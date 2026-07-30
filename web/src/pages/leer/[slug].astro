@@ -1,7 +1,15 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { localPdfBooks, sourceRepository, type LocalPdfBook } from '../../data/library';
-import { getSectionPageEntry, getSectionPagePath, siteConfig } from '../../data/seo';
+import {
+	createReaderStructuredData,
+	getReaderKeywords,
+	getReaderMetaDescription,
+	getReaderMetaTitle,
+	getSectionPageEntry,
+	getSectionPagePath,
+	siteConfig,
+} from '../../data/seo';
 
 export const prerender = true;
 
@@ -14,9 +22,11 @@ export function getStaticPaths() {
 
 const { book } = Astro.props as { book: LocalPdfBook };
 const sectionEntry = getSectionPageEntry(book.section);
-const title = `${book.title} - leer PDF online | ${siteConfig.name}`;
-const description = `Lee gratis ${book.title} en PDF desde librosgratis.dev${book.author ? `, de ${book.author}` : ''}.`;
+const title = getReaderMetaTitle(book);
+const description = getReaderMetaDescription(book);
 const canonical = book.readerPath;
+const structuredData = createReaderStructuredData(book, sectionEntry);
+const keywords = getReaderKeywords(book, sectionEntry);
 const externalLinkRel = 'nofollow noreferrer';
 ---
 
@@ -25,8 +35,11 @@ const externalLinkRel = 'nofollow noreferrer';
 	description={description}
 	canonical={canonical}
 	image={siteConfig.defaultImage}
-	imageAlt={book.title}
+	imageAlt={`Portada / lectura de ${book.title}`}
 	ogType="article"
+	keywords={keywords}
+	structuredData={structuredData}
+	dateModified={siteConfig.contentLastModified}
 >
 	<div class="page reader-page">
 		<header class="header">
@@ -72,6 +85,13 @@ const externalLinkRel = 'nofollow noreferrer';
 					<p class="eyebrow">{book.section.group}</p>
 					<h1 id="reader-title">{book.title}</h1>
 					{book.author && <p class="reader-author">{book.author}</p>}
+					<p class="reader-seo-lead">
+						Lee online y descarga gratis este libro de {sectionEntry.displayName} en español.
+						{' '}
+						<a href={getSectionPagePath(sectionEntry)}>Más libros gratis de {sectionEntry.displayName}</a>
+						{' · '}
+						<a href="/">Toda la biblioteca</a>
+					</p>
 				</div>
 				<div class="reader-actions">
 					<a class="reader-button reader-button-primary" href={book.downloadPath}>

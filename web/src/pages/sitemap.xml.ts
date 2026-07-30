@@ -5,9 +5,16 @@ import { sectionPageEntries, siteConfig } from '../data/seo';
 
 export const prerender = true;
 
-const lastmod = '2026-04-21';
+type SitemapUrl = {
+  loc: string;
+  changefreq: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+  priority: string;
+  lastmod?: string;
+};
 
-const urls = [
+const lastmod = siteConfig.contentLastModified;
+
+const urls: SitemapUrl[] = [
   {
     loc: '/',
     changefreq: 'weekly',
@@ -15,24 +22,29 @@ const urls = [
   },
   ...sectionPageEntries.map((entry) => ({
     loc: `/libros/${entry.pathSlug}/`,
-    changefreq: 'weekly',
+    changefreq: 'weekly' as const,
     priority: entry.section.group === 'Lenguajes' ? '0.9' : '0.8',
   })),
   ...localPdfBooks.map((book) => ({
     loc: book.readerPath,
-    changefreq: 'monthly',
-    priority: '0.7',
+    changefreq: 'monthly' as const,
+    priority: '0.75',
   })),
   {
     loc: '/97-cosas-programador/',
     changefreq: 'monthly',
-    priority: '0.8',
+    priority: '0.85',
   },
   ...programmer97ThingsAdvice.map((advice) => ({
     loc: `/97-cosas-programador/${advice.slug}/`,
-    changefreq: 'yearly',
-    priority: '0.6',
+    changefreq: 'yearly' as const,
+    priority: '0.65',
   })),
+  {
+    loc: '/contribuir/',
+    changefreq: 'monthly',
+    priority: '0.4',
+  },
 ];
 
 const escapeXml = (value: string) =>
@@ -43,13 +55,14 @@ const escapeXml = (value: string) =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;');
 
-const renderUrl = (url: (typeof urls)[number], origin: string) => {
+const renderUrl = (url: SitemapUrl, origin: string) => {
   const loc = new URL(url.loc, origin).toString();
+  const modified = url.lastmod ?? lastmod;
 
   return [
     '  <url>',
     `    <loc>${escapeXml(loc)}</loc>`,
-    `    <lastmod>${lastmod}</lastmod>`,
+    `    <lastmod>${modified}</lastmod>`,
     `    <changefreq>${url.changefreq}</changefreq>`,
     `    <priority>${url.priority}</priority>`,
     '  </url>',
@@ -69,6 +82,7 @@ export const GET: APIRoute = ({ site }) => {
   return new Response(body, {
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600',
     },
   });
 };

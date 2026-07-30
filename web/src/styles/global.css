@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tailwind-animations";
 
 :root {
   --bg: #faf7f2;
@@ -486,7 +487,7 @@ img {
 
 .search-control:focus-within {
   border-color: rgba(var(--accent-rgb), 0.42);
-  background: white;
+  background: rgba(var(--glass-bg), 0.96);
   box-shadow:
     0 14px 36px rgba(var(--shadow-rgb), 0.07),
     0 0 0 4px rgba(var(--accent-rgb), 0.09);
@@ -825,7 +826,7 @@ img {
 
 .book:hover,
 .book:focus-within {
-  background: white;
+  background: rgba(var(--glass-bg), 0.88);
   border-color: var(--border);
   box-shadow: 0 4px 20px rgba(var(--black-rgb), 0.06);
   transform: translateY(-2px);
@@ -991,9 +992,11 @@ img {
   width: 380px;
   max-width: 90vw;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(var(--glass-bg), 0.98);
   border-left: 1px solid var(--border);
-  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.08);
+  box-shadow: -4px 0 24px rgba(var(--shadow-rgb), 0.18);
+  color: var(--text);
+  backdrop-filter: blur(14px);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -1512,6 +1515,25 @@ a.favorites-item-title:hover {
   overflow-wrap: anywhere;
 }
 
+.reader-seo-lead {
+  margin: 0.75rem 0 0;
+  max-width: 52ch;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.reader-seo-lead a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 650;
+}
+
+.reader-seo-lead a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .reader-author {
   margin: 0.75rem 0 0;
   max-width: 68ch;
@@ -1910,7 +1932,7 @@ a.favorites-item-title:hover {
 
 .pdf-thumbnail[data-rendered] .pdf-thumbnail-preview {
   animation: none;
-  background: #fff;
+  background: rgba(var(--glass-bg), 1);
 }
 
 .pdf-thumbnail-preview canvas {
@@ -1945,7 +1967,7 @@ a.favorites-item-title:hover {
   background:
     linear-gradient(90deg, rgba(var(--text-rgb), 0.035) 1px, transparent 1px),
     linear-gradient(180deg, rgba(var(--text-rgb), 0.035) 1px, transparent 1px),
-    #f3eee6;
+    color-mix(in srgb, var(--bg) 88%, var(--text) 4%);
   background-size: 22px 22px;
 }
 
@@ -1966,7 +1988,7 @@ a.favorites-item-title:hover {
 .pdf-stage canvas {
   max-width: none;
   border-radius: 5px;
-  background: white;
+  background: rgba(var(--glass-bg), 1);
   box-shadow:
     0 18px 48px rgba(var(--shadow-rgb), 0.16),
     0 0 0 1px rgba(var(--shadow-rgb), 0.08);
@@ -2323,5 +2345,18 @@ a.favorites-item-title:hover {
 
   .book {
     transition: none;
+  }
+
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-fade-in-right,
+  .animate-blurred-fade-in,
+  .animate-slide-in-top,
+  .animate-slide-in-right,
+  .animate-slide-up-fade,
+  .animate-zoom-in,
+  .animate-heartbeat,
+  .animate-pop {
+    animation: none !important;
   }
 }

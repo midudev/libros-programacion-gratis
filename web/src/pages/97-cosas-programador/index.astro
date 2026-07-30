@@ -6,14 +6,39 @@ import { siteConfig } from '../../data/seo';
 
 export const prerender = true;
 
-const title = `${programmer97ThingsMeta.shortTitle} en español | ${siteConfig.name}`;
+const title = `97 cosas que todo programador debe saber en español | ${siteConfig.name}`;
 const description =
-	'Lee online los 97 consejos de 97 cosas que todo programador debe saber, traducidos al español y organizados en páginas individuales.';
+	'Lee online y gratis los 97 consejos de «97 cosas que todo programador debe saber» (Kevlin Henney), traducidos al español. Cada consejo en su propia página HTML.';
 const canonical = '/97-cosas-programador/';
 const externalLinkRel = 'nofollow noreferrer';
+const pageUrl = new URL(canonical, siteConfig.url).toString();
+const keywords = [
+	'97 cosas que todo programador debe saber',
+	'97 things every programmer should know español',
+	'consejos programación gratis',
+	'Kevlin Henney español',
+	'libros programación gratis',
+];
 const structuredData = {
 	'@context': 'https://schema.org',
 	'@graph': [
+		{
+			'@type': 'BreadcrumbList',
+			itemListElement: [
+				{
+					'@type': 'ListItem',
+					position: 1,
+					name: 'Libros gratis de programación',
+					item: siteConfig.url,
+				},
+				{
+					'@type': 'ListItem',
+					position: 2,
+					name: programmer97ThingsMeta.shortTitle,
+					item: pageUrl,
+				},
+			],
+		},
 		{
 			'@type': 'Book',
 			name: programmer97ThingsMeta.title,
@@ -25,18 +50,36 @@ const structuredData = {
 			isAccessibleForFree: true,
 			license: programmer97ThingsMeta.originalLicenseUrl,
 			isBasedOn: programmer97ThingsMeta.originalSourceUrl,
-			url: new URL(canonical, siteConfig.url).toString(),
+			url: pageUrl,
+			numberOfPages: programmer97ThingsAdvice.length,
+			publisher: {
+				'@type': 'Organization',
+				name: siteConfig.name,
+				url: siteConfig.url,
+			},
 		},
 		{
-			'@type': 'ItemList',
-			name: programmer97ThingsMeta.title,
-			numberOfItems: programmer97ThingsAdvice.length,
-			itemListElement: programmer97ThingsAdvice.map((advice) => ({
-				'@type': 'ListItem',
-				position: advice.number,
-				url: new URL(`/97-cosas-programador/${advice.slug}/`, siteConfig.url).toString(),
-				name: advice.title,
-			})),
+			'@type': 'CollectionPage',
+			name: title,
+			description,
+			url: pageUrl,
+			inLanguage: 'es',
+			isPartOf: {
+				'@type': 'WebSite',
+				name: siteConfig.name,
+				url: siteConfig.url,
+			},
+			mainEntity: {
+				'@type': 'ItemList',
+				name: programmer97ThingsMeta.title,
+				numberOfItems: programmer97ThingsAdvice.length,
+				itemListElement: programmer97ThingsAdvice.map((advice) => ({
+					'@type': 'ListItem',
+					position: advice.number,
+					url: new URL(`/97-cosas-programador/${advice.slug}/`, siteConfig.url).toString(),
+					name: advice.title,
+				})),
+			},
 		},
 	],
 };
@@ -50,6 +93,8 @@ const structuredData = {
 	image={siteConfig.defaultImage}
 	imageAlt={programmer97ThingsMeta.shortTitle}
 	ogType="article"
+	keywords={keywords}
+	dateModified={siteConfig.contentLastModified}
 >
 	<div class="page advice-book-page">
 		<header class="header">
@@ -89,13 +134,13 @@ const structuredData = {
 			</nav>
 
 			<section class="advice-book-hero" aria-labelledby="advice-book-title">
-				<p class="eyebrow">Kevlin Henney y colaboradores</p>
-				<h1 id="advice-book-title">{programmer97ThingsMeta.title}</h1>
-				<p class="hero-sub">
+				<p class="eyebrow animate-fade-in animate-duration-500">Kevlin Henney y colaboradores</p>
+				<h1 id="advice-book-title" class="animate-blurred-fade-in animate-duration-800">{programmer97ThingsMeta.title}</h1>
+				<p class="hero-sub animate-fade-in-up animate-delay-200 animate-duration-700">
 					Los {programmer97ThingsAdvice.length} consejos del libro, traducidos al español y
 					disponibles como lectura interna en librosgratis.dev.
 				</p>
-				<div class="topic-page-stats" aria-label="Resumen del libro">
+				<div class="topic-page-stats animate-fade-in-up animate-delay-300" aria-label="Resumen del libro">
 					<span><strong>{programmer97ThingsAdvice.length}</strong> consejos</span>
 					<span><strong>HTML</strong> lectura online</span>
 					<span><strong>CC BY 3.0</strong> licencia original</span>

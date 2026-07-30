@@ -5,6 +5,7 @@ import { sectionLogoSources } from '../../data/sectionLogos';
 import {
 	createSectionStructuredData,
 	getSectionCanonicalUrl,
+	getSectionFaqs,
 	getSectionMetaDescription,
 	getSectionMetaTitle,
 	getSectionPagePath,
@@ -31,6 +32,7 @@ const pageHeading = getSectionPageTitle(entry);
 const description = getSectionMetaDescription(entry);
 const structuredData = createSectionStructuredData(entry);
 const canonical = getSectionCanonicalUrl(entry);
+const sectionFaqs = getSectionFaqs(entry);
 const formats = Array.from(new Set(section.books.flatMap((book) => book.formats ?? [])));
 const formatsLabel = formats.length > 0 ? formats.join(', ') : 'recursos web';
 const highlightedBooks = section.books.slice(0, 3).map((book) => book.title);
@@ -59,6 +61,7 @@ const bookLinkRel = (href: string) =>
 	canonical={canonical}
 	image={siteConfig.defaultImage}
 	imageAlt={pageHeading}
+	dateModified={siteConfig.contentLastModified}
 >
 	<div class="page">
 		<header class="header">
@@ -98,7 +101,7 @@ const bookLinkRel = (href: string) =>
 			</nav>
 
 			<section class="hero topic-page-hero">
-				<div class="topic-page-hero-copy">
+				<div class="topic-page-hero-copy animate-fade-in-up animate-duration-700">
 					<p class="eyebrow">{section.group}</p>
 					<h1>{pageHeading}</h1>
 					<p class="hero-sub text-wrap">{entry.intro}</p>
@@ -109,7 +112,7 @@ const bookLinkRel = (href: string) =>
 				</div>
 				{heroLogoSources.length > 0 && (
 					<div
-						class={`topic-page-hero-logos ${heroLogoSources.length > 1 ? 'is-logo-pair' : ''}`}
+						class={`topic-page-hero-logos animate-zoom-in animate-delay-150 animate-duration-700 ${heroLogoSources.length > 1 ? 'is-logo-pair' : ''}`}
 						aria-hidden="true"
 					>
 						{heroLogoSources.map((logo) => (
@@ -127,20 +130,27 @@ const bookLinkRel = (href: string) =>
 			</section>
 
 			<section class="seo-copy" aria-labelledby="about-topic-title">
-				<h2 id="about-topic-title">Aprender {entry.displayName} con recursos gratuitos</h2>
+				<h2 id="about-topic-title">Aprender {entry.displayName} con libros gratis en español</h2>
 				<p>
-					Esta página reúne libros y guías de {entry.displayName} en español para estudiar
-					{` ${section.description.toLowerCase()}.`} La colección combina recursos en formatos
-					{` ${formatsLabel}`} y se actualiza desde la biblioteca principal de librosgratis.dev.
+					Esta página reúne <strong>{section.books.length} libros gratis de {entry.displayName}</strong> en
+					español para estudiar {section.description.toLowerCase()}. La colección combina recursos en formatos
+					{` ${formatsLabel}`}: lectura online, PDF y EPUB cuando están disponibles. Todo el catálogo es
+					gratuito y se actualiza desde la biblioteca principal de{' '}
+					<a href="/">libros de programación gratis</a>.
 				</p>
 				{highlightedBooks.length > 0 && (
 					<p>
 						{highlightedBooksSentence}
 					</p>
 				)}
+				<p>
+					Si buscas material para principiantes o para profundizar, filtra mentalmente por nivel y combina
+					varios recursos. También puedes <a href="/contribuir/">proponer un libro gratis de {entry.displayName}</a>
+					{' '}si conoces uno en español que aún no está en el listado.
+				</p>
 			</section>
 
-			<section class="topic topic-page-list" aria-labelledby="books-title">
+			<section class="topic topic-page-list animate-fade-in-up animate-delay-200 animate-duration-700" aria-labelledby="books-title">
 				<div class="topic-header">
 					<h2 id="books-title">Libros y guías de {entry.displayName}</h2>
 					<span class="topic-count">
@@ -158,7 +168,7 @@ const bookLinkRel = (href: string) =>
 						const bookFormats = pdfBook?.formats ?? book.formats;
 
 						return (
-							<article class:list={['book', pdfBook && 'is-pdf']}>
+							<article class:list={['book', pdfBook && 'is-pdf', 'animate-fade-in-up', 'timeline-view', 'animate-range-[entry_5%_contain_15%]']}>
 								{(pdfBook || opensInNewTab) && (
 									<a
 										class="book-card-link"
@@ -269,20 +279,12 @@ const bookLinkRel = (href: string) =>
 
 			<section class="seo-faq" aria-labelledby="faq-title">
 				<h2 id="faq-title">Preguntas frecuentes sobre {entry.displayName}</h2>
-				<details>
-					<summary>¿Dónde encontrar libros gratis de {entry.displayName} en español?</summary>
-					<p>
-						En esta página tienes una selección curada de libros gratis de {entry.displayName},
-						con enlaces directos a recursos PDF, HTML o ebooks cuando están disponibles.
-					</p>
-				</details>
-				<details>
-					<summary>¿Estos libros de {entry.displayName} son realmente gratis?</summary>
-					<p>
-						Sí. La colección apunta a recursos gratuitos, abiertos o publicados por sus autores
-						para consulta libre.
-					</p>
-				</details>
+				{sectionFaqs.map((faq) => (
+					<details>
+						<summary>{faq.question}</summary>
+						<p>{faq.answer}</p>
+					</details>
+				))}
 			</section>
 
 			{relatedEntries.length > 0 && (

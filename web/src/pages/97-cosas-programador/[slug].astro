@@ -22,8 +22,11 @@ const { advice, index } = Astro.props as { advice: ProgrammerAdvice; index: numb
 const previousAdvice = programmer97ThingsAdvice[index - 1];
 const nextAdvice = programmer97ThingsAdvice[index + 1];
 const canonical = `/97-cosas-programador/${advice.slug}/`;
-const title = `${advice.title} | ${programmer97ThingsMeta.shortTitle}`;
-const description = advice.excerpt;
+const title = `${advice.title} | 97 cosas programador (español)`;
+const description =
+	advice.excerpt.length > 40
+		? advice.excerpt
+		: `${advice.title}: consejo ${advice.number} de 97 cosas que todo programador debe saber, en español. Autor: ${advice.author}.`;
 const externalLinkRel = 'nofollow noreferrer';
 const contentHtml = enhanceProgrammerAdviceHtml(advice.contentHtml);
 const structuredData = {
@@ -93,6 +96,14 @@ const structuredData = {
 	image={siteConfig.defaultImage}
 	imageAlt={advice.title}
 	ogType="article"
+	keywords={[
+		advice.title,
+		'97 cosas que todo programador debe saber',
+		'consejos programación',
+		advice.author,
+		'programación español',
+	]}
+	dateModified={siteConfig.contentLastModified}
 >
 	<div class="page advice-page">
 		<header class="header">
