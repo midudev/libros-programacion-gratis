@@ -1174,6 +1174,13 @@ export const librarySections: LibrarySection[] = [
         author: 'Peter Norvig y Stuart Russell, adaptación abierta',
         formats: ['HTML'],
       },
+      {
+        id: 'apuntes-gh-600-github-agentic-ai',
+        title: 'Apuntes GH-600: GitHub Agentic AI Developer',
+        href: 'https://matiasbeltramone.com/apuntes/github-agentic-ai/',
+        author: 'Matías Beltramone',
+        formats: ['HTML'],
+      },
     ],
   },
   {

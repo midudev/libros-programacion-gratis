@@ -4,7 +4,7 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 
 - Web: [librosgratis.dev](https://librosgratis.dev)
 - Repositorio fuente original: [midudev/libros-programacion-gratis](https://github.com/midudev/libros-programacion-gratis)
-- Total actual: 115 recursos en 32 secciones
+- Total actual: 116 recursos en 32 secciones
 
 ## Categorías
 
@@ -15,7 +15,7 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 - Frameworks: 9 recursos en 5 secciones
 - Herramientas: 8 recursos en 3 secciones
 - Bases de datos: 6 recursos en 2 secciones
-- IA y datos: 1 recurso en 1 sección
+- IA y datos: 2 recursos en 1 sección
 
 ## Índice
 
@@ -49,7 +49,7 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 - [SQL](#sql) · 4
 - [NoSQL](#nosql) · 2
 - [Sistemas operativos](#sistemas-operativos) · 1
-- [Inteligencia Artificial](#ia) · 1
+- [Inteligencia Artificial](#ia) · 2
 - [Metodologías de desarrollo](#metodologias) · 2
 
 ## Generales
@@ -381,6 +381,7 @@ Procesos, memoria, archivos y concurrencia para entender qué hay debajo del sta
 Fundamentos de aprendizaje automático, agentes y razonamiento computacional.
 
 - [Inteligencia Artificial: un enfoque moderno](https://iaarbook.github.io/) — Peter Norvig y Stuart Russell, adaptación abierta · HTML
+- [Apuntes GH-600: GitHub Agentic AI Developer](https://matiasbeltramone.com/apuntes/github-agentic-ai/) — Matías Beltramone · HTML
 
 ## Metodologías de desarrollo
 
