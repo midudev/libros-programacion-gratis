@@ -11,6 +11,8 @@
 
 Si desea contribuir con el proyecto, puede crear un pull request en el repositorio de GitHub. Incluye un título y una descripción clara de la sugerencia.
 
+Para proponer un libro sin tocar código, usa la página guiada `/contribuir/` cuando esté desplegada.
+
 Si el cambio afecta a la interfaz o a los estilos de la web, revisa primero la [guía de diseño](./DESIGN.md) para mantener la coherencia visual del proyecto.
 
 ## Reportando errores

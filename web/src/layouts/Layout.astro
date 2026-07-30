@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 type StructuredData = Record<string, unknown> | Record<string, unknown>[];
 
@@ -76,22 +77,54 @@ const jsonLd = structuredData ? JSON.stringify(structuredData).replace(/</g, '\\
 		<title>{title}</title>
 		{structuredData && <script type="application/ld+json" set:html={jsonLd} />}
 		<script is:inline>
-			const theme = (() => {
-				if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-					return localStorage.getItem('theme');
-				}
-				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-					return 'dark';
-				}
-				return 'light';
+			(() => {
+				const stored = typeof localStorage !== 'undefined' ? localStorage.getItem('theme') : null;
+				const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const theme = stored === 'dark' || stored === 'light' ? stored : prefersDark ? 'dark' : 'light';
+				const root = document.documentElement;
+				root.classList.toggle('dark', theme === 'dark');
+				root.style.colorScheme = theme;
+				const meta = document.querySelector('meta[name="theme-color"]');
+				if (meta) meta.setAttribute('content', theme === 'dark' ? '#111110' : '#faf7f2');
 			})();
-			if (theme === 'dark') {
-				document.documentElement.classList.add('dark');
-			}
 		</script>
 	</head>
 	<body>
+		<ThemeToggle />
 		<slot />
+		<script>
+			const THEME_KEY = 'theme';
+			const root = document.documentElement;
+			const toggle = document.getElementById('theme-toggle');
+			const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+
+			const getTheme = () => (root.classList.contains('dark') ? 'dark' : 'light');
+
+			const applyTheme = (theme: 'dark' | 'light') => {
+				root.classList.toggle('dark', theme === 'dark');
+				root.style.colorScheme = theme;
+				localStorage.setItem(THEME_KEY, theme);
+				if (themeColorMeta) {
+					themeColorMeta.setAttribute('content', theme === 'dark' ? '#111110' : '#faf7f2');
+				}
+				if (toggle) {
+					const isDark = theme === 'dark';
+					toggle.setAttribute('aria-pressed', String(isDark));
+					toggle.setAttribute('aria-label', isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+				}
+			};
+
+			applyTheme(getTheme());
+
+			toggle?.addEventListener('click', () => {
+				applyTheme(getTheme() === 'dark' ? 'light' : 'dark');
+			});
+
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+				if (localStorage.getItem(THEME_KEY)) return;
+				applyTheme(event.matches ? 'dark' : 'light');
+			});
+		</script>
 	</body>
 </html>
 
