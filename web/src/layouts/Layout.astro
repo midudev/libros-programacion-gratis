@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import ThemeToggle from '../components/ThemeToggle.astro';
 import { siteConfig } from '../data/seo';
 
 type StructuredData = Record<string, unknown> | Record<string, unknown>[];
@@ -127,33 +126,45 @@ const jsonLd = structuredData ? JSON.stringify(structuredData).replace(/</g, '\\
 		</script>
 	</head>
 	<body>
-		<ThemeToggle />
 		<slot />
 		<script>
 			const THEME_KEY = 'theme';
 			const root = document.documentElement;
-			const toggle = document.getElementById('theme-toggle');
 			const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 
+			const getToggles = () => Array.from(document.querySelectorAll<HTMLButtonElement>('.theme-toggle'));
 			const getTheme = () => (root.classList.contains('dark') ? 'dark' : 'light');
 
 			const applyTheme = (theme: 'dark' | 'light') => {
-				root.classList.toggle('dark', theme === 'dark');
+				const isDark = theme === 'dark';
+				const label = isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
+				const shortLabel = isDark ? 'Modo claro' : 'Modo oscuro';
+
+				root.classList.toggle('dark', isDark);
 				root.style.colorScheme = theme;
 				localStorage.setItem(THEME_KEY, theme);
+
 				if (themeColorMeta) {
-					themeColorMeta.setAttribute('content', theme === 'dark' ? '#111110' : '#faf7f2');
+					themeColorMeta.setAttribute('content', isDark ? '#111110' : '#faf7f2');
 				}
-				if (toggle) {
-					const isDark = theme === 'dark';
+
+				getToggles().forEach((toggle) => {
 					toggle.setAttribute('aria-pressed', String(isDark));
-					toggle.setAttribute('aria-label', isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
-				}
+					toggle.setAttribute('aria-label', label);
+					toggle.removeAttribute('data-tooltip');
+					toggle.removeAttribute('title');
+					const text = toggle.querySelector('.theme-toggle-label');
+					if (text) text.textContent = shortLabel;
+				});
 			};
 
 			applyTheme(getTheme());
 
-			toggle?.addEventListener('click', () => {
+			document.addEventListener('click', (event) => {
+				const target = event.target;
+				if (!(target instanceof Element)) return;
+				const toggle = target.closest('.theme-toggle');
+				if (!toggle) return;
 				applyTheme(getTheme() === 'dark' ? 'light' : 'dark');
 			});
 

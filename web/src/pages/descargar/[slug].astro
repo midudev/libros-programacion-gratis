@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ThemeToggle from '../../components/ThemeToggle.astro';
 import { localPdfBooks, sourceRepository, type LocalPdfBook } from '../../data/library';
 import { getSectionPageEntry, getSectionPagePath, siteConfig } from '../../data/seo';
 
@@ -32,7 +33,7 @@ const externalLinkRel = 'nofollow noreferrer';
 >
 	<div class="page download-page">
 		<header class="header">
-			<a class="logo" href="/" aria-label="Inicio">
+			<a class="logo" href="/" aria-label="Inicio" data-tooltip="Inicio" title="Inicio">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 					<path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
 					<path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
@@ -53,6 +54,7 @@ const externalLinkRel = 'nofollow noreferrer';
 				<a class="header-link" href="/">
 					<span>Biblioteca</span>
 				</a>
+				<ThemeToggle />
 			</nav>
 		</header>
 
