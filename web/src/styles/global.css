@@ -288,7 +288,7 @@ img {
 .header-nav {
   display: flex;
   align-items: center;
-  gap: 0.28rem;
+  flex-shrink: 0;
   padding: 0.22rem;
   border: 1px solid rgba(var(--border-rgb), 0.82);
   border-radius: 8px;
@@ -373,6 +373,22 @@ img {
 .header-nav .header-cta:focus-visible svg {
   color: #fffaf5;
   stroke: #fffaf5;
+}
+
+/* Mobile: icon-only header links (same breakpoint as Tailwind's `sm`) */
+@media (width < 40rem) {
+  .header {
+    gap: 0.5rem;
+  }
+
+  .header-nav .header-link {
+    min-width: 36px;
+    padding: 0 0.5rem;
+  }
+
+  .header-nav .header-cta {
+    padding: 0 0.6rem;
+  }
 }
 
 /* ── Hero ── */
