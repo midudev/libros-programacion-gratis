@@ -1,0 +1,86 @@
+---
+import Icon from './Icon.astro';
+import { sourceRepository } from '../data/library';
+import { getSectionPagePath, sectionPageEntries } from '../data/seo';
+
+interface Props {
+	/** Muestra el directorio de páginas por tema (enlazado interno). */
+	showTopics?: boolean;
+}
+
+const { showTopics = false } = Astro.props;
+const topicEntries = [...sectionPageEntries].sort((a, b) =>
+	a.displayName.localeCompare(b.displayName, 'es'),
+);
+---
+
+<footer class="site-footer">
+	{
+		showTopics && (
+			<nav class="footer-topics" aria-labelledby="footer-topics-title">
+				<p class="footer-heading" id="footer-topics-title">Libros gratis por tema</p>
+				<ul>
+					{topicEntries.map((entry) => (
+						<li>
+							<a href={getSectionPagePath(entry)}>{entry.displayName}</a>
+						</li>
+					))}
+				</ul>
+			</nav>
+		)
+	}
+
+	<div class="footer-bottom">
+		<div class="footer-about">
+			<a class="brand brand--small" href="/" aria-label="librosgratis.dev, ir al inicio">
+				<span class="brand-mark"><Icon name="books" size={18} strokeWidth={1.5} /></span>
+				<span class="brand-name">librosgratis<span>.dev</span></span>
+			</a>
+			<p>
+				Biblioteca abierta y mantenida por la comunidad en{' '}
+				<a href={sourceRepository.href} target="_blank" rel="nofollow noreferrer">{sourceRepository.name}</a>.
+			</p>
+		</div>
+
+		<nav class="footer-links" aria-label="Enlaces del sitio">
+			<a href="/">Biblioteca</a>
+			<a href="/97-cosas-programador/">97 cosas</a>
+			<a href="/contribuir/">Enviar libro</a>
+			<button class="footer-share" type="button" data-share-trigger>
+				<Icon name="share" size={15} />
+				<span data-share-label>Compartir</span>
+			</button>
+		</nav>
+	</div>
+</footer>
+
+<script>
+	document.querySelectorAll<HTMLButtonElement>('[data-share-trigger]').forEach((button) => {
+		const label = button.querySelector('[data-share-label]');
+		const defaultText = label?.textContent ?? 'Compartir';
+
+		button.addEventListener('click', async () => {
+			const shareData = {
+				title: document.title,
+				text: 'Libros gratis de programación en español, organizados por tema.',
+				url: window.location.href,
+			};
+
+			try {
+				if (navigator.share) {
+					await navigator.share(shareData);
+					return;
+				}
+
+				await navigator.clipboard.writeText(shareData.url);
+				if (label) label.textContent = 'Enlace copiado';
+				window.setTimeout(() => {
+					if (label) label.textContent = defaultText;
+				}, 1800);
+			} catch (error) {
+				if (error instanceof DOMException && error.name === 'AbortError') return;
+				console.error(error);
+			}
+		});
+	});
+</script>
