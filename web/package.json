@@ -16,15 +16,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "14.1.7",
+    "@astrojs/cloudflare": "14.3.3",
     "@tailwindcss/vite": "4.3.3",
-    "astro": "7.1.6",
-    "pdfjs-dist": "6.2.108",
+    "astro": "7.3.5",
+    "pdfjs-dist": "6.3.289",
     "tailwind-animations": "1.0.2",
     "tailwindcss": "4.3.3"
   },
   "devDependencies": {
-    "@tabler/icons": "3.46.0",
-    "wrangler": "4.115.0"
+    "@tabler/icons": "3.48.0",
+    "wrangler": "4.141.0"
   }
 }
