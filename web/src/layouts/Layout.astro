@@ -1,4 +1,5 @@
 ---
+import { Font } from 'astro:assets';
 import '../styles/global.css';
 import { siteConfig } from '../data/seo';
 
@@ -72,18 +73,15 @@ const jsonLd = structuredData ? JSON.stringify(structuredData).replace(/</g, '\\
 		<link rel="alternate" hreflang={siteConfig.language} href={pageUrl} />
 		<link rel="alternate" hreflang={siteConfig.languageTag} href={pageUrl} />
 		<link rel="alternate" hreflang="x-default" href={pageUrl} />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
-			rel="stylesheet"
-		/>
+		<Font cssVariable="--font-newsreader" preload={[{ style: 'normal' }]} />
+		<Font cssVariable="--font-geist" preload />
+		<Font cssVariable="--font-geist-mono" preload />
 		<meta name="description" content={description} />
 		<meta name="robots" content={robotsContent} />
 		<meta name="googlebot" content={robotsContent} />
 		<meta name="author" content={siteConfig.publisher.name} />
 		<meta name="publisher" content={siteConfig.publisher.name} />
-		<meta name="theme-color" content="#faf7f2" />
+		<meta name="theme-color" content="#f6f3ec" />
 		<meta name="rating" content="general" />
 		{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
 		<meta property="og:type" content={ogType} />
@@ -121,7 +119,7 @@ const jsonLd = structuredData ? JSON.stringify(structuredData).replace(/</g, '\\
 				root.classList.toggle('dark', theme === 'dark');
 				root.style.colorScheme = theme;
 				const meta = document.querySelector('meta[name="theme-color"]');
-				if (meta) meta.setAttribute('content', theme === 'dark' ? '#111110' : '#faf7f2');
+				if (meta) meta.setAttribute('content', theme === 'dark' ? '#141311' : '#f6f3ec');
 			})();
 		</script>
 	</head>
@@ -145,14 +143,13 @@ const jsonLd = structuredData ? JSON.stringify(structuredData).replace(/</g, '\\
 				localStorage.setItem(THEME_KEY, theme);
 
 				if (themeColorMeta) {
-					themeColorMeta.setAttribute('content', isDark ? '#111110' : '#faf7f2');
+					themeColorMeta.setAttribute('content', isDark ? '#141311' : '#f6f3ec');
 				}
 
 				getToggles().forEach((toggle) => {
 					toggle.setAttribute('aria-pressed', String(isDark));
 					toggle.setAttribute('aria-label', label);
-					toggle.removeAttribute('data-tooltip');
-					toggle.removeAttribute('title');
+					toggle.setAttribute('data-tooltip', shortLabel);
 					const text = toggle.querySelector('.theme-toggle-label');
 					if (text) text.textContent = shortLabel;
 				});
@@ -175,15 +172,3 @@ const jsonLd = structuredData ? JSON.stringify(structuredData).replace(/</g, '\\
 		</script>
 	</body>
 </html>
-
-<style>
-	html {
-		scroll-behavior: smooth;
-	}
-
-	body {
-		margin: 0;
-		min-width: 320px;
-		min-height: 100vh;
-	}
-</style>
