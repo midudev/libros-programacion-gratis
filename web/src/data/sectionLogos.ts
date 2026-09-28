@@ -50,13 +50,9 @@ export const sectionLogoSources = (slug: string) => {
 
 /** Logos monocromos / genéricos: en dark mode se aclaran para mantener el contraste. */
 const monochromeLogoFiles = new Set([
-  '/logos/agile.svg',
-  '/logos/ai.svg',
   '/logos/assembly.svg',
-  '/logos/code.svg',
   '/logos/lisp.svg',
   '/logos/math.svg',
-  '/logos/operating-system.svg',
   '/logos/sql.svg',
 ]);
 

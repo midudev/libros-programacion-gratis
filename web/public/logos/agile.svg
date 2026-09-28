@@ -1,5 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M20 4h-9v1.5a2.5 2.5 0 0 0 2.5 2.5h1.5a1 1 0 0 1 1 1v1.5a2.5 2.5 0 0 0 2.5 2.5h1.5v-9" />
-  <path d="M15 8h-8v1.5a2.5 2.5 0 0 0 2.5 2.5h1.5a1 1 0 0 1 1 1v1.5a2.5 2.5 0 0 0 2.5 2.5h1.5v-8a1 1 0 0 0 -1 -1" />
-  <path d="M11 12h-8v1.5a2.5 2.5 0 0 0 2.5 2.5h1.5a1 1 0 0 1 1 1v1.5a2.5 2.5 0 0 0 2.5 2.5h1.5v-8a1 1 0 0 0 -1 -1" />
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <!-- Tablero kanban: pendiente (gris), en curso (naranja) y hecho (azul) -->
+  <rect x="2.5" y="3.5" width="27" height="25" rx="3.5" fill="#94a3b8" fill-opacity="0.14" stroke="#94a3b8" stroke-width="2" />
+  <path d="M11.5 4.5V27.5M20.5 4.5V27.5" stroke="#94a3b8" stroke-opacity="0.45" stroke-width="1.25" />
+  <g fill="#94a3b8">
+    <rect x="5" y="7" width="4.5" height="4" rx="1" />
+    <rect x="5" y="13" width="4.5" height="4" rx="1" />
+    <rect x="5" y="19" width="4.5" height="4" rx="1" />
+  </g>
+  <g fill="#f97316">
+    <rect x="13.75" y="7" width="4.5" height="4" rx="1" />
+    <rect x="13.75" y="13" width="4.5" height="4" rx="1" />
+  </g>
+  <g fill="#3b82f6">
+    <rect x="22.5" y="7" width="4.5" height="4" rx="1" />
+  </g>
 </svg>
