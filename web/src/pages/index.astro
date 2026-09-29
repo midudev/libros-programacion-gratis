@@ -1,13 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
-import {
-	getLocalPdfBook,
-	librarySections,
-	sourceRepository,
-	totalBooks,
-	totalSections,
-} from '../data/library';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import BookCard from '../components/BookCard.astro';
+import Icon from '../components/Icon.astro';
+import { librarySections, totalBooks, totalSections } from '../data/library';
 import {
 	createHomeStructuredData,
 	getSectionPageEntry,
@@ -18,15 +15,50 @@ import {
 } from '../data/seo';
 import { isMonochromeLogo, sectionLogoSources } from '../data/sectionLogos';
 
-const sectionEntries = librarySections.map(getSectionPageEntry);
-const topTopics = sectionEntries
-	.filter((entry) => entry.section.books.length > 0)
-	.slice(0, 12);
+const sectionEntries = librarySections
+	.map(getSectionPageEntry)
+	.filter((entry) => entry.section.books.length > 0);
 
-const externalLinkRel = 'nofollow noreferrer';
-const isExternalHref = (href: string) => /^https?:\/\//.test(href);
-const bookLinkRel = (href: string) =>
-	isExternalHref(href) ? externalLinkRel : undefined;
+// Orden de lectura: de lo general a lo específico. Los grupos nuevos se añaden al final.
+const preferredGroupOrder = [
+	'Fundamentos',
+	'Lenguajes',
+	'Desarrollo web',
+	'Frameworks',
+	'Plataformas',
+	'Herramientas',
+	'Bases de datos',
+	'IA y datos',
+];
+const groupNames = [
+	...preferredGroupOrder,
+	...new Set(sectionEntries.map((entry) => entry.section.group)),
+].filter((name, index, all) => all.indexOf(name) === index);
+
+const slugify = (value: string) =>
+	value
+		.normalize('NFD')
+		.replace(/[̀-ͯ]/g, '')
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/^-+|-+$/g, '');
+
+const groups = groupNames
+	.map((name) => {
+		const entries = sectionEntries.filter((entry) => entry.section.group === name);
+		return {
+			name,
+			slug: slugify(name),
+			entries,
+			bookCount: entries.reduce((total, entry) => total + entry.section.books.length, 0),
+		};
+	})
+	.filter((group) => group.entries.length > 0);
+
+const topTopics = sectionEntries.slice(0, 12);
+const suggestions = ['JavaScript', 'Python', 'React', 'Git', 'SQL', 'Algoritmos'];
+const plural = (count: number, singular: string, pluralForm: string) =>
+	`${count} ${count === 1 ? singular : pluralForm}`;
 
 const structuredData = createHomeStructuredData();
 ---
@@ -41,697 +73,551 @@ const structuredData = createHomeStructuredData();
 	imageAlt={siteConfig.defaultImageAlt}
 >
 	<div class="page">
-		<header class="header animate-fade-in animate-duration-500">
-			<a class="logo" href="/" aria-label="Inicio" data-tooltip="Inicio" title="Inicio">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
-					<path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
-					<path d="M5 8h4" /><path d="M9 16h4" />
-					<path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041" />
-					<path d="M14 9l4 -1" /><path d="M16 16l3.923 -.98" />
-				</svg>
-			</a>
-			<nav class="header-nav gap-0.5 sm:gap-1" aria-label="Principal">
-				<a class="header-link" href="#" id="show-favorites" aria-label="Ver libros favoritos">
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-					</svg>
-					<span class="hidden sm:inline">Favoritos</span>
-					<span class="favorites-count" id="favorites-count">0</span>
-				</a>
-				<a class="header-link" href={sourceRepository.href} target="_blank" rel={externalLinkRel} aria-label="GitHub">
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3" />
-						<path d="M15 21v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-					</svg>
-					<span class="hidden sm:inline">GitHub</span>
-				</a>
-				<ThemeToggle />
-				<a class="header-cta shrink-0" href="/contribuir/">
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M5 19.5v-14a2.5 2.5 0 0 1 2.5 -2.5h10.5v18h-10.5a2.5 2.5 0 0 1 0 -5h10.5" />
-						<path d="M9 8h5" />
-						<path d="M9 11h4" />
-					</svg>
-					<span>Enviar libro</span>
-				</a>
-			</nav>
-		</header>
+		<SiteHeader variant="home" />
 
 		<main>
-			<section class="hero hero-home" aria-labelledby="hero-title">
-				<div class="hero-glow" aria-hidden="true"></div>
+			<section class="hero" aria-labelledby="hero-title">
+				<p class="hero-eyebrow animate-fade-in animate-duration-500">
+					<span><strong>{totalBooks}</strong> libros</span>
+					<span aria-hidden="true">/</span>
+					<span><strong>{totalSections}</strong> temas</span>
+					<span class="hero-eyebrow-extra" aria-hidden="true">/</span>
+					<span class="hero-eyebrow-extra">Web, PDF y EPUB</span>
+					<span aria-hidden="true">/</span>
+					<span><strong>0&nbsp;€</strong> siempre</span>
+				</p>
 
-				<h1 id="hero-title" class="animate-blurred-fade-in animate-duration-800">
+				<h1 id="hero-title" class="hero-title animate-fade-in-up animate-duration-700">
 					Libros <em>gratis</em> de programación en español
 				</h1>
 
-				<p class="hero-sub animate-fade-in-up animate-delay-150 animate-duration-700">
-					Descubre, lee online y descarga recursos curados en tu idioma.
-					JavaScript, Python, TypeScript, Rust, React y mucho más.
+				<p class="hero-sub animate-fade-in-up animate-delay-100 animate-duration-700">
+					Una biblioteca curada para leer online o descargar, sin registros ni muros de pago.
+					De JavaScript y Python a algoritmos, Git o bases de datos.
 				</p>
 
-				<ul class="hero-stats animate-fade-in-up animate-delay-250 animate-duration-700" aria-label="Resumen del catálogo">
-					<li>
-						<strong>{totalBooks}</strong>
-						<span>libros</span>
-					</li>
-					<li>
-						<strong>{totalSections}</strong>
-						<span>temas</span>
-					</li>
-					<li>
-						<strong>PDF</strong>
-						<span>y HTML</span>
-					</li>
-					<li>
-						<strong>0&nbsp;€</strong>
-						<span>siempre</span>
-					</li>
-				</ul>
-
-				<div class="hero-search-wrap animate-fade-in-up animate-delay-300 animate-duration-700" data-hero-search>
-					<label class="search-control search-control-hero" for="library-search">
-						<span class="search-control-icon" aria-hidden="true">
-							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-								<path d="M10 18a8 8 0 1 1 5.657 -13.657A8 8 0 0 1 10 18z" />
-								<path d="M21 21l-5.35 -5.35" />
-							</svg>
-						</span>
+				<div class="hero-search animate-fade-in-up animate-delay-200 animate-duration-700" data-hero-search>
+					<div class="search" data-search-box>
+						<Icon name="search" size={20} />
 						<input
 							id="library-search"
 							class="search-input"
 							type="search"
-							placeholder="Buscar por título, autor, lenguaje o tema…"
+							placeholder="Busca por título, autor o tema…"
+							aria-label="Buscar libros por título, autor o tema"
 							autocomplete="off"
+							spellcheck="false"
 							enterkeyhint="search"
+							data-search-input
 						/>
-						<span class="search-control-aside">
-							<span class="search-results-inline" aria-live="polite">
-								<strong data-results-count>{totalBooks}</strong>
-							</span>
-							<button class="reset-btn search-reset" type="button" data-reset-search hidden>
-								Limpiar
-							</button>
-							<kbd class="search-hotkey" title="Pulsa / para buscar" aria-hidden="true">/</kbd>
+						<span class="search-aside">
+							<span class="search-count" aria-live="polite" data-results-count>{totalBooks} libros</span>
+							<button class="search-clear" type="button" data-reset-search hidden>Limpiar</button>
+							<kbd class="kbd" title="Pulsa / para buscar" data-search-hotkey>/</kbd>
 						</span>
-					</label>
-				</div>
+					</div>
 
-				<div class="hero-topics animate-fade-in-up animate-delay-400 animate-duration-700" data-hero-topics>
-					<p class="hero-topics-label" id="topics-label">Explorar por tema</p>
-					<nav class="language-dock" aria-labelledby="topics-label">
-						{
-							sectionEntries.map((entry) => {
-								const logoSources = sectionLogoSources(entry.section.slug);
-
-								return (
-									<a
-										class:list={['language-dock-link', logoSources.length > 1 && 'is-logo-pair']}
-										href={`#${entry.section.slug}`}
-										aria-label={`Ir a ${entry.section.title}`}
-										data-tooltip={entry.section.title}
-										title={entry.section.title}
-									>
-										<span class="language-dock-logo-stack" aria-hidden="true">
-											{logoSources.map((logo) => (
-												<img
-													class:list={['section-logo', isMonochromeLogo(logo) && 'section-logo--mono']}
-													src={logo}
-													alt=""
-													width="28"
-													height="28"
-													loading="lazy"
-													decoding="async"
-												/>
-											))}
-										</span>
-									</a>
-								);
-							})
-						}
-					</nav>
+					<div class="hero-suggestions" data-hero-suggestions>
+						<span>Prueba con</span>
+						{suggestions.map((suggestion) => (
+							<button class="suggestion" type="button" data-suggestion={suggestion}>
+								{suggestion}
+							</button>
+						))}
+					</div>
 				</div>
 			</section>
 
-			<section class="library" id="biblioteca" aria-labelledby="library-title">
-				<h2 id="library-title" class="sr-only">Biblioteca</h2>
-
-				<div class="toolbar toolbar-sticky" data-sticky-toolbar hidden>
-					<label class="search-control search-control-compact" for="library-search-sticky">
-						<span class="search-control-icon" aria-hidden="true">
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-								<path d="M10 18a8 8 0 1 1 5.657 -13.657A8 8 0 0 1 10 18z" />
-								<path d="M21 21l-5.35 -5.35" />
-							</svg>
-						</span>
-						<input
-							id="library-search-sticky"
-							class="search-input"
-							type="search"
-							placeholder="Buscar en la biblioteca…"
-							autocomplete="off"
-							aria-label="Buscar en la biblioteca"
-						/>
-						<span class="search-control-aside">
-							<span class="search-results-inline" aria-live="polite">
-								<strong data-results-count-sticky>{totalBooks}</strong>
-							</span>
-							<button class="reset-btn search-reset" type="button" data-reset-search-sticky hidden>
-								Limpiar
-							</button>
-						</span>
-					</label>
+			<nav class="toc animate-fade-in-up animate-delay-300 animate-duration-700" id="temas" aria-labelledby="toc-title" data-toc>
+				<div class="toc-head">
+					<h2 class="toc-title" id="toc-title">Explora por tema</h2>
+					<p class="toc-meta">{totalSections} temas en {groups.length} áreas</p>
 				</div>
+				<div class="toc-cols">
+					{groups.map((group) => (
+						<div class="toc-group">
+							<h3 class="toc-group-title">{group.name}</h3>
+							<ul class="toc-list">
+								{group.entries.map((entry) => {
+									const logo = sectionLogoSources(entry.section.slug)[0];
+									const count = entry.section.books.length;
 
-				{
-					sectionEntries.map((entry) => {
-						const section = entry.section;
-
-						return (
-							<section
-								class="topic animate-fade-in-up timeline-view animate-range-[entry_10%_contain_20%]"
-								id={section.slug}
-								data-group={section.group}
-								data-section={section.title}
-								aria-labelledby={`${section.slug}-title`}
-							>
-								<div class="topic-header">
-									<h2 id={`${section.slug}-title`}>
-										<span class="topic-logo-stack" aria-hidden="true">
-											{sectionLogoSources(section.slug).map((logo) => (
-												<img
-													class:list={['topic-logo', 'section-logo', isMonochromeLogo(logo) && 'section-logo--mono']}
-													src={logo}
-													alt=""
-													width="22"
-													height="22"
-													loading="lazy"
-												/>
-											))}
-										</span>
-										{section.title}
-										<a
-											class="topic-title-link"
-											href={getSectionPagePath(entry)}
-											aria-label={`Ver libros gratis de ${entry.displayName}`}
-											data-tooltip={`Ver página de ${entry.displayName}`}
-											title={`Ver página de ${entry.displayName}`}
-										>
-											<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-												<path d="M7 17L17 7" />
-												<path d="M8 7h9v9" />
-											</svg>
-										</a>
-									</h2>
-									<span class="topic-count">
-										{section.books.length} {section.books.length === 1 ? 'libro' : 'libros'}
-									</span>
-								</div>
-								<p class="topic-desc">{section.description}</p>
-
-								<div class="book-grid">
-									{section.books.map((book) => {
-										const pdfBook = getLocalPdfBook(book);
-										const hasHtmlVersion = Boolean(pdfBook && pdfBook.href !== pdfBook.pdfHref);
-										const primaryHref = hasHtmlVersion
-											? book.href
-											: (pdfBook?.readerPath ?? book.href);
-										const opensInNewTab = isExternalHref(primaryHref);
-										const formats = pdfBook?.formats ?? book.formats ?? [];
-										const canOpen = Boolean(primaryHref);
-
-										return (
-											<article
-												class:list={['book', pdfBook && 'is-pdf', !canOpen && 'is-static']}
-												data-search={`${book.title} ${book.author ?? ''} ${section.title} ${section.group}`.toLowerCase()}
-											>
-												{canOpen && (
-													<a
-														class="book-card-link"
-														href={primaryHref}
-														target={opensInNewTab ? '_blank' : undefined}
-														rel={bookLinkRel(primaryHref)}
-														aria-label={`Abrir ${book.title}`}
-													></a>
+									return (
+										<li>
+											<a class="toc-link" href={`#${entry.section.slug}`}>
+												{logo && (
+													<img
+														class:list={['section-logo', isMonochromeLogo(logo) && 'section-logo--mono']}
+														src={logo}
+														alt=""
+														width="18"
+														height="18"
+														loading="lazy"
+														decoding="async"
+													/>
 												)}
-
-												<button
-													class="book-fav"
-													type="button"
-													data-favorite="false"
-													data-book-id={book.id}
-													aria-label="Marcar como favorito"
-													data-tooltip="Favorito"
-													title="Favorito"
-												>
-													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-														<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-													</svg>
-												</button>
-
-												<div class="book-body">
-													<h3>{book.title}</h3>
-													{book.author && <p class="book-author">{book.author}</p>}
-												</div>
-
-												<div class="book-meta">
-													{formats.length > 0 && (
-														<div class="book-formats" aria-label="Formatos disponibles">
-															{formats.map((format) => (
-																<span class="book-format">{format}</span>
-															))}
-														</div>
-													)}
-
-													<div class="book-actions" aria-label={`Acciones para ${book.title}`}>
-														{hasHtmlVersion && (
-															<a class="book-icon-btn" href={book.href} target={isExternalHref(book.href) ? '_blank' : undefined} rel={bookLinkRel(book.href)} aria-label={`Leer HTML de ${book.title}`} data-tooltip="Leer HTML" title="Leer HTML">
-																<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-																	<path d="M4 19a2 2 0 0 0 2 2h12" />
-																	<path d="M6 17a2 2 0 0 0 -2 2v-14a2 2 0 0 1 2 -2h12v18" />
-																	<path d="M8 7h6" />
-																</svg>
-															</a>
-														)}
-														{pdfBook && (
-															<>
-																<a class="book-icon-btn" href={pdfBook.readerPath} aria-label={`Leer PDF de ${book.title}`} data-tooltip="Leer PDF" title="Leer PDF">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-																		<path d="M14 3v4a1 1 0 0 0 1 1h4" />
-																		<path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-																		<path d="M9 15h6" />
-																		<path d="M9 18h3" />
-																	</svg>
-																</a>
-																<a class="book-icon-btn" href={pdfBook.downloadPath} aria-label={`Descargar ${book.title}`} data-tooltip="Descargar" title="Descargar">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-																		<path d="M12 3v12" />
-																		<path d="M7 10l5 5l5 -5" />
-																		<path d="M5 21h14" />
-																	</svg>
-																</a>
-															</>
-														)}
-														{!pdfBook && opensInNewTab && (
-															<a class="book-icon-btn" href={primaryHref} target="_blank" rel={bookLinkRel(primaryHref)} aria-label={`Abrir sitio de ${book.title}`} data-tooltip="Abrir web" title="Abrir web">
-																<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-																	<path d="M7 17L17 7" />
-																	<path d="M8 7h9v9" />
-																</svg>
-															</a>
-														)}
-													</div>
-												</div>
-											</article>
-										);
-									})}
-								</div>
-							</section>
-						);
-					})
-				}
-
-				<div class="empty-state animate-fade-in" hidden data-empty-state>
-					<p>No hay coincidencias con esa búsqueda. Prueba con otro término.</p>
-				</div>
-			</section>
-
-			<section class="seo-copy" aria-labelledby="about-library-title">
-				<h2 id="about-library-title">Biblioteca de libros de programación gratis en español</h2>
-				<p>
-					{siteConfig.name} reúne {totalBooks} recursos gratuitos de programación en español,
-					organizados en {totalSections} temas: lenguajes, frameworks, bases de datos, herramientas
-					y fundamentos. El objetivo es que puedas <strong>aprender a programar gratis</strong> con
-					material en tu idioma, sin registros ni paywalls.
-				</p>
-				<p>
-					Explora colecciones como{' '}
-					{topTopics.map((entry, index) => (
-						<>
-							{index > 0 && (index === topTopics.length - 1 ? ' o ' : ', ')}
-							<a href={getSectionPagePath(entry)}>libros gratis de {entry.displayName}</a>
-						</>
+												<span class="toc-name">{entry.section.title}</span>
+												<span class="toc-leader" aria-hidden="true"></span>
+												<span class="toc-count">
+													{count}
+													<span class="sr-only"> {count === 1 ? 'libro' : 'libros'}</span>
+												</span>
+											</a>
+										</li>
+									);
+								})}
+							</ul>
+						</div>
 					))}
-					. Muchos títulos incluyen lectura online y descarga en PDF o EPUB.
-				</p>
-			</section>
-
-			<section class="seo-faq" aria-labelledby="home-faq-title">
-				<h2 id="home-faq-title">Preguntas frecuentes</h2>
-				{homeFaqs.map((faq) => (
-					<details>
-						<summary>{faq.question}</summary>
-						<p>{faq.answer}</p>
-					</details>
-				))}
-			</section>
-
-			<div class="favorites-panel" id="favorites-panel" hidden>
-				<div class="favorites-header">
-					<h2>Libros Favoritos</h2>
-					<button class="favorites-close" type="button" aria-label="Cerrar panel de favoritos" data-tooltip="Cerrar" title="Cerrar">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-							<path d="M18 6L6 18" />
-							<path d="M6 6l12 12" />
-						</svg>
-					</button>
 				</div>
-				<div class="favorites-list" id="favorites-list">
-					<p class="favorites-empty" hidden>No tienes libros favoritos aún. Haz clic en el corazón de cualquier libro para agregarlo.</p>
+			</nav>
+
+			<div class="library" id="biblioteca">
+				{groups.map((group) => (
+					<section class="group" id={`area-${group.slug}`} aria-labelledby={`area-${group.slug}-title`} data-group-block>
+						<header class="group-head">
+							<h2 class="group-title" id={`area-${group.slug}-title`}>{group.name}</h2>
+							<span class="group-meta">
+								{plural(group.entries.length, 'tema', 'temas')} · {plural(group.bookCount, 'libro', 'libros')}
+							</span>
+						</header>
+
+						{group.entries.map((entry) => {
+							const { section } = entry;
+
+							return (
+								<section class="topic" id={section.slug} aria-labelledby={`${section.slug}-title`} data-topic>
+									<header class="topic-head">
+										<div class="topic-heading">
+											<span class="topic-logos" aria-hidden="true">
+												{sectionLogoSources(section.slug).map((logo) => (
+													<img
+														class:list={['section-logo', isMonochromeLogo(logo) && 'section-logo--mono']}
+														src={logo}
+														alt=""
+														width="28"
+														height="28"
+														loading="lazy"
+														decoding="async"
+													/>
+												))}
+											</span>
+											<h3 class="topic-title" id={`${section.slug}-title`}>{section.title}</h3>
+											<span class="topic-count">{plural(section.books.length, 'libro', 'libros')}</span>
+										</div>
+										<a class="topic-more" href={getSectionPagePath(entry)} aria-label={`Ver página de libros de ${entry.displayName}`}>
+											<span>Ver página</span>
+											<Icon name="arrow-right" size={15} />
+										</a>
+									</header>
+									<p class="topic-desc">{section.description}</p>
+
+									<div class="book-grid">
+										{section.books.map((book) => (
+											<BookCard
+												book={book}
+												sectionTitle={section.title}
+												sectionGroup={section.group}
+												headingLevel="h4"
+												showFavorite
+											/>
+										))}
+									</div>
+								</section>
+							);
+						})}
+					</section>
+				))}
+
+				<div class="empty-state" hidden data-empty-state>
+					<strong>Sin resultados</strong>
+					<p>
+						No hay libros que coincidan con «<span data-empty-query></span>». Prueba con otro término o
+						<button class="text-link" type="button" data-reset-search>limpia la búsqueda</button>.
+					</p>
 				</div>
 			</div>
+
+			<section class="prose-section" aria-labelledby="about-library-title">
+				<h2 id="about-library-title">Biblioteca de libros de programación gratis en español</h2>
+				<div class="prose">
+					<p>
+						{siteConfig.name} reúne {totalBooks} recursos gratuitos de programación en español,
+						organizados en {totalSections} temas: lenguajes, frameworks, bases de datos, herramientas
+						y fundamentos. El objetivo es que puedas <strong>aprender a programar gratis</strong> con
+						material en tu idioma, sin registros ni paywalls.
+					</p>
+					<p>
+						Explora colecciones como{' '}
+						{topTopics.map((entry, index) => (
+							<>
+								{index > 0 && (index === topTopics.length - 1 ? ' o ' : ', ')}
+								<a href={getSectionPagePath(entry)}>libros gratis de {entry.displayName}</a>
+							</>
+						))}
+						. Muchos títulos incluyen lectura online y descarga en PDF o EPUB.
+					</p>
+				</div>
+			</section>
+
+			<section class="prose-section" aria-labelledby="home-faq-title">
+				<h2 id="home-faq-title">Preguntas frecuentes</h2>
+				<div class="faq">
+					{homeFaqs.map((faq) => (
+						<details>
+							<summary>{faq.question}</summary>
+							<p>{faq.answer}</p>
+						</details>
+					))}
+				</div>
+			</section>
 		</main>
 
-		<footer class="footer">
-			<nav class="footer-topic-links" aria-label="Páginas de libros por tema">
-				{
-					sectionEntries.map((entry) => (
-						<a href={getSectionPagePath(entry)}>Libros gratis de {entry.displayName}</a>
-					))
-				}
-			</nav>
-			<div class="footer-meta">
-				<p>
-					Contenido del repositorio{' '}
-					<a href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
-						{sourceRepository.name}
-					</a>
-				</p>
-				<button class="footer-share" type="button" data-share-trigger>Compartir</button>
-			</div>
-		</footer>
+		<SiteFooter showTopics />
 	</div>
 
-	<script is:inline>
-		const searchInput = document.querySelector('#library-search');
-		const stickySearchInput = document.querySelector('#library-search-sticky');
-		const resetButton = document.querySelector('[data-reset-search]');
-		const stickyResetButton = document.querySelector('[data-reset-search-sticky]');
-		const resultsCount = document.querySelector('[data-results-count]');
-		const stickyResultsCount = document.querySelector('[data-results-count-sticky]');
-		const emptyState = document.querySelector('[data-empty-state]');
-		const sectionBlocks = Array.from(document.querySelectorAll('.topic'));
-		const shareButtons = Array.from(document.querySelectorAll('[data-share-trigger]'));
-		const stickyToolbar = document.querySelector('[data-sticky-toolbar]');
-		const heroTopics = document.querySelector('[data-hero-topics]');
+	<div class="sticky-search" data-sticky-toolbar hidden>
+		<div class="sticky-search-inner">
+			<a class="brand" href="/" aria-label="librosgratis.dev, ir al inicio">
+				<span class="brand-mark"><Icon name="books" size={20} strokeWidth={1.5} /></span>
+			</a>
+			<div class="search" data-search-box>
+				<Icon name="search" size={18} />
+				<input
+					id="library-search-sticky"
+					class="search-input"
+					type="search"
+					placeholder="Buscar en la biblioteca…"
+					aria-label="Buscar en la biblioteca"
+					autocomplete="off"
+					spellcheck="false"
+					enterkeyhint="search"
+					data-search-input
+				/>
+				<span class="search-aside">
+					<span class="search-count" data-results-count>{totalBooks} libros</span>
+					<button class="search-clear" type="button" data-reset-search hidden>Limpiar</button>
+				</span>
+			</div>
+			<a class="nav-link" href="#temas" aria-label="Ir al índice de temas" data-tooltip="Temas">
+				<Icon name="list" />
+				<span class="nav-label">Temas</span>
+			</a>
+		</div>
+	</div>
+
+	<div class="favorites" id="favorites-panel" hidden>
+		<div class="favorites-backdrop" data-favorites-close></div>
+		<div class="favorites-sheet" role="dialog" aria-modal="true" aria-labelledby="favorites-title">
+			<header class="favorites-head">
+				<h2 id="favorites-title">Tus favoritos</h2>
+				<button class="icon-btn" type="button" aria-label="Cerrar favoritos" data-favorites-close>
+					<Icon name="x" />
+				</button>
+			</header>
+			<div class="favorites-list" id="favorites-list"></div>
+			<template id="favorites-remove-icon"><Icon name="x" size={16} /></template>
+			<div class="favorites-empty" data-favorites-empty hidden>
+				<Icon name="heart" size={28} />
+				<p>Aún no has guardado libros. Pulsa el corazón de cualquier libro para tenerlo a mano aquí.</p>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		import { getFavorites, toggleFavorite } from '../scripts/favorites.ts';
+
+		/* ── Búsqueda ── */
+
+		const normalize = (value: string) =>
+			value
+				.normalize('NFD')
+				.replace(/[̀-ͯ]/g, '')
+				.toLowerCase()
+				.trim();
+
 		const pageRoot = document.querySelector('.page');
-		const librarySection = document.querySelector('#biblioteca');
+		const toc = document.querySelector<HTMLElement>('[data-toc]');
+		const inputs = Array.from(document.querySelectorAll<HTMLInputElement>('[data-search-input]'));
+		const counts = Array.from(document.querySelectorAll<HTMLElement>('[data-results-count]'));
+		const clearButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-reset-search]'));
+		const hotkeys = Array.from(document.querySelectorAll<HTMLElement>('[data-search-hotkey]'));
+		const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-group-block]'));
+		const emptyState = document.querySelector<HTMLElement>('[data-empty-state]');
+		const emptyQuery = document.querySelector<HTMLElement>('[data-empty-query]');
+		const heroInput = document.querySelector<HTMLInputElement>('#library-search');
+		const stickyInput = document.querySelector<HTMLInputElement>('#library-search-sticky');
 
-		const getSearchValue = () => (searchInput?.value ?? stickySearchInput?.value ?? '').trim();
-
-		const setSearchValue = (value, source) => {
-			if (searchInput && source !== searchInput) searchInput.value = value;
-			if (stickySearchInput && source !== stickySearchInput) stickySearchInput.value = value;
-		};
+		let query = '';
 
 		const syncQueryToUrl = () => {
-			const query = getSearchValue();
 			const url = new URL(window.location.href);
-			if (query) {
-				url.searchParams.set('q', query);
-			} else {
-				url.searchParams.delete('q');
-			}
+			if (query.trim()) url.searchParams.set('q', query.trim());
+			else url.searchParams.delete('q');
 			const next = `${url.pathname}${url.search}${url.hash}`;
-			const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-			if (next !== current) {
+			if (next !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
 				window.history.replaceState({}, '', next);
 			}
 		};
 
 		const applyFilters = () => {
-			const rawQuery = getSearchValue();
-			const query = rawQuery.toLowerCase();
-			const hasQuery = query !== '';
+			const terms = normalize(query).split(/\s+/).filter(Boolean);
+			const hasQuery = terms.length > 0;
 			let visibleBooks = 0;
 
-			// Al buscar: oculta el dock de temas y compacta el hero para ver resultados debajo
 			pageRoot?.classList.toggle('is-searching', hasQuery);
-			heroTopics?.toggleAttribute('hidden', hasQuery);
+			toc?.toggleAttribute('hidden', hasQuery);
 
-			sectionBlocks.forEach((section) => {
-				let sectionVisibleBooks = 0;
+			for (const group of groups) {
+				let groupVisible = 0;
 
-				section.querySelectorAll('.book').forEach((card) => {
-					const haystack = card.getAttribute('data-search') ?? '';
-					const matchesSearch = !hasQuery || haystack.includes(query);
+				for (const topic of group.querySelectorAll<HTMLElement>('[data-topic]')) {
+					let topicVisible = 0;
 
-					card.toggleAttribute('hidden', !matchesSearch);
-					if (matchesSearch) {
-						sectionVisibleBooks += 1;
-						visibleBooks += 1;
+					for (const card of topic.querySelectorAll<HTMLElement>('.book')) {
+						const haystack = card.dataset.search ?? '';
+						const matches = !hasQuery || terms.every((term) => haystack.includes(term));
+						card.hidden = !matches;
+						if (matches) topicVisible += 1;
 					}
-				});
 
-				section.toggleAttribute('hidden', sectionVisibleBooks === 0);
-			});
+					topic.hidden = topicVisible === 0;
+					groupVisible += topicVisible;
+				}
 
-			const countText = String(visibleBooks);
-			if (resultsCount) resultsCount.textContent = countText;
-			if (stickyResultsCount) stickyResultsCount.textContent = countText;
-
-			if (emptyState) {
-				emptyState.toggleAttribute('hidden', visibleBooks !== 0);
+				group.hidden = groupVisible === 0;
+				visibleBooks += groupVisible;
 			}
 
-			resetButton?.toggleAttribute('hidden', !hasQuery);
-			stickyResetButton?.toggleAttribute('hidden', !hasQuery);
+			const label = `${visibleBooks} ${visibleBooks === 1 ? 'libro' : 'libros'}`;
+			counts.forEach((count) => (count.textContent = label));
+			clearButtons.forEach((button) => (button.hidden = !hasQuery && !button.closest('[data-empty-state]')));
+			hotkeys.forEach((hotkey) => (hotkey.hidden = hasQuery));
+
+			if (emptyState) emptyState.hidden = visibleBooks !== 0;
+			if (emptyQuery) emptyQuery.textContent = query.trim();
 
 			syncQueryToUrl();
 		};
 
-		const onSearchInput = (event) => {
-			const target = event.currentTarget;
-			setSearchValue(target?.value ?? '', target);
+		const setQuery = (value: string, source?: HTMLInputElement) => {
+			query = value;
+			inputs.forEach((input) => {
+				if (input !== source) input.value = value;
+			});
 			applyFilters();
 		};
 
-		searchInput?.addEventListener('input', onSearchInput);
-		stickySearchInput?.addEventListener('input', onSearchInput);
-
-		const clearSearch = (focusEl) => {
-			setSearchValue('', null);
-			if (searchInput) searchInput.value = '';
-			if (stickySearchInput) stickySearchInput.value = '';
-			focusEl?.focus();
-			applyFilters();
-		};
-
-		resetButton?.addEventListener('click', () => clearSearch(searchInput));
-		stickyResetButton?.addEventListener('click', () => clearSearch(stickySearchInput));
-
-		// Atajo "/" para enfocar la búsqueda (estilo docs)
-		document.addEventListener('keydown', (event) => {
-			if (event.key !== '/' || event.metaKey || event.ctrlKey || event.altKey) return;
-			const tag = (event.target instanceof HTMLElement ? event.target.tagName : '').toLowerCase();
-			if (tag === 'input' || tag === 'textarea' || event.target?.isContentEditable) return;
-			event.preventDefault();
-			const heroVisible = searchInput && searchInput.getBoundingClientRect().bottom > 80;
-			(heroVisible ? searchInput : stickySearchInput ?? searchInput)?.focus();
-		});
-
-		shareButtons.forEach((button) => {
-			button.dataset.label = button.textContent?.trim() ?? 'Compartir';
-
-			button.addEventListener('click', async () => {
-				const shareData = {
-					title: document.title,
-					text: 'Libros gratis de programación en español, organizados por tema.',
-					url: window.location.href,
-				};
-
-				try {
-					if (navigator.share) {
-						await navigator.share(shareData);
-						return;
-					}
-
-					await navigator.clipboard.writeText(shareData.url);
-					button.textContent = 'Enlace copiado';
-					window.setTimeout(() => {
-						button.textContent = button.dataset.label ?? 'Compartir';
-					}, 1800);
-				} catch (error) {
-					console.error(error);
+		inputs.forEach((input) => {
+			input.addEventListener('input', () => setQuery(input.value, input));
+			input.addEventListener('keydown', (event) => {
+				if (event.key === 'Escape' && input.value) {
+					event.preventDefault();
+					setQuery('');
 				}
 			});
 		});
 
-		// Soporta SearchAction de Google: /?q=término
-		const initialQuery = new URLSearchParams(window.location.search).get('q');
-		if (initialQuery) {
-			setSearchValue(initialQuery, null);
-			if (searchInput) searchInput.value = initialQuery;
-			if (stickySearchInput) stickySearchInput.value = initialQuery;
-		}
+		// Toda la caja del buscador enfoca su campo
+		document.querySelectorAll<HTMLElement>('[data-search-box]').forEach((box) => {
+			box.addEventListener('click', (event) => {
+				if (event.target instanceof Element && event.target.closest('button')) return;
+				box.querySelector('input')?.focus();
+			});
+		});
 
-		// Barra fija arriba solo cuando el buscador del hero sale de pantalla
+		clearButtons.forEach((button) => {
+			button.addEventListener('click', () => {
+				setQuery('');
+				const inSticky = button.closest('[data-sticky-toolbar]');
+				(inSticky ? stickyInput : heroInput)?.focus();
+			});
+		});
+
+		document.querySelectorAll<HTMLButtonElement>('[data-suggestion]').forEach((button) => {
+			button.addEventListener('click', () => {
+				setQuery(button.dataset.suggestion ?? '');
+				heroInput?.focus();
+			});
+		});
+
+		// Atajo "/" para buscar
+		document.addEventListener('keydown', (event) => {
+			if (event.key !== '/' || event.metaKey || event.ctrlKey || event.altKey) return;
+			const target = event.target;
+			if (target instanceof HTMLElement && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))) return;
+			event.preventDefault();
+			const heroVisible = heroInput && heroInput.getBoundingClientRect().bottom > 80;
+			(heroVisible ? heroInput : stickyInput)?.focus();
+		});
+
+		// Barra fija cuando el buscador principal sale de pantalla
+		const stickyToolbar = document.querySelector<HTMLElement>('[data-sticky-toolbar]');
 		const heroSearch = document.querySelector('[data-hero-search]');
 		if (stickyToolbar && heroSearch && 'IntersectionObserver' in window) {
-			const io = new IntersectionObserver(
-				([entry]) => {
-					const showSticky = !entry.isIntersecting;
-					stickyToolbar.toggleAttribute('hidden', !showSticky);
-					document.documentElement.classList.toggle('has-sticky-search', showSticky);
-				},
-				{ root: null, rootMargin: '0px', threshold: 0 },
-			);
-			io.observe(heroSearch);
-		} else if (stickyToolbar) {
-			stickyToolbar.setAttribute('hidden', '');
+			new IntersectionObserver(([entry]) => {
+				stickyToolbar.hidden = entry.isIntersecting;
+			}).observe(heroSearch);
 		}
 
-		applyFilters();
-	</script>
-	<script>
-		import { getFavorites, toggleFavorite } from '../scripts/favorites.ts';
+		// Compatible con la SearchAction de Google: /?q=término
+		const initialQuery = new URLSearchParams(window.location.search).get('q');
+		if (initialQuery) setQuery(initialQuery);
+		else applyFilters();
 
-		const showFavoritesBtn = document.querySelector('#show-favorites');
-		const favoritesPanel = document.querySelector('#favorites-panel');
-		const favoritesList = document.querySelector('#favorites-list');
-		const favoritesEmpty = favoritesPanel?.querySelector('.favorites-empty');
-		const favoritesClose = favoritesPanel?.querySelector('.favorites-close');
-		const favoritesCount = document.querySelector('#favorites-count');
+		/* ── Favoritos ── */
+
+		const favoritesTrigger = document.querySelector<HTMLButtonElement>('#show-favorites');
+		const favoritesPanel = document.querySelector<HTMLElement>('#favorites-panel');
+		const favoritesList = document.querySelector<HTMLElement>('#favorites-list');
+		const favoritesEmpty = document.querySelector<HTMLElement>('[data-favorites-empty]');
+		const favoritesCount = document.querySelector<HTMLElement>('#favorites-count');
+		const favoriteButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-favorite]'));
+
+		type FavoriteBook = { title: string; author: string; href: string; external: boolean };
+		const bookLookup = new Map<string, FavoriteBook>();
+
+		favoriteButtons.forEach((button) => {
+			const bookId = button.dataset.bookId;
+			const card = button.closest('.book');
+			if (!bookId || !card) return;
+			const link = card.querySelector<HTMLAnchorElement>('.book-link');
+			bookLookup.set(bookId, {
+				title: card.querySelector('.book-title')?.textContent?.trim() ?? '',
+				author: card.querySelector('.book-author')?.textContent?.trim() ?? '',
+				href: link?.getAttribute('href') ?? '',
+				external: link?.target === '_blank',
+			});
+		});
 
 		const updateFavoritesCount = () => {
 			if (!favoritesCount) return;
-			const count = getFavorites().length;
-			favoritesCount.textContent = count.toString();
-			favoritesCount.setAttribute('data-count', count.toString());
+			const count = String(getFavorites().length);
+			favoritesCount.textContent = count;
+			favoritesCount.dataset.count = count;
 		};
 
-		const bookLookup = new Map();
-		document.querySelectorAll('.book').forEach((card) => {
-			const favBtn = card.querySelector('[data-book-id]');
-			if (!favBtn) return;
-			const bookId = favBtn.getAttribute('data-book-id');
-			if (!bookId) return;
-			const title = card.querySelector('h3')?.textContent?.trim() ?? '';
-			const author = card.querySelector('.book-author')?.textContent?.trim() ?? '';
-			const cardLink = card.querySelector('.book-card-link');
-			const href = cardLink?.getAttribute('href') ?? '';
-			bookLookup.set(bookId, { title, author, href });
-		});
-
-		const syncFavoritesUI = () => {
-			const favs = getFavorites();
-			document.querySelectorAll('[data-favorite]').forEach((btn) => {
-				const bookId = btn.getAttribute('data-book-id');
-				if (!bookId) return;
-				const isFav = favs.includes(bookId);
-				btn.setAttribute('data-favorite', isFav.toString());
-				const favLabel = isFav ? 'Quitar de favoritos' : 'Marcar como favorito';
-				btn.setAttribute('aria-label', favLabel);
-				btn.setAttribute('data-tooltip', isFav ? 'Quitar favorito' : 'Favorito');
-				btn.setAttribute('title', isFav ? 'Quitar favorito' : 'Favorito');
+		const syncFavoriteButtons = () => {
+			const favorites = getFavorites();
+			favoriteButtons.forEach((button) => {
+				const isFavorite = favorites.includes(button.dataset.bookId ?? '');
+				const title = bookLookup.get(button.dataset.bookId ?? '')?.title ?? 'este libro';
+				button.dataset.favorite = String(isFavorite);
+				button.setAttribute('aria-pressed', String(isFavorite));
+				button.setAttribute('aria-label', isFavorite ? `Quitar ${title} de favoritos` : `Guardar ${title} en favoritos`);
+				button.dataset.tooltip = isFavorite ? 'Quitar' : 'Guardar';
 			});
 		};
 
+		const removeIconTemplate = document.querySelector<HTMLTemplateElement>('#favorites-remove-icon');
+
 		const renderFavoritesPanel = () => {
 			if (!favoritesList || !favoritesEmpty) return;
-			const favorites = getFavorites();
-
-			while (favoritesList.children.length > 1) {
-				favoritesList.lastChild?.remove();
-			}
-			favoritesList.innerHTML = '';
-			favoritesList.appendChild(favoritesEmpty);
-
-			if (favorites.length === 0) {
-				favoritesEmpty.removeAttribute('hidden');
-				return;
-			}
-
-			favoritesEmpty.setAttribute('hidden', '');
+			const favorites = getFavorites().filter((bookId) => bookLookup.has(bookId));
+			favoritesList.replaceChildren();
+			favoritesEmpty.hidden = favorites.length > 0;
 
 			favorites.forEach((bookId) => {
 				const book = bookLookup.get(bookId);
 				if (!book) return;
 
-				const isExternal = book.href && /^https?:\/\//.test(book.href);
 				const item = document.createElement('div');
-				item.className = 'favorites-item animate-fade-in-right animate-duration-400';
-				item.innerHTML = [
-					'<div style="flex:1">',
-					book.href
-						? `<a class="favorites-item-title" href="${book.href}" ${isExternal ? 'target="_blank" rel="nofollow noreferrer"' : ''}>${book.title}</a>`
-						: `<h3 class="favorites-item-title">${book.title}</h3>`,
-					book.author ? `<p class="favorites-item-author">${book.author}</p>` : '',
-					'</div>',
-					`<button class="favorites-item-remove" data-book-id="${bookId}" aria-label="Quitar ${book.title} de favoritos" data-tooltip="Quitar" title="Quitar">`,
-					'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">',
-					'<path d="M18 6L6 18" /><path d="M6 6l12 12" />',
-					'</svg>',
-					'</button>',
-				].join('');
-				favoritesList.appendChild(item);
-			});
+				item.className = 'favorites-item';
 
-			favoritesList.querySelectorAll('.favorites-item-remove').forEach((removeBtn) => {
-				removeBtn.addEventListener('click', (e) => {
-					e.stopPropagation();
-					const bookId = removeBtn.getAttribute('data-book-id');
-					if (!bookId) return;
-					toggleFavorite(bookId);
-					syncFavoritesUI();
-					updateFavoritesCount();
-					renderFavoritesPanel();
-				});
+				const body = document.createElement('div');
+				body.className = 'favorites-item-body';
+				const title = document.createElement(book.href ? 'a' : 'p');
+				title.className = 'favorites-item-title';
+				title.textContent = book.title;
+				if (title instanceof HTMLAnchorElement) {
+					title.href = book.href;
+					if (book.external) {
+						title.target = '_blank';
+						title.rel = 'nofollow noreferrer';
+					}
+				}
+				body.append(title);
+
+				if (book.author) {
+					const author = document.createElement('p');
+					author.className = 'favorites-item-author';
+					author.textContent = book.author;
+					body.append(author);
+				}
+
+				const remove = document.createElement('button');
+				remove.type = 'button';
+				remove.className = 'icon-btn';
+				remove.setAttribute('aria-label', `Quitar ${book.title} de favoritos`);
+				if (removeIconTemplate) remove.append(removeIconTemplate.content.cloneNode(true));
+				remove.addEventListener('click', () => toggleFavorite(bookId));
+
+				item.append(body, remove);
+				favoritesList.append(item);
 			});
 		};
 
-		syncFavoritesUI();
-		updateFavoritesCount();
+		const openFavorites = () => {
+			if (!favoritesPanel) return;
+			renderFavoritesPanel();
+			favoritesPanel.hidden = false;
+			document.documentElement.style.overflow = 'hidden';
+			favoritesPanel.querySelector<HTMLButtonElement>('.favorites-head [data-favorites-close]')?.focus();
+		};
 
-		document.querySelectorAll('[data-favorite]').forEach((btn) => {
-			btn.addEventListener('click', (e) => {
-				e.preventDefault();
-				e.stopPropagation();
-				const bookId = btn.getAttribute('data-book-id');
+		const closeFavorites = () => {
+			if (!favoritesPanel || favoritesPanel.hidden) return;
+			favoritesPanel.hidden = true;
+			document.documentElement.style.overflow = '';
+			favoritesTrigger?.focus();
+		};
+
+		favoriteButtons.forEach((button) => {
+			button.addEventListener('click', () => {
+				const bookId = button.dataset.bookId;
 				if (!bookId) return;
-				const wasFavorited = toggleFavorite(bookId);
-				btn.setAttribute('data-favorite', wasFavorited.toString());
-				const favLabel = wasFavorited ? 'Quitar de favoritos' : 'Marcar como favorito';
-				const tipLabel = wasFavorited ? 'Quitar favorito' : 'Favorito';
-				btn.setAttribute('aria-label', favLabel);
-				btn.setAttribute('data-tooltip', tipLabel);
-				btn.setAttribute('title', tipLabel);
-				if (wasFavorited) {
-					btn.classList.remove('animate-heartbeat');
-					// Restart heartbeat when marking as favorite
-					void (btn as HTMLElement).offsetWidth;
-					btn.classList.add('animate-heartbeat');
-					window.setTimeout(() => btn.classList.remove('animate-heartbeat'), 700);
-				} else {
-					btn.classList.add('animate-pop');
-					window.setTimeout(() => btn.classList.remove('animate-pop'), 600);
-				}
-				updateFavoritesCount();
-				if (favoritesPanel && !favoritesPanel.hasAttribute('hidden')) {
-					renderFavoritesPanel();
-				}
+				const isFavorite = toggleFavorite(bookId);
+				const animation = isFavorite ? 'animate-heartbeat' : 'animate-pop';
+				button.classList.remove('animate-heartbeat', 'animate-pop');
+				void button.offsetWidth;
+				button.classList.add(animation);
+				window.setTimeout(() => button.classList.remove(animation), 700);
 			});
 		});
 
-		showFavoritesBtn?.addEventListener('click', () => {
-			favoritesPanel?.removeAttribute('hidden');
-			renderFavoritesPanel();
+		favoritesTrigger?.addEventListener('click', openFavorites);
+		favoritesPanel?.querySelectorAll('[data-favorites-close]').forEach((element) => {
+			element.addEventListener('click', closeFavorites);
 		});
-		favoritesClose?.addEventListener('click', () => {
-			favoritesPanel?.setAttribute('hidden', '');
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape') closeFavorites();
 		});
-		document.addEventListener('keydown', (e) => {
-			if (e.key === 'Escape' && favoritesPanel && !favoritesPanel.hasAttribute('hidden')) {
-				favoritesPanel.setAttribute('hidden', '');
+
+		// Mantiene el foco dentro del panel mientras está abierto
+		favoritesPanel?.addEventListener('keydown', (event) => {
+			if (event.key !== 'Tab') return;
+			const focusable = Array.from(
+				favoritesPanel.querySelectorAll<HTMLElement>('.favorites-sheet a[href], .favorites-sheet button'),
+			);
+			if (focusable.length === 0) return;
+			const first = focusable[0];
+			const last = focusable[focusable.length - 1];
+			if (event.shiftKey && document.activeElement === first) {
+				event.preventDefault();
+				last.focus();
+			} else if (!event.shiftKey && document.activeElement === last) {
+				event.preventDefault();
+				first.focus();
 			}
 		});
+
 		document.addEventListener('favorites-changed', () => {
-			syncFavoritesUI();
+			syncFavoriteButtons();
 			updateFavoritesCount();
-			if (favoritesPanel && !favoritesPanel.hasAttribute('hidden')) {
-				renderFavoritesPanel();
-			}
+			if (favoritesPanel && !favoritesPanel.hidden) renderFavoritesPanel();
 		});
+
+		syncFavoriteButtons();
+		updateFavoritesCount();
 	</script>
 </Layout>

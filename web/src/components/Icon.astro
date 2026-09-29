@@ -1,0 +1,52 @@
+---
+import type { SvgComponent } from 'astro/types';
+
+// Cada icono vive en su propio archivo en src/icons/ (trazos de Tabler Icons, MIT).
+// Para añadir uno nuevo: crea src/icons/<nombre>.svg y añade <nombre> a IconName.
+type IconName =
+	| 'arrow-right'
+	| 'arrow-up-right'
+	| 'books'
+	| 'chevron-down'
+	| 'chevron-left'
+	| 'chevron-right'
+	| 'copy'
+	| 'download'
+	| 'file'
+	| 'github'
+	| 'heart'
+	| 'list'
+	| 'minus'
+	| 'moon'
+	| 'plus'
+	| 'read'
+	| 'search'
+	| 'share'
+	| 'sidebar'
+	| 'sun'
+	| 'x';
+
+interface Props {
+	name: IconName;
+	size?: number;
+	class?: string;
+	strokeWidth?: number;
+}
+
+const svgs = import.meta.glob<SvgComponent>('../icons/*.svg', { eager: true, import: 'default' });
+
+const { name, size = 18, class: className, strokeWidth = 1.75 } = Astro.props;
+const Svg = svgs[`../icons/${name}.svg`];
+
+if (!Svg) {
+	throw new Error(`Icono no encontrado: src/icons/${name}.svg`);
+}
+---
+
+<Svg
+	width={size}
+	height={size}
+	stroke-width={strokeWidth}
+	aria-hidden="true"
+	class:list={['icon', className]}
+/>

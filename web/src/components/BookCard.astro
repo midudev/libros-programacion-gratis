@@ -1,0 +1,115 @@
+---
+import Icon from './Icon.astro';
+import { getLocalPdfBook, type LibraryBook } from '../data/library';
+
+interface Props {
+	book: LibraryBook;
+	sectionTitle: string;
+	sectionGroup: string;
+	headingLevel?: 'h3' | 'h4';
+	showFavorite?: boolean;
+}
+
+const { book, sectionTitle, sectionGroup, headingLevel = 'h3', showFavorite = false } = Astro.props;
+const Heading = headingLevel;
+
+const isExternalHref = (href: string) => /^https?:\/\//.test(href);
+const normalize = (value: string) =>
+	value
+		.normalize('NFD')
+		.replace(/[̀-ͯ]/g, '')
+		.toLowerCase();
+
+const pdfBook = getLocalPdfBook(book);
+const hasHtmlVersion = Boolean(pdfBook && pdfBook.href !== pdfBook.pdfHref);
+const primaryHref = hasHtmlVersion ? book.href : (pdfBook?.readerPath ?? book.href);
+const opensInNewTab = isExternalHref(primaryHref);
+const formats = pdfBook?.formats ?? book.formats ?? [];
+const host = opensInNewTab ? new URL(primaryHref).hostname.replace(/^www\./, '') : '';
+const searchText = normalize(`${book.title} ${book.author ?? ''} ${sectionTitle} ${sectionGroup}`);
+---
+
+<article class:list={['book', pdfBook ? 'is-local' : 'is-external']} data-search={searchText}>
+	<Heading class="book-title">
+		{
+			primaryHref ? (
+				<a
+					class="book-link"
+					href={primaryHref}
+					target={opensInNewTab ? '_blank' : undefined}
+					rel={opensInNewTab ? 'nofollow noreferrer' : undefined}
+				>
+					{book.title}
+				</a>
+			) : (
+				book.title
+			)
+		}
+	</Heading>
+	{book.author && <p class="book-author">{book.author}</p>}
+
+	{
+		showFavorite && (
+			<button
+				class="book-fav"
+				type="button"
+				data-favorite="false"
+				data-book-id={book.id}
+				aria-label={`Guardar ${book.title} en favoritos`}
+				aria-pressed="false"
+				data-tooltip="Guardar"
+			>
+				<Icon name="heart" size={17} />
+			</button>
+		)
+	}
+
+	<div class="book-foot">
+		{
+			pdfBook ? (
+				<div class="book-actions" aria-label={`Opciones para ${book.title}`}>
+					<span class="book-action is-primary" aria-hidden="true">
+						<Icon name="read" size={15} />
+						Leer
+					</span>
+					{hasHtmlVersion && (
+						<a class="book-action" href={pdfBook.readerPath} aria-label={`Abrir ${book.title} en el visor PDF`}>
+							<Icon name="file" size={15} />
+							Visor
+						</a>
+					)}
+					<a class="book-action" href={pdfBook.downloadPath} aria-label={`Descargar ${book.title} en PDF`}>
+						<Icon name="download" size={15} />
+						PDF
+					</a>
+					{pdfBook.epubHref && (
+						<a
+							class="book-action"
+							href={pdfBook.epubHref}
+							download={pdfBook.epubFileName}
+							aria-label={`Descargar ${book.title} en EPUB`}
+						>
+							<Icon name="download" size={15} />
+							EPUB
+						</a>
+					)}
+				</div>
+			) : (
+				<>
+					{formats.length > 0 && (
+						<span class="book-formats">
+							<span class="sr-only">Formatos: </span>
+							{formats.join(' · ')}
+						</span>
+					)}
+					{host && (
+						<span class="book-source" aria-hidden="true">
+							<span class="book-source-host">{host}</span>
+							<Icon name="arrow-up-right" size={14} />
+						</span>
+					)}
+				</>
+			)
+		}
+	</div>
+</article>

@@ -1,0 +1,46 @@
+---
+import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { sourceRepository } from '../data/library';
+
+interface Props {
+	/** En la home se muestra el acceso a favoritos en lugar del enlace a la biblioteca. */
+	variant?: 'home' | 'inner';
+}
+
+const { variant = 'inner' } = Astro.props;
+const isContributePage = Astro.url.pathname.startsWith('/contribuir');
+---
+
+<header class="site-header">
+	<a class="brand" href="/" aria-label="librosgratis.dev, ir al inicio">
+		<span class="brand-mark"><Icon name="books" size={22} strokeWidth={1.5} /></span>
+		<span class="brand-name">librosgratis<span>.dev</span></span>
+	</a>
+
+	<nav class="site-nav" aria-label="Principal">
+		{
+			variant === 'home' ? (
+				<button class="nav-link" type="button" id="show-favorites" aria-label="Ver libros favoritos" aria-haspopup="dialog" data-tooltip="Favoritos">
+					<Icon name="heart" />
+					<span class="nav-label">Favoritos</span>
+					<span class="favorites-count" id="favorites-count" data-count="0">0</span>
+				</button>
+			) : (
+				<a class="nav-link" href="/" aria-label="Biblioteca" data-tooltip="Biblioteca">
+					<Icon name="books" />
+					<span class="nav-label">Biblioteca</span>
+				</a>
+			)
+		}
+		<a class="nav-link" href={sourceRepository.href} target="_blank" rel="nofollow noreferrer" aria-label="Repositorio en GitHub" data-tooltip="GitHub">
+			<Icon name="github" />
+			<span class="nav-label">GitHub</span>
+		</a>
+		<ThemeToggle />
+		<a class="nav-cta" href="/contribuir/" aria-current={isContributePage ? 'page' : undefined}>
+			<Icon name="plus" size={16} strokeWidth={2} />
+			<span>Enviar libro</span>
+		</a>
+	</nav>
+</header>

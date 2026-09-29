@@ -1,7 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import ThemeToggle from '../../components/ThemeToggle.astro';
-import { getLocalPdfBook, sourceRepository } from '../../data/library';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import BookCard from '../../components/BookCard.astro';
 import { isMonochromeLogo, sectionLogoSources } from '../../data/sectionLogos';
 import {
 	createSectionStructuredData,
@@ -36,6 +37,7 @@ const canonical = getSectionCanonicalUrl(entry);
 const sectionFaqs = getSectionFaqs(entry);
 const formats = Array.from(new Set(section.books.flatMap((book) => book.formats ?? [])));
 const formatsLabel = formats.length > 0 ? formats.join(', ') : 'recursos web';
+const formatsList = formats.length > 0 ? formats.join(' · ') : 'Web';
 const highlightedBooks = section.books.slice(0, 3).map((book) => book.title);
 const highlightedBooksSentence =
 	highlightedBooks.length > 0
@@ -47,11 +49,8 @@ const heroLogoSources = sectionLogoSources(section.slug);
 const relatedEntries = sectionPageEntries
 	.filter((related) => related.section.group === section.group && related.section.slug !== section.slug)
 	.slice(0, 4);
-
-const externalLinkRel = 'nofollow noreferrer';
-const isExternalHref = (href: string) => /^https?:\/\//.test(href);
-const bookLinkRel = (href: string) =>
-	isExternalHref(href) ? externalLinkRel : undefined;
+const plural = (count: number, singular: string, pluralForm: string) =>
+	`${count} ${count === 1 ? singular : pluralForm}`;
 ---
 
 <Layout
@@ -65,65 +64,35 @@ const bookLinkRel = (href: string) =>
 	dateModified={siteConfig.contentLastModified}
 >
 	<div class="page">
-		<header class="header">
-			<a class="logo" href="/" aria-label="Inicio" data-tooltip="Inicio" title="Inicio">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
-					<path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
-					<path d="M5 8h4" /><path d="M9 16h4" />
-					<path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041" />
-					<path d="M14 9l4 -1" /><path d="M16 16l3.923 -.98" />
-				</svg>
-			</a>
-			<nav class="header-nav" aria-label="Principal">
-				<a class="header-link" href="/">
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M4 19a2 2 0 0 0 2 2h12" />
-						<path d="M6 17a2 2 0 0 0 -2 2v-14a2 2 0 0 1 2 -2h12v18" />
-						<path d="M8 7h6" />
-					</svg>
-					<span>Biblioteca</span>
-				</a>
-				<a class="header-link" href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3" />
-						<path d="M15 21v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-					</svg>
-					<span>GitHub</span>
-				</a>
-				<ThemeToggle />
-			</nav>
-		</header>
+		<SiteHeader />
 
 		<main>
 			<nav class="breadcrumbs" aria-label="Migas de pan">
-				<a href="/">Libros gratis de programación</a>
+				<a href="/">Biblioteca</a>
 				<span aria-hidden="true">/</span>
 				<span>{entry.displayName}</span>
 			</nav>
 
-			<section class="hero topic-page-hero">
-				<div class="topic-page-hero-copy animate-fade-in-up animate-duration-700">
-					<p class="eyebrow">{section.group}</p>
-					<h1>{pageHeading}</h1>
-					<p class="hero-sub text-wrap">{entry.intro}</p>
-					<div class="topic-page-stats" aria-label="Resumen de la colección">
-						<span><strong>{section.books.length}</strong> {section.books.length === 1 ? 'libro' : 'libros'}</span>
-						<span><strong>{formatsLabel}</strong></span>
-					</div>
+			<section class="page-hero" aria-labelledby="topic-title">
+				<div class="animate-fade-in-up animate-duration-700">
+					<p class="eyebrow eyebrow--accent">{section.group}</p>
+					<h1 id="topic-title">{pageHeading}</h1>
+					<p class="page-hero-lead">{entry.intro}</p>
+					<ul class="meta-list" aria-label="Resumen de la colección">
+						<li><strong>{plural(section.books.length, 'libro', 'libros')}</strong></li>
+						<li>{formatsList}</li>
+						<li>Gratis y en español</li>
+					</ul>
 				</div>
 				{heroLogoSources.length > 0 && (
-					<div
-						class={`topic-page-hero-logos animate-zoom-in animate-delay-150 animate-duration-700 ${heroLogoSources.length > 1 ? 'is-logo-pair' : ''}`}
-						aria-hidden="true"
-					>
+					<div class:list={['page-hero-art', heroLogoSources.length > 1 && 'is-logo-pair']} aria-hidden="true">
 						{heroLogoSources.map((logo) => (
 							<img
 								class:list={['section-logo', isMonochromeLogo(logo) && 'section-logo--mono']}
 								src={logo}
 								alt=""
-								width="180"
-								height="180"
+								width="96"
+								height="96"
 								loading="eager"
 								decoding="async"
 							/>
@@ -132,159 +101,81 @@ const bookLinkRel = (href: string) =>
 				)}
 			</section>
 
-			<section class="seo-copy" aria-labelledby="about-topic-title">
-				<h2 id="about-topic-title">Aprender {entry.displayName} con libros gratis en español</h2>
-				<p>
-					Esta página reúne <strong>{section.books.length} libros gratis de {entry.displayName}</strong> en
-					español para estudiar {section.description.toLowerCase()}. La colección combina recursos en formatos
-					{` ${formatsLabel}`}: lectura online, PDF y EPUB cuando están disponibles. Todo el catálogo es
-					gratuito y se actualiza desde la biblioteca principal de{' '}
-					<a href="/">libros de programación gratis</a>.
-				</p>
-				{highlightedBooks.length > 0 && (
-					<p>
-						{highlightedBooksSentence}
-					</p>
-				)}
-				<p>
-					Si buscas material para principiantes o para profundizar, filtra mentalmente por nivel y combina
-					varios recursos. También puedes <a href="/contribuir/">proponer un libro gratis de {entry.displayName}</a>
-					{' '}si conoces uno en español que aún no está en el listado.
-				</p>
-			</section>
-
-			<section class="topic topic-page-list animate-fade-in-up animate-delay-200 animate-duration-700" aria-labelledby="books-title">
-				<div class="topic-header">
+			<section class="section-block" aria-labelledby="books-title">
+				<div class="section-head">
 					<h2 id="books-title">Libros y guías de {entry.displayName}</h2>
-					<span class="topic-count">
-						{section.books.length} {section.books.length === 1 ? 'recurso' : 'recursos'}
-					</span>
+					<span class="topic-count">{plural(section.books.length, 'recurso', 'recursos')}</span>
 				</div>
-				<p class="topic-desc">{description}</p>
 
 				<div class="book-grid">
-					{section.books.map((book) => {
-						const pdfBook = getLocalPdfBook(book);
-						const hasHtmlVersion = Boolean(pdfBook && pdfBook.href !== pdfBook.pdfHref);
-						const primaryHref = hasHtmlVersion ? book.href : (pdfBook?.readerPath ?? book.href);
-						const opensInNewTab = isExternalHref(primaryHref);
-						const formats = pdfBook?.formats ?? book.formats ?? [];
-						const canOpen = Boolean(primaryHref);
-
-						return (
-							<article class:list={['book', pdfBook && 'is-pdf', !canOpen && 'is-static', 'animate-fade-in-up', 'timeline-view', 'animate-range-[entry_5%_contain_15%]']}>
-								{canOpen && (
-									<a
-										class="book-card-link"
-										href={primaryHref}
-										target={opensInNewTab ? '_blank' : undefined}
-										rel={bookLinkRel(primaryHref)}
-										aria-label={`Abrir ${book.title}`}
-									></a>
-								)}
-
-								<div class="book-body">
-									<h3>{book.title}</h3>
-									{book.author && <p class="book-author">{book.author}</p>}
-								</div>
-
-								<div class="book-meta">
-									{formats.length > 0 && (
-										<div class="book-formats" aria-label="Formatos disponibles">
-											{formats.map((format) => (
-												<span class="book-format">{format}</span>
-											))}
-										</div>
-									)}
-
-									<div class="book-actions" aria-label={`Acciones para ${book.title}`}>
-										{hasHtmlVersion && (
-											<a class="book-icon-btn" href={book.href} target={isExternalHref(book.href) ? '_blank' : undefined} rel={bookLinkRel(book.href)} aria-label={`Leer HTML de ${book.title}`} data-tooltip="Leer HTML" title="Leer HTML">
-												<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-													<path d="M4 19a2 2 0 0 0 2 2h12" />
-													<path d="M6 17a2 2 0 0 0 -2 2v-14a2 2 0 0 1 2 -2h12v18" />
-													<path d="M8 7h6" />
-												</svg>
-											</a>
-										)}
-										{pdfBook && (
-											<>
-												<a class="book-icon-btn" href={pdfBook.readerPath} aria-label={`Leer PDF de ${book.title}`} data-tooltip="Leer PDF" title="Leer PDF">
-													<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-														<path d="M14 3v4a1 1 0 0 0 1 1h4" />
-														<path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-														<path d="M9 15h6" />
-														<path d="M9 18h3" />
-													</svg>
-												</a>
-												<a class="book-icon-btn" href={pdfBook.downloadPath} aria-label={`Descargar PDF de ${book.title}`} data-tooltip="Descargar" title="Descargar">
-													<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-														<path d="M12 3v12" />
-														<path d="M7 10l5 5l5 -5" />
-														<path d="M5 21h14" />
-													</svg>
-												</a>
-												{pdfBook.epubHref && (
-													<a class="book-icon-btn" href={pdfBook.epubHref} download={pdfBook.epubFileName} aria-label={`Descargar EPUB de ${book.title}`} data-tooltip="EPUB" title="EPUB">
-														<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-															<path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
-															<path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
-															<path d="M3 6v13" />
-															<path d="M12 6v13" />
-															<path d="M21 6v13" />
-														</svg>
-													</a>
-												)}
-											</>
-										)}
-										{!pdfBook && opensInNewTab && (
-											<a class="book-icon-btn" href={primaryHref} target="_blank" rel={bookLinkRel(primaryHref)} aria-label={`Abrir sitio de ${book.title}`} data-tooltip="Abrir web" title="Abrir web">
-												<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-													<path d="M7 17L17 7" />
-													<path d="M8 7h9v9" />
-												</svg>
-											</a>
-										)}
-									</div>
-								</div>
-							</article>
-						);
-					})}
+					{section.books.map((book) => (
+						<BookCard book={book} sectionTitle={section.title} sectionGroup={section.group} />
+					))}
 				</div>
 			</section>
 
-			<section class="seo-faq" aria-labelledby="faq-title">
+			<section class="prose-section" aria-labelledby="about-topic-title">
+				<h2 id="about-topic-title">Aprender {entry.displayName} con libros gratis en español</h2>
+				<div class="prose">
+					<p>
+						Esta página reúne <strong>{section.books.length} libros gratis de {entry.displayName}</strong> en
+						español para estudiar {section.description.toLowerCase()} La colección combina recursos en formatos
+						{` ${formatsLabel}`}: lectura online, PDF y EPUB cuando están disponibles. Todo el catálogo es
+						gratuito y se actualiza desde la biblioteca principal de{' '}
+						<a href="/">libros de programación gratis</a>.
+					</p>
+					{highlightedBooks.length > 0 && <p>{highlightedBooksSentence}</p>}
+					<p>
+						Si buscas material para principiantes o para profundizar, combina varios recursos según tu nivel.
+						También puedes <a href="/contribuir/">proponer un libro gratis de {entry.displayName}</a>
+						{' '}si conoces uno en español que aún no está en el listado.
+					</p>
+				</div>
+			</section>
+
+			<section class="prose-section" aria-labelledby="faq-title">
 				<h2 id="faq-title">Preguntas frecuentes sobre {entry.displayName}</h2>
-				{sectionFaqs.map((faq) => (
-					<details>
-						<summary>{faq.question}</summary>
-						<p>{faq.answer}</p>
-					</details>
-				))}
+				<div class="faq">
+					{sectionFaqs.map((faq) => (
+						<details>
+							<summary>{faq.question}</summary>
+							<p>{faq.answer}</p>
+						</details>
+					))}
+				</div>
 			</section>
 
 			{relatedEntries.length > 0 && (
-				<section class="related-topics" aria-labelledby="related-title">
+				<section class="prose-section" aria-labelledby="related-title">
 					<h2 id="related-title">Más libros de {section.group.toLowerCase()}</h2>
 					<div class="related-grid">
-						{relatedEntries.map((related) => (
-							<a href={getSectionPagePath(related)}>
-								<span>{related.displayName}</span>
-								<small>{related.section.books.length} {related.section.books.length === 1 ? 'libro' : 'libros'}</small>
-							</a>
-						))}
+						{relatedEntries.map((related) => {
+							const logo = sectionLogoSources(related.section.slug)[0];
+							return (
+								<a class="related-card" href={getSectionPagePath(related)}>
+									{logo && (
+										<img
+											class:list={['section-logo', isMonochromeLogo(logo) && 'section-logo--mono']}
+											src={logo}
+											alt=""
+											width="24"
+											height="24"
+											loading="lazy"
+											decoding="async"
+										/>
+									)}
+									<span>
+										<strong>{related.displayName}</strong>
+										<small>{plural(related.section.books.length, 'libro', 'libros')}</small>
+									</span>
+								</a>
+							);
+						})}
 					</div>
 				</section>
 			)}
 		</main>
 
-		<footer class="footer">
-			<p>
-				<a href="/">Volver a la biblioteca</a> · Contenido del repositorio{' '}
-				<a href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
-					{sourceRepository.name}
-				</a>
-			</p>
-		</footer>
+		<SiteFooter showTopics />
 	</div>
 </Layout>

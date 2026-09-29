@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-robot"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M6 6a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -4" /><path d="M12 2v2" /><path d="M9 12v9" /><path d="M15 12v9" /><path d="M5 16l4 -2" /><path d="M15 14l4 2" /><path d="M9 18h6" /><path d="M10 8v.01" /><path d="M14 8v.01" /></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <!-- Destellos: el símbolo habitual de la inteligencia artificial -->
+  <path d="M13 6Q15.2 14.8 24 17Q15.2 19.2 13 28Q10.8 19.2 2 17Q10.8 14.8 13 6Z" fill="#f97316" />
+  <path d="M24.5 2Q25.6 6.4 30 7.5Q25.6 8.6 24.5 13Q23.4 8.6 19 7.5Q23.4 6.4 24.5 2Z" fill="#3b82f6" />
+  <path d="M26 21Q26.6 23.4 29 24Q26.6 24.6 26 27Q25.4 24.6 23 24Q25.4 23.4 26 21Z" fill="#94a3b8" />
+</svg>

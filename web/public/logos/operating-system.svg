@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <!-- Arquitectura por capas: aplicaciones (arriba), núcleo (resaltado) y hardware -->
+  <path d="M3 17.5L16 24L29 17.5V21.5L16 28L3 21.5Z" fill="#94a3b8" stroke="#94a3b8" stroke-width="1" stroke-linejoin="round" />
+  <path d="M3 11.5L16 18L29 11.5V15.5L16 22L3 15.5Z" fill="#f97316" stroke="#f97316" stroke-width="1" stroke-linejoin="round" />
+  <path d="M16 3L29 9.5L16 16L3 9.5Z" fill="#3b82f6" stroke="#3b82f6" stroke-width="1" stroke-linejoin="round" />
+  <g fill="#ffffff" fill-opacity="0.9">
+    <path d="M16 5.6L19.38 7.29L16 8.98L12.62 7.29Z" />
+    <path d="M20.42 7.81L23.8 9.5L20.42 11.19L17.04 9.5Z" />
+    <path d="M11.58 7.81L14.96 9.5L11.58 11.19L8.2 9.5Z" />
+    <path d="M16 10.02L19.38 11.71L16 13.4L12.62 11.71Z" />
+  </g>
+</svg>

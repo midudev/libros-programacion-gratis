@@ -1,7 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import ThemeToggle from '../../components/ThemeToggle.astro';
-import { localPdfBooks, sourceRepository, type LocalPdfBook } from '../../data/library';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import Icon from '../../components/Icon.astro';
+import { localPdfBooks, type LocalPdfBook } from '../../data/library';
 import {
 	createReaderStructuredData,
 	getReaderKeywords,
@@ -28,7 +30,6 @@ const description = getReaderMetaDescription(book);
 const canonical = book.readerPath;
 const structuredData = createReaderStructuredData(book, sectionEntry);
 const keywords = getReaderKeywords(book, sectionEntry);
-const externalLinkRel = 'nofollow noreferrer';
 ---
 
 <Layout
@@ -43,39 +44,11 @@ const externalLinkRel = 'nofollow noreferrer';
 	dateModified={siteConfig.contentLastModified}
 >
 	<div class="page reader-page">
-		<header class="header">
-			<a class="logo" href="/" aria-label="Inicio" data-tooltip="Inicio" title="Inicio">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
-					<path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
-					<path d="M5 8h4" /><path d="M9 16h4" />
-					<path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041" />
-					<path d="M14 9l4 -1" /><path d="M16 16l3.923 -.98" />
-				</svg>
-			</a>
-			<nav class="header-nav" aria-label="Principal">
-				<a class="header-link" href="/">
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M4 19a2 2 0 0 0 2 2h12" />
-						<path d="M6 17a2 2 0 0 0 -2 2v-14a2 2 0 0 1 2 -2h12v18" />
-						<path d="M8 7h6" />
-					</svg>
-					<span>Biblioteca</span>
-				</a>
-				<a class="header-link" href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3" />
-						<path d="M15 21v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-					</svg>
-					<span>GitHub</span>
-				</a>
-				<ThemeToggle />
-			</nav>
-		</header>
+		<SiteHeader />
 
 		<main>
 			<nav class="breadcrumbs" aria-label="Migas de pan">
-				<a href="/">Libros gratis de programación</a>
+				<a href="/">Biblioteca</a>
 				<span aria-hidden="true">/</span>
 				<a href={getSectionPagePath(sectionEntry)}>{sectionEntry.displayName}</a>
 				<span aria-hidden="true">/</span>
@@ -84,41 +57,25 @@ const externalLinkRel = 'nofollow noreferrer';
 
 			<section class="reader-hero" aria-labelledby="reader-title">
 				<div>
-					<p class="eyebrow">{book.section.group}</p>
+					<p class="eyebrow eyebrow--accent">{book.section.group} · {sectionEntry.displayName}</p>
 					<h1 id="reader-title">{book.title}</h1>
 					{book.author && <p class="reader-author">{book.author}</p>}
-					<p class="reader-seo-lead">
-						Lee online y descarga gratis este libro de {sectionEntry.displayName} en español.
-						{' '}
-						<a href={getSectionPagePath(sectionEntry)}>Más libros gratis de {sectionEntry.displayName}</a>
-						{' · '}
-						<a href="/">Toda la biblioteca</a>
+					<p class="reader-lead">
+						Lee online y descarga gratis este libro de {sectionEntry.displayName} en español.{' '}
+						<a class="text-link" href={getSectionPagePath(sectionEntry)}>Más libros de {sectionEntry.displayName}</a>
 					</p>
 				</div>
-				<div class="reader-actions">
-					<a class="reader-button reader-button-primary" href={book.downloadPath}>
-						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-							<path d="M12 3v12" />
-							<path d="M7 10l5 5l5 -5" />
-							<path d="M5 21h14" />
-						</svg>
+				<div class="actions">
+					<a class="btn btn-primary" href={book.downloadPath}>
+						<Icon name="download" />
 						<span>Descargar PDF</span>
 					</a>
 					{book.epubHref && (
-						<a class="reader-button" href={book.epubHref} download={book.epubFileName}>
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
-								<path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
-								<path d="M3 6v13" />
-								<path d="M12 6v13" />
-								<path d="M21 6v13" />
-							</svg>
+						<a class="btn" href={book.epubHref} download={book.epubFileName}>
+							<Icon name="download" />
 							<span>Descargar EPUB</span>
 						</a>
 					)}
-					<a class="reader-button" href={getSectionPagePath(sectionEntry)}>
-						<span>Más de {sectionEntry.displayName}</span>
-					</a>
 				</div>
 			</section>
 
@@ -130,10 +87,8 @@ const externalLinkRel = 'nofollow noreferrer';
 			>
 				<div class="pdf-toolbar" aria-label="Controles del lector">
 					<div class="pdf-toolbar-group">
-						<button class="pdf-icon-button" type="button" data-pdf-prev aria-label="Página anterior" data-tooltip="Anterior" title="Anterior">
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<path d="M15 6l-6 6l6 6" />
-							</svg>
+						<button class="pdf-icon-button" type="button" data-pdf-prev aria-label="Página anterior" data-tooltip="Anterior">
+							<Icon name="chevron-left" />
 						</button>
 						<span class="pdf-page-control">
 							<label class="pdf-page-field">
@@ -142,33 +97,20 @@ const externalLinkRel = 'nofollow noreferrer';
 							</label>
 							<span class="pdf-total">de <strong data-pdf-total>...</strong></span>
 						</span>
-						<button class="pdf-icon-button" type="button" data-pdf-next aria-label="Página siguiente" data-tooltip="Siguiente" title="Siguiente">
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<path d="M9 6l6 6l-6 6" />
-							</svg>
+						<button class="pdf-icon-button" type="button" data-pdf-next aria-label="Página siguiente" data-tooltip="Siguiente">
+							<Icon name="chevron-right" />
 						</button>
 					</div>
 					<div class="pdf-toolbar-group">
-						<button class="pdf-icon-button" type="button" data-pdf-thumbnails-toggle aria-label="Ocultar vistas previas" data-tooltip="Miniaturas" title="Miniaturas" aria-pressed="true">
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<rect x="4" y="4" width="6" height="7" rx="1" />
-								<rect x="4" y="15" width="6" height="5" rx="1" />
-								<path d="M14 6h6" />
-								<path d="M14 12h6" />
-								<path d="M14 18h6" />
-							</svg>
+						<button class="pdf-icon-button" type="button" data-pdf-thumbnails-toggle aria-label="Ocultar vistas previas" data-tooltip="Miniaturas" aria-pressed="true">
+							<Icon name="sidebar" />
 						</button>
-						<button class="pdf-icon-button" type="button" data-pdf-zoom-out aria-label="Alejar" data-tooltip="Alejar" title="Alejar">
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<path d="M5 12h14" />
-							</svg>
+						<button class="pdf-icon-button" type="button" data-pdf-zoom-out aria-label="Alejar" data-tooltip="Alejar">
+							<Icon name="minus" />
 						</button>
 						<span class="pdf-zoom" data-pdf-zoom>100%</span>
-						<button class="pdf-icon-button" type="button" data-pdf-zoom-in aria-label="Acercar" data-tooltip="Acercar" title="Acercar">
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<path d="M12 5v14" />
-								<path d="M5 12h14" />
-							</svg>
+						<button class="pdf-icon-button" type="button" data-pdf-zoom-in aria-label="Acercar" data-tooltip="Acercar">
+							<Icon name="plus" />
 						</button>
 					</div>
 				</div>
@@ -197,32 +139,21 @@ const externalLinkRel = 'nofollow noreferrer';
 				</div>
 				<div class="pdf-toolbar pdf-toolbar-bottom" aria-label="Navegación inferior del lector">
 					<div class="pdf-toolbar-group">
-						<button class="pdf-icon-button" type="button" data-pdf-prev aria-label="Página anterior" data-tooltip="Anterior" title="Anterior">
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<path d="M15 6l-6 6l6 6" />
-							</svg>
+						<button class="pdf-icon-button" type="button" data-pdf-prev aria-label="Página anterior" data-tooltip="Anterior">
+							<Icon name="chevron-left" />
 						</button>
 						<span class="pdf-total pdf-page-readout">
 							Página <strong data-pdf-current>1</strong> de <strong data-pdf-total>...</strong>
 						</span>
-						<button class="pdf-icon-button" type="button" data-pdf-next aria-label="Página siguiente" data-tooltip="Siguiente" title="Siguiente">
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<path d="M9 6l6 6l-6 6" />
-							</svg>
+						<button class="pdf-icon-button" type="button" data-pdf-next aria-label="Página siguiente" data-tooltip="Siguiente">
+							<Icon name="chevron-right" />
 						</button>
 					</div>
 				</div>
 			</section>
 		</main>
 
-		<footer class="footer">
-			<p>
-				<a href="/">Volver a la biblioteca</a> · Contenido del repositorio{' '}
-				<a href={sourceRepository.href} target="_blank" rel={externalLinkRel}>
-					{sourceRepository.name}
-				</a>
-			</p>
-		</footer>
+		<SiteFooter />
 	</div>
 </Layout>
 
