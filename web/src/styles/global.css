@@ -1082,7 +1082,7 @@ img {
   font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.22;
-  text-wrap: pretty;
+  text-wrap: balance;
 }
 
 .book:has(.book-fav) .book-title {
