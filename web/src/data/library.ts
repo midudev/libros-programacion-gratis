@@ -2044,6 +2044,13 @@ export const librarySections: LibrarySection[] = [
         author: 'Diego Nieto',
         formats: ['HTML'],
       },
+      {
+        id: 'guia-de-bases-de-datos',
+        title: 'Guía de bases de datos',
+        href: 'https://learn-stack-seven.vercel.app/guides/database/',
+        author: 'Juan Jara',
+        formats: ['HTML'],
+      },
     ],
   },
   {
@@ -2113,6 +2120,13 @@ export const librarySections: LibrarySection[] = [
         href: 'https://github.com/dperalta86/Libro-Sistemas-Operativos/releases/latest/download/Introduccion_a_los_Sistemas_Operativos.pdf',
         author: 'Daniel Isaías Peralta',
         formats: ['PDF'],
+      },
+      {
+        id: 'scripts-en-powershell-guia-para-principiantes',
+        title: 'Scripts en PowerShell: Guía para principiantes',
+        href: 'https://somebooks.es/scripts-powershell-guia-principiantes/',
+        author: 'Pedro Ruiz',
+        formats: ['HTML'],
       },
     ],
   },

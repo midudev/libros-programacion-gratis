@@ -20,7 +20,7 @@ export const siteConfig = {
   defaultImage: '/og-preview.png',
   defaultImageAlt: 'Libros gratis de programación en español — librosgratis.dev',
   /** Fecha de revisión del contenido (sitemap + schema). Actualizar al publicar cambios. */
-  contentLastModified: '2026-07-30',
+  contentLastModified: '2026-09-29',
   publisher: {
     name: 'librosgratis.dev',
     logo: '/favicon.svg',
