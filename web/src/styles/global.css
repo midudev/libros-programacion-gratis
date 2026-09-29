@@ -2729,7 +2729,8 @@ a.favorites-item-title:hover {
   }
 }
 
-@media (max-width: 350px) {
+/* Por debajo de 420px, «Enviar libro» queda a ras del header (el enlace a GitHub ya está oculto). */
+@media (max-width: 420px) {
   .nav-cta span {
     position: absolute;
     width: 1px;
