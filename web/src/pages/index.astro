@@ -213,11 +213,12 @@ const structuredData = createHomeStructuredData();
 									<p class="topic-desc">{section.description}</p>
 
 									<div class="book-grid">
-										{section.books.map((book) => (
+										{section.books.map((book, index) => (
 											<BookCard
 												book={book}
 												sectionTitle={section.title}
 												sectionGroup={section.group}
+												index={index}
 												headingLevel="h4"
 												showFavorite
 											/>

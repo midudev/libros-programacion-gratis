@@ -108,8 +108,8 @@ const plural = (count: number, singular: string, pluralForm: string) =>
 				</div>
 
 				<div class="book-grid">
-					{section.books.map((book) => (
-						<BookCard book={book} sectionTitle={section.title} sectionGroup={section.group} />
+					{section.books.map((book, index) => (
+						<BookCard book={book} sectionTitle={section.title} sectionGroup={section.group} index={index} />
 					))}
 				</div>
 			</section>

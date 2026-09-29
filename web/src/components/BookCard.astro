@@ -6,11 +6,12 @@ interface Props {
 	book: LibraryBook;
 	sectionTitle: string;
 	sectionGroup: string;
+	index?: number;
 	headingLevel?: 'h3' | 'h4';
 	showFavorite?: boolean;
 }
 
-const { book, sectionTitle, sectionGroup, headingLevel = 'h3', showFavorite = false } = Astro.props;
+const { book, sectionTitle, sectionGroup, index, headingLevel = 'h3', showFavorite = false } = Astro.props;
 const Heading = headingLevel;
 
 const isExternalHref = (href: string) => /^https?:\/\//.test(href);
@@ -19,6 +20,25 @@ const normalize = (value: string) =>
 		.normalize('NFD')
 		.replace(/[̀-ͯ]/g, '')
 		.toLowerCase();
+
+// Portada generativa. Con posición, color y patrón avanzan en pasos coprimos con
+// el tamaño de cada paleta: ninguna cubierta repite con sus vecinas en rejillas
+// de 2, 3 o 4 columnas. Sin posición, salen del id del libro.
+const COVER_HUES = [28, 55, 85, 125, 160, 200, 245, 285, 330];
+const COVER_PATTERNS = 5;
+const hashString = (value: string) => {
+	let hash = 0x811c9dc5;
+	for (let i = 0; i < value.length; i++) {
+		hash ^= value.charCodeAt(i);
+		hash = Math.imul(hash, 0x01000193) >>> 0;
+	}
+	return hash;
+};
+const coverSeed = hashString(index === undefined ? book.id : sectionTitle);
+const coverStep = index ?? 0;
+const coverHue = COVER_HUES[(coverSeed + coverStep * 4) % COVER_HUES.length];
+const coverPattern = (coverSeed + coverStep * 2) % COVER_PATTERNS;
+const coverNumber = index === undefined ? '' : String(index + 1).padStart(2, '0');
 
 const pdfBook = getLocalPdfBook(book);
 const hasHtmlVersion = Boolean(pdfBook && pdfBook.href !== pdfBook.pdfHref);
@@ -29,40 +49,51 @@ const host = opensInNewTab ? new URL(primaryHref).hostname.replace(/^www\./, '')
 const searchText = normalize(`${book.title} ${book.author ?? ''} ${sectionTitle} ${sectionGroup}`);
 ---
 
-<article class:list={['book', pdfBook ? 'is-local' : 'is-external']} data-search={searchText}>
-	<Heading class="book-title">
+<article
+	class:list={['book', pdfBook ? 'is-local' : 'is-external']}
+	data-search={searchText}
+	data-pattern={coverPattern}
+	style={`--cover-hue: ${coverHue}`}
+>
+	<div class="book-cover">
+		<p class="book-kicker" aria-hidden="true">
+			{sectionTitle}{coverNumber && ` · ${coverNumber}`}
+		</p>
+		<Heading class="book-title">
+			{
+				primaryHref ? (
+					<a
+						class="book-link"
+						href={primaryHref}
+						target={opensInNewTab ? '_blank' : undefined}
+						rel={opensInNewTab ? 'nofollow noreferrer' : undefined}
+					>
+						{book.title}
+					</a>
+				) : (
+					book.title
+				)
+			}
+		</Heading>
+		<span class="book-cover-art" aria-hidden="true"></span>
+		{book.author && <p class="book-author">{book.author}</p>}
+
 		{
-			primaryHref ? (
-				<a
-					class="book-link"
-					href={primaryHref}
-					target={opensInNewTab ? '_blank' : undefined}
-					rel={opensInNewTab ? 'nofollow noreferrer' : undefined}
+			showFavorite && (
+				<button
+					class="book-fav"
+					type="button"
+					data-favorite="false"
+					data-book-id={book.id}
+					aria-label={`Guardar ${book.title} en favoritos`}
+					aria-pressed="false"
+					data-tooltip="Guardar"
 				>
-					{book.title}
-				</a>
-			) : (
-				book.title
+					<Icon name="heart" size={17} />
+				</button>
 			)
 		}
-	</Heading>
-	{book.author && <p class="book-author">{book.author}</p>}
-
-	{
-		showFavorite && (
-			<button
-				class="book-fav"
-				type="button"
-				data-favorite="false"
-				data-book-id={book.id}
-				aria-label={`Guardar ${book.title} en favoritos`}
-				aria-pressed="false"
-				data-tooltip="Guardar"
-			>
-				<Icon name="heart" size={17} />
-			</button>
-		)
-	}
+	</div>
 
 	<div class="book-foot">
 		{
@@ -112,4 +143,6 @@ const searchText = normalize(`${book.title} ${book.author ?? ''} ${sectionTitle}
 			)
 		}
 	</div>
+
+	{book.note && <p class="book-note">{book.note}</p>}
 </article>
