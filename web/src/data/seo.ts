@@ -17,7 +17,7 @@ export const siteConfig = {
   locale: 'es_ES',
   language: 'es',
   languageTag: 'es-ES',
-  defaultImage: '/og-preview.png',
+  defaultImage: '/og-image.png',
   defaultImageAlt: 'Libros gratis de programación en español — librosgratis.dev',
   /** Fecha de revisión del contenido (sitemap + schema). Actualizar al publicar cambios. */
   contentLastModified: '2026-09-29',
@@ -385,7 +385,7 @@ const getEncodingFormat = (format: string) => {
 
 const bookStructuredData = (book: LibraryBook) => {
   const pdfBook = getLocalPdfBook(book);
-  const primaryHref = pdfBook && pdfBook.href === pdfBook.pdfHref ? pdfBook.readerPath : book.href;
+  const primaryHref = pdfBook?.readerPath ?? book.href;
 
   return {
     '@type': 'Book',

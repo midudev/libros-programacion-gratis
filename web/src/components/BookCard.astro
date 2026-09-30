@@ -41,8 +41,10 @@ const coverPattern = (coverSeed + coverStep * 2) % COVER_PATTERNS;
 const coverNumber = index === undefined ? '' : String(index + 1).padStart(2, '0');
 
 const pdfBook = getLocalPdfBook(book);
+// Si hay PDF local, el clic abre siempre el visor; la versión web queda como acción secundaria
 const hasHtmlVersion = Boolean(pdfBook && pdfBook.href !== pdfBook.pdfHref);
-const primaryHref = hasHtmlVersion ? book.href : (pdfBook?.readerPath ?? book.href);
+const primaryHref = pdfBook?.readerPath ?? book.href;
+const htmlIsExternal = hasHtmlVersion && isExternalHref(book.href);
 const opensInNewTab = isExternalHref(primaryHref);
 const formats = pdfBook?.formats ?? book.formats ?? [];
 const host = opensInNewTab ? new URL(primaryHref).hostname.replace(/^www\./, '') : '';
@@ -104,9 +106,15 @@ const searchText = normalize(`${book.title} ${book.author ?? ''} ${sectionTitle}
 						Leer
 					</span>
 					{hasHtmlVersion && (
-						<a class="book-action" href={pdfBook.readerPath} aria-label={`Abrir ${book.title} en el visor PDF`}>
-							<Icon name="file" size={15} />
-							Visor
+						<a
+							class="book-action"
+							href={book.href}
+							target={htmlIsExternal ? '_blank' : undefined}
+							rel={htmlIsExternal ? 'nofollow noreferrer' : undefined}
+							aria-label={`Leer ${book.title} en la versión web`}
+						>
+							<Icon name={htmlIsExternal ? 'arrow-up-right' : 'arrow-right'} size={15} />
+							Web
 						</a>
 					)}
 					<a class="book-action" href={pdfBook.downloadPath} aria-label={`Descargar ${book.title} en PDF`}>
