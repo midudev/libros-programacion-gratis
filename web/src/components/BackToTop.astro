@@ -1,0 +1,117 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+	threshold?: number;
+	label?: string;
+}
+
+const { threshold = 600, label = 'Volver arriba' } = Astro.props;
+---
+
+<button
+	type="button"
+	class="icon-btn back-to-top"
+	aria-label={label}
+	data-tooltip={label}
+	data-threshold={threshold}
+	hidden
+>
+	<Icon name="arrow-up" />
+</button>
+
+<script>
+	const btn = document.querySelector<HTMLButtonElement>('.back-to-top');
+
+	if (btn) {
+		const threshold = Number(btn.dataset.threshold ?? 600);
+		const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+		let ticking = false;
+
+		const update = () => {
+			ticking = false;
+			const y = window.scrollY ?? document.documentElement.scrollTop;
+			btn.hidden = y <= threshold;
+		};
+
+		const onScroll = () => {
+			if (!ticking) {
+				ticking = true;
+				requestAnimationFrame(update);
+			}
+		};
+
+		// Muestra cuando el buscador del hero sale de pantalla, como hace sticky-search.
+		const heroSearch = document.querySelector('[data-hero-search]');
+		let observer: IntersectionObserver | null = null;
+
+		if (heroSearch && 'IntersectionObserver' in window) {
+			observer = new IntersectionObserver(
+				(entries) => {
+					const visible = entries[0]?.isIntersecting ?? true;
+					if (!visible) {
+						btn.hidden = window.scrollY <= threshold ? true : false;
+						if (window.scrollY > threshold) btn.hidden = false;
+					} else if (window.scrollY <= threshold) {
+						btn.hidden = true;
+					}
+				},
+				{ rootMargin: '-80px 0px 0px 0px' }
+			);
+			observer.observe(heroSearch);
+		}
+
+		window.addEventListener('scroll', onScroll, { passive: true });
+		update();
+
+		btn.addEventListener('click', () => {
+			window.scrollTo({ top: 0, behavior: reduced.matches ? 'auto' : 'smooth' });
+		});
+
+		document.addEventListener(
+			'astro:before-swap',
+			() => {
+				window.removeEventListener('scroll', onScroll);
+				observer?.disconnect();
+			},
+			{ once: true }
+		);
+	}
+</script>
+
+<style>
+	.back-to-top {
+		position: fixed;
+		right: 1rem;
+		bottom: 1rem;
+		z-index: 50;
+		min-width: 44px;
+		min-height: 44px;
+		background: var(--surface);
+		color: var(--ink);
+		border-color: var(--line);
+		box-shadow: var(--shadow);
+	}
+
+	.back-to-top:hover {
+		transform: translateY(-2px);
+		background: var(--accent);
+		color: var(--on-accent);
+		border-color: transparent;
+	}
+
+	.back-to-top:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+
+	.back-to-top[hidden] {
+		display: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.back-to-top {
+			transition: none;
+		}
+	}
+</style>
