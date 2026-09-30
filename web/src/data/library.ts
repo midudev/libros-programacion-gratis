@@ -1121,6 +1121,24 @@ export const librarySections: LibrarySection[] = [
     ],
   },
   {
+    slug: 'dart',
+    title: 'Dart',
+    icon: '🎯',
+    group: 'Lenguajes',
+    description: 'Lenguaje de Google para aplicaciones multiplataforma con Flutter, rápido y expresivo.',
+    accent: 'sky',
+    books: [
+      {
+        id: 'programacion-estructurada-y-orientada-a-objetos-con-dart',
+        title: 'Programación estructurada y orientada a objetos con Dart',
+        href: 'https://libros.ucol.mx/index.php/dgp/es/catalog/book/268',
+        author: 'Walter Alexander Mata López, Mónica Cobián Alvarado, Armando Román Gallardo, José Román Herrera Morales',
+        formats: ['PDF'],
+        note: 'Primer libro de Dart en el catálogo, ideal para arrancar con Flutter.',
+      },
+    ],
+  },
+  {
     slug: 'android',
     title: 'Android',
     icon: '📱',
