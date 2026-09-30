@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import BookCard from '../components/BookCard.astro';
+import BackToTop from '../components/BackToTop.astro';
 import Icon from '../components/Icon.astro';
 import { librarySections, totalBooks, totalSections } from '../data/library';
 import {
@@ -324,6 +325,8 @@ const structuredData = createHomeStructuredData();
 			</div>
 		</div>
 	</div>
+
+	<BackToTop />
 
 	<script>
 		import { getFavorites, toggleFavorite } from '../scripts/favorites.ts';
