@@ -62,9 +62,7 @@ const jsonLd = structuredData ? JSON.stringify(structuredData).replace(/</g, '\\
 		<meta name="format-detection" content="telephone=no" />
 		<meta name="referrer" content="strict-origin-when-cross-origin" />
 		<meta name="color-scheme" content="light dark" />
-		<link rel="icon" href="/favicon.ico" sizes="32x32" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" media="(prefers-color-scheme: light)" />
-		<link rel="icon" type="image/svg+xml" href="/favicon-dark.svg" media="(prefers-color-scheme: dark)" />
+		<link rel="icon" data-favicon type="image/svg+xml" href="/favicon.svg" sizes="32x32" />
 		<link rel="apple-touch-icon" href="/favicon.svg" />
 		<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
 		<link rel="alternate" type="application/xml" title="Sitemap" href="/sitemap.xml" />
@@ -165,7 +163,19 @@ const jsonLd = structuredData ? JSON.stringify(structuredData).replace(/</g, '\\
 				applyTheme(getTheme() === 'dark' ? 'light' : 'dark');
 			});
 
-			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+      const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const favicon = document.querySelector<HTMLLinkElement>('link[data-favicon]');
+      
+      const applyFaviconOSTheme = (isDark = true) => {
+        if (favicon) {
+          favicon.setAttribute('href', isDark ? './favicon-dark.svg' : './favicon.svg');
+        }
+      }
+
+      applyFaviconOSTheme(colorSchemeQuery.matches);
+
+			colorSchemeQuery.addEventListener('change', (event) => {
+				applyFaviconOSTheme(event.matches);
 				if (localStorage.getItem(THEME_KEY)) return;
 				applyTheme(event.matches ? 'dark' : 'light');
 			});
