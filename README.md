@@ -239,7 +239,7 @@ Descentralización, contratos inteligentes y criptografía aplicada.
 
 Backend pragmático con mucha historia y recursos excelentes para aprender bien.
 
-- [PHP, la manera correcta](https://phpdevenezuela.github.io/php-the-right-way/) — Josh Lockhart, Phil Sturgeon · HTML
+- [PHP, la manera correcta](https://wilsenhc.github.io/php-the-right-way/) — Josh Lockhart, Phil Sturgeon · HTML
 - [Programación en PHP a través de ejemplos](https://librosgratis.dev/books/php-programacion-ejemplos.pdf) — Manuel Palomo Duarte, Ildefonso Montero Pérez · PDF, EPUB
 - [POO y MVC en PHP](https://librosgratis.dev/books/php-poo-mvc.pdf) — Eugenia Bahit · PDF, EPUB
 - [Laboratorio de PHP y MySQL](https://openlibro.com/wp-content/uploads/2026/03/laboratorio-php-mysql.pdf) — Piero Berni Millet, Dídac Gil de la Iglesia · PDF _PDF externo: supera el límite de 25 MiB por asset de Cloudflare Workers._
