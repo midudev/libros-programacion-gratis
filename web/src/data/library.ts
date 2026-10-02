@@ -1136,6 +1136,13 @@ export const librarySections: LibrarySection[] = [
         formats: ['PDF'],
         note: 'Primer libro de Dart en el catálogo, ideal para arrancar con Flutter.',
       },
+       {
+        id: 'aprendiendo-dart',
+        title: 'Aprendiendo Dart',
+        href: 'https://alxgcrz.com/dart.html',
+        author: 'Alex García',
+        formats: ['HTML'],
+      }, 
     ],
   },
   {
