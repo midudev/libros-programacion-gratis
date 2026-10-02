@@ -92,7 +92,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Majo Ledesma',
         formats: ['HTML'],
       },
-    
+
       {
         id: 'el-camino-a-un-mejor-programador',
         title: "El camino a un mejor programador",
@@ -194,7 +194,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Javier Campos',
         formats: ['PDF'],
       },
-    
+
       {
         id: 'fundamentos-de-informatica-y-programacion',
         title: "Fundamentos de Informática y Programación",
@@ -302,7 +302,7 @@ export const librarySections: LibrarySection[] = [
         author: 'MDN Web Docs',
         formats: ['HTML'],
       },
-    
+
       {
         id: 'el-gran-libro-del-diseno-web',
         title: "El gran libro del diseño web",
@@ -458,7 +458,7 @@ export const librarySections: LibrarySection[] = [
         note:
           'Guía práctica de buenas prácticas para JavaScript: variables, funciones, clases, SOLID, pruebas, concurrencia, manejo de errores, formato y comentarios.',
       },
-    
+
       {
         id: 'manual-de-javascript',
         title: "Manual de JavaScript",
@@ -713,7 +713,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Python Software Foundation',
         formats: ['HTML'],
       },
-    
+
       {
         id: 'introduccion-a-programando-con-python',
         title: "Introducción a Programando con Python",
@@ -781,7 +781,7 @@ export const librarySections: LibrarySection[] = [
         author: 'RubySur',
         formats: ['HTML'],
       },
-    
+
       {
         id: 'ruby-tutorial-o-como-pasar-un-buen-rato-programando',
         title: "Ruby tutorial o cómo pasar un buen rato programando",
@@ -936,7 +936,7 @@ export const librarySections: LibrarySection[] = [
       {
         id: 'php-la-manera-correcta',
         title: 'PHP, la manera correcta',
-        href: 'https://phpdevenezuela.github.io/php-the-right-way/',
+        href: 'https://wilsenhc.github.io/php-the-right-way/',
         author: 'Josh Lockhart, Phil Sturgeon',
         formats: ['HTML'],
       },
@@ -961,7 +961,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Piero Berni Millet, Dídac Gil de la Iglesia',
         formats: ['PDF'],
       },
-    
+
       {
         id: 'php-y-programacion-orientada-a-objetos',
         title: "PHP y Programación orientada a objetos",
@@ -1142,7 +1142,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Android Developers',
         formats: ['HTML'],
       },
-    
+
       {
         id: 'manual-de-programacion-android-v-2-0',
         title: "Manual de Programación Android v.2.0",
@@ -1254,7 +1254,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Con Clase',
         formats: ['HTML'],
       },
-    
+
       {
         id: 'aprenda-c-avanzado-como-si-estuviera-en-primero',
         title: "Aprenda C++ avanzado como si estuviera en primero",
@@ -1315,7 +1315,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Nate Barbettini',
         formats: ['PDF'],
       },
-    
+
       {
         id: 'guia-de-arquitectura-n-capas-orientadas-al-dominio',
         title: "Guía de Arquitectura N-capas Orientadas al Dominio",
@@ -1397,7 +1397,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Francisco Manuel Pérez Montes',
         formats: ['PDF'],
       },
-    
+
       {
         id: 'desarrollando-con-java-8-poker',
         title: "Desarrollando con Java 8: Poker",
@@ -1471,7 +1471,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Andrés González y Silvia González',
         formats: ['PDF'],
       },
-    
+
       {
         id: 'cartas-sobre-estadistica-de-la-revista-argentina-de-bioingenieria',
         title: "Cartas sobre Estadística de la Revista Argentina de Bioingeniería",
@@ -1657,7 +1657,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Manuel Kiessling',
         formats: ['HTML'],
       },
-    
+
       {
         id: 'introduccion-a-node-js-a-traves-de-koans',
         title: "Introducción a Node.js a través de Koans",
@@ -1696,7 +1696,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Jorge Cano',
         formats: ['HTML'],
       },
-    
+
       {
         id: 'manual-de-angularjs',
         title: "Manual de AngularJS",
@@ -1934,7 +1934,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Wikilibros',
         formats: ['HTML'],
       },
-    
+
       {
         id: 'bash-scripting-avanzado-utilizando-declare-para-definicion-de-tipo',
         title: "BASH Scripting Avanzado: Utilizando Declare para definición de tipo",
@@ -2016,7 +2016,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Jordi Casas Roma',
         formats: ['PDF'],
       },
-    
+
       {
         id: 'base-de-datos-2005',
         title: "Base de Datos (2005)",
@@ -2081,7 +2081,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Karl Seguin, traducido por Raúl Expósito',
         formats: ['HTML'],
       },
-    
+
       {
         id: 'aprendizaje-amazon-dynamodb',
         title: "Aprendizaje amazon-dynamodb",
@@ -2239,7 +2239,7 @@ export const librarySections: LibrarySection[] = [
         author: 'Henrik Kniberg',
         formats: ['PDF'],
       },
-    
+
       {
         id: 'ingenieria-de-software-una-guia-para-crear-sistemas-de-informacion',
         title: "Ingeniería de Software: Una Guía para Crear Sistemas de Información",
