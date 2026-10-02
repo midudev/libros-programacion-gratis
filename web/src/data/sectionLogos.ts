@@ -12,6 +12,7 @@ const sectionLogos: Record<string, string | string[]> = {
   haskell: '/logos/haskell.svg',
   golang: '/logos/golang.svg',
   kotlin: '/logos/kotlin.svg',
+  dart: '/logos/dart.svg',
   android: '/logos/android.svg',
   c: '/logos/c.svg',
   cplusplus: '/logos/cplusplus.svg',
