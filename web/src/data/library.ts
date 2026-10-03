@@ -1914,6 +1914,13 @@ export const librarySections: LibrarySection[] = [
         formats: ['HTML'],
       },
       {
+        id: 'guia-docker',
+        title: 'Guía Docker',
+        href: 'https://denuczi.github.io/guia-docker',
+        author: 'Ignacio Sanguina',
+        formats: ['HTML'],
+      },
+      {
         id: 'introduccion-a-kubernetes',
         title: 'Introducción a Kubernetes',
         href: 'https://github.com/iesgn/curso_kubernetes_cep',
