@@ -1136,6 +1136,13 @@ export const librarySections: LibrarySection[] = [
         formats: ['PDF'],
         note: 'Primer libro de Dart en el catálogo, ideal para arrancar con Flutter.',
       },
+       {
+        id: 'aprendiendo-dart',
+        title: 'Aprendiendo Dart',
+        href: 'https://alxgcrz.com/dart.html',
+        author: 'Alex García',
+        formats: ['HTML'],
+      }, 
     ],
   },
   {
@@ -1904,6 +1911,13 @@ export const librarySections: LibrarySection[] = [
         title: 'Curso de Docker',
         href: 'https://github.com/josedom24/curso_docker_ow',
         author: 'José Domingo Muñoz Rodríguez',
+        formats: ['HTML'],
+      },
+      {
+        id: 'guia-docker',
+        title: 'Guía Docker',
+        href: 'https://denuczi.github.io/guia-docker',
+        author: 'Ignacio Sanguina',
         formats: ['HTML'],
       },
       {
