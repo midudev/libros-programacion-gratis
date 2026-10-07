@@ -2251,6 +2251,7 @@ export const librarySections: LibrarySection[] = [
         id: 'el-developer-agentico',
         title: 'El Developer Agéntico',
         href: 'https://domini-code.github.io/el-developer-agentico/',
+        pdfHref: '/books/el-developer-agentico.pdf',
         author: 'Bezael Pérez (Dominicode)',
         formats: ['HTML', 'PDF', 'EPUB'],
       },
