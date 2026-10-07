@@ -2247,6 +2247,13 @@ export const librarySections: LibrarySection[] = [
         author: 'Universidad de Helsinki y MinnaLearn',
         formats: ['HTML'],
       },
+      {
+        id: 'el-developer-agentico',
+        title: 'El Developer Agéntico',
+        href: 'https://domini-code.github.io/el-developer-agentico/',
+        author: 'Bezael Pérez (Dominicode)',
+        formats: ['HTML', 'PDF', 'EPUB'],
+      },
     ],
   },
   {

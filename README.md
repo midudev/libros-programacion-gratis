@@ -49,7 +49,7 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 - [SQL](#sql) · 9
 - [NoSQL](#nosql) · 4
 - [Sistemas operativos](#sistemas-operativos) · 3
-- [Inteligencia Artificial](#ia) · 10
+- [Inteligencia Artificial](#ia) · 11
 - [Metodologías de desarrollo](#metodologias) · 11
 - [Ensamblador](#ensamblador) · 5
 - [Erlang](#erlang) · 2
@@ -535,6 +535,7 @@ Aprendizaje automático, LLMs, agentes y razonamiento computacional.
 - [Aprendizaje Automático](https://urjcdslab.github.io/AprendizajeAutomaticoI/) — Carmen Lancho, Isaac Martín de Diego · HTML
 - [Métodos predictivos de aprendizaje estadístico](https://rubenfcasal.github.io/aprendizaje_estadistico/) — Rubén Fernández Casal, Julián Costa, Manuel Oviedo · HTML
 - [Elements of AI](https://course.elementsofai.com/es/) — Universidad de Helsinki y MinnaLearn · HTML
+- [El Developer Agéntico](https://domini-code.github.io/el-developer-agentico/) — Bezael Pérez (Dominicode) · HTML, PDF, EPUB
 
 ## Metodologías de desarrollo
 
