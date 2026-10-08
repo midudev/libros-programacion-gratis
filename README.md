@@ -21,14 +21,14 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 
 - [Generales](#generales) · 8
 - [Algoritmos y estructuras de datos](#algoritmos) · 18
-- [HTML y CSS](#html-css) · 11
-- [JavaScript](#javascript) · 23
+- [HTML y CSS](#html-css) · 14
+- [JavaScript](#javascript) · 24
 - [TypeScript](#typescript) · 9
-- [Python](#python) · 19
+- [Python](#python) · 20
 - [Ruby](#ruby) · 6
 - [Rust](#rust) · 7
 - [Blockchain](#blockchain) · 7
-- [PHP](#php) · 11
+- [PHP](#php) · 12
 - [Haskell](#haskell) · 4
 - [Golang](#golang) · 4
 - [Kotlin](#kotlin) · 3
@@ -43,18 +43,18 @@ Biblioteca viva de libros y guías gratuitas de programación en español. El ca
 - [Node.js](#nodejs) · 4
 - [Angular](#angular) · 7
 - [Django](#django) · 5
-- [Git](#git) · 8
+- [Git](#git) · 9
 - [Docker](#docker) · 7
 - [Linux y terminal](#linux) · 8
-- [SQL](#sql) · 9
-- [NoSQL](#nosql) · 4
+- [SQL](#sql) · 10
+- [NoSQL](#nosql) · 5
 - [Sistemas operativos](#sistemas-operativos) · 3
-- [Inteligencia Artificial](#ia) · 11
-- [Metodologías de desarrollo](#metodologias) · 11
+- [Inteligencia Artificial](#ia) · 12
+- [Metodologías de desarrollo](#metodologias) · 13
 - [Ensamblador](#ensamblador) · 5
 - [Erlang](#erlang) · 2
 - [LaTeX](#latex) · 6
-- [Lisp](#lisp) · 3
+- [Lisp](#lisp) · 5
 - [Matemáticas](#matematicas) · 7
 - [Perl](#perl) · 4
 - [Raku](#raku) · 3
@@ -119,6 +119,9 @@ Maquetación, estilos e interfaces web desde fundamentos hasta CSS moderno.
 - [Lenguaje CSS](https://lenguajecss.com/css/) — Manz · HTML
 - [Lenguaje HTML](https://lenguajehtml.com/html/) — Manz · HTML
 - [Programación Web: HTML, CSS, JavaScript](https://gsyc.urjc.es/~mortuno/programacion_web.pdf) — Miguel Ángel Ortuño Pérez · PDF
+- [Curso de HTML](https://andros.dev/cursos/bd45ce00/html/1/introduccion/) — Andros Fenollosa · HTML
+- [Curso de CSS](https://andros.dev/cursos/766a97bf/css/1/introduccion/) — Andros Fenollosa · HTML
+- [Curso de Maquetación Web](https://andros.dev/cursos/91a6eb81/maquetacion-web/1/introduccion/) — Andros Fenollosa · HTML
 
 ## JavaScript
 
@@ -149,6 +152,7 @@ La puerta de entrada a la web moderna, desde fundamentos hasta buenas prácticas
 - [La guía del Profesor Frisby, en su mayor parte adecuada, para la programación funcional](https://github.com/MostlyAdequate/mostly-adequate-guide-es) — Brian Lonsdorf, traducción de la comunidad · HTML, PDF
 - [Buenas prácticas de testing en JavaScript y Node.js](https://github.com/goldbergyoni/javascript-testing-best-practices/blob/master/readme-es.md) — Yoni Goldberg, traducido por Miguel G. Sanguino · HTML
 - [Desarrollo Web en Entorno Cliente: JavaScript](https://cipfpbatoi.github.io/materials/daw/dwc/01-js/) — Juan Segura (CIPFP Batoi) · HTML
+- [Curso de JavaScript](https://andros.dev/cursos/477384d5/javascript/1/introduccion/) — Andros Fenollosa · HTML
 
 ## TypeScript
 
@@ -191,6 +195,7 @@ Automatización, análisis y backend con una curva de entrada muy amable.
 - [Manual de Python](https://aprendeconalf.es/python-manual/) — Alfredo Sánchez Alberca · HTML, PDF, EPUB
 - [Aprende Python desde cero a experto](https://leanpub.com/aprende-python) — Jon Vadillo Romero · PDF, EPUB
 - [Aprendiendo a Programar en Python con mi Computador](https://open.umn.edu/opentextbooks/textbooks/512) — Sergio Rojas, Héctor Fernández, Juan Carlos Ruiz · PDF
+- [Curso de Python](https://andros.dev/cursos/ab396439/python/1/puesta-a-punto-del-entorno/) — Andros Fenollosa · HTML
 
 ## Ruby
 
@@ -250,6 +255,7 @@ Backend pragmático con mucha historia y recursos excelentes para aprender bien.
 - [Guía Definitiva de Yii 2.0](https://www.yiiframework.com/doc/download/yii-guide-2.0-es.pdf) — Yii Software · PDF
 - [Manual de PHP](https://www.php.net/manual/es/) — The PHP Documentation Group · HTML
 - [Clean Code PHP](https://github.com/fikoborquez/clean-code-php) — Piotr Plenik, traducido por fikoborquez · HTML
+- [Curso de PHP](https://andros.dev/cursos/daf42619/php/1/base/) — Andros Fenollosa · HTML
 
 ## Haskell
 
@@ -452,6 +458,7 @@ Versionado bien aprendido para colaborar sin miedo a romper nada.
 - [El Control de Versiones con Git](https://swcarpentry.github.io/git-novice-es/) — Software Carpentry · HTML
 - [Reglas de vuelo para Git](https://github.com/k88hudson/git-flight-rules/blob/master/README_es.md) — Kate Hudson y colaboradores · HTML
 - [Tutoriales de Git](https://www.atlassian.com/es/git/tutorials) — Atlassian · HTML
+- [Curso de Contribuciones con Git](https://andros.dev/cursos/c6c1bd8a/contribuciones-con-git/1/introduccion/) — Andros Fenollosa · HTML
 
 ## Docker
 
@@ -497,6 +504,7 @@ Consultas, modelado y fundamentos imprescindibles para cualquier stack.
 - [Bases de datos relacionales. Un enfoque aplicado y orientado a resultados de aprendizaje](https://libros.unimagdalena.edu.co/bases-de-datos-relacionales-0fm4w.html) — Ernesto Galvis Lista, Alexander Bustamante Martínez · PDF, EPUB
 - [Bases de Datos](https://josejuansanchez.org/bd/) — José Juan Sánchez Hernández · HTML, PDF
 - [Guía de Administración Básica de PostgreSQL](https://github.com/lesandie/guia-postgres) — Diego Nieto · HTML
+- [Curso de SQL](https://andros.dev/cursos/5b40d342/sql/1/introduccion/) — Andros Fenollosa · HTML
 
 ## NoSQL
 
@@ -508,6 +516,7 @@ MongoDB, Redis y modelos no relacionales para ampliar la caja de herramientas.
 - [El pequeño libro de Redis en castellano](https://raulexposito.com/the-little-redis-book-en-castellano.html) — Karl Seguin, traducido por Raúl Expósito · HTML
 - [Aprendizaje amazon-dynamodb](https://riptutorial.com/Download/amazon-dynamodb-es.pdf) — Stack Overflow Documentation · PDF
 - [NoSQL y MongoDB](https://aitor-medrano.github.io/iabd/sa/nosql.html) — Aitor Medrano · HTML
+- [Curso de MongoDB](https://andros.dev/cursos/5b810d7d/mongodb/1/introduccion/) — Andros Fenollosa · HTML
 
 ## Sistemas operativos
 
@@ -536,6 +545,7 @@ Aprendizaje automático, LLMs, agentes y razonamiento computacional.
 - [Métodos predictivos de aprendizaje estadístico](https://rubenfcasal.github.io/aprendizaje_estadistico/) — Rubén Fernández Casal, Julián Costa, Manuel Oviedo · HTML
 - [Elements of AI](https://course.elementsofai.com/es/) — Universidad de Helsinki y MinnaLearn · HTML
 - [El Developer Agéntico](https://domini-code.github.io/el-developer-agentico/) — Bezael Pérez (Dominicode) · HTML, PDF, EPUB
+- [Curso de Prompt Engineering](https://andros.dev/cursos/0b34f378/prompt-engineering/1/introduccion/) — Andros Fenollosa · HTML
 
 ## Metodologías de desarrollo
 
@@ -554,6 +564,8 @@ Scrum, XP y prácticas de equipo para construir software de forma sostenible.
 - [Kanban y Scrum: obteniendo lo mejor de ambos](https://www.proyectalis.com/documentos/KanbanVsScrum_Castellano_FINAL-printed.pdf) — Henrik Kniberg, Mattias Skarin · PDF
 - [Ingeniería del software](https://openaccess.uoc.edu/handle/10609/69245) — J. Pradel, J. A. Raya y otros (UOC) · PDF
 - [The Twelve-Factor App](https://12factor.net/es/) — Adam Wiggins y otros · HTML
+- [Curso de Scrum](https://andros.dev/cursos/bfd7ca6b/scrum/1/introduccion/) — Andros Fenollosa · HTML
+- [Curso de Testing](https://andros.dev/cursos/749264a4/testing/1/introduccion/) — Andros Fenollosa · HTML
 
 ## Ensamblador
 
@@ -598,6 +610,8 @@ Programación funcional y metaprogramación con la familia Lisp.
 - [Una introducción a la programación en Emacs Lisp](https://github.com/nasciiboy/emacs-lisp-intro-es) — Robert J. Chassell, traducido por nasciiboy · HTML
 - [Don Clojure de la Mancha](https://andros.dev/book/don-clojure-de-la-mancha/1/prologo/) — Andros Fenollosa · HTML
 - [PrePLAI: Scheme y Programación Funcional](https://users.dcc.uchile.cl/~etanter/preplai/) — Éric Tanter · HTML, PDF
+- [Curso de Common Lisp](https://andros.dev/cursos/873ef6dd/common-lisp/1/prologo/) — Andros Fenollosa · HTML
+- [Curso de Emacs Lisp UI](https://andros.dev/cursos/5495168e/emacs-lisp-ui/1/introduccion/) — Andros Fenollosa · HTML
 
 ## Matemáticas
 
